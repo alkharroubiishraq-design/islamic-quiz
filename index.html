@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بنك اختبارات التربية الإسلامية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;800&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/docx@9.7.1/dist/index.iife.min.js" defer></script>
+<style>
+  :root{
+    --ink:#1C2420; --ink-soft:#4B554E; --ink-faint:#7C877E;
+    --bg:#EBEFE6; --surface:#FFFFFF; --surface-2:#F7F1DE;
+    --border:rgba(28,36,32,0.12);
+    --primary:#145C50; --primary-dark:#0E4038; --primary-tint:rgba(20,92,80,0.08);
+    --gold:#A9822E; --gold-soft:#F1E6C8;
+    --success:#2E7D46; --success-bg:#E4F3E7;
+    --danger:#B23A2E; --danger-bg:#FBEAE7;
+    --amber:#B8863B; --amber-bg:#F7EEDC;
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#ECEFEA; --ink-soft:#B9C2BB; --ink-faint:#8B958D;
+      --bg:#121C17; --surface:#1A2620; --surface-2:#26301C;
+      --border:rgba(236,239,234,0.12);
+      --primary:#4FBFA8; --primary-dark:#7ED9C4; --primary-tint:rgba(79,191,168,0.12);
+      --gold:#D8B65B; --gold-soft:rgba(216,182,91,0.14);
+      --success:#5FD187; --success-bg:rgba(95,209,135,0.14);
+      --danger:#F0897A; --danger-bg:rgba(240,137,122,0.14);
+      --amber:#E0B15E; --amber-bg:rgba(224,177,94,0.14);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#ECEFEA; --ink-soft:#B9C2BB; --ink-faint:#8B958D;
+    --bg:#121C17; --surface:#1A2620; --surface-2:#26301C;
+    --border:rgba(236,239,234,0.12);
+    --primary:#4FBFA8; --primary-dark:#7ED9C4; --primary-tint:rgba(79,191,168,0.12);
+    --gold:#D8B65B; --gold-soft:rgba(216,182,91,0.14);
+    --success:#5FD187; --success-bg:rgba(95,209,135,0.14);
+    --danger:#F0897A; --danger-bg:rgba(240,137,122,0.14);
+    --amber:#E0B15E; --amber-bg:rgba(224,177,94,0.14);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Tajawal',Arial,sans-serif; direction:rtl;
+    background-image:
+      radial-gradient(circle at 0 0, var(--primary-tint) 0, transparent 55%),
+      repeating-linear-gradient(45deg, rgba(20,92,80,0.035) 0 2px, transparent 2px 26px),
+      repeating-linear-gradient(-45deg, rgba(169,130,46,0.035) 0 2px, transparent 2px 26px);
+    min-height:100vh;
+  }
+  .wrap{max-width:880px; margin:0 auto; padding:0 18px 80px;}
+  [hidden]{display:none !important;}
+
+  /* sticky bar */
+  .bar{
+    position:sticky; top:0; z-index:20;
+    background:var(--surface); border-bottom:1px solid var(--border);
+    backdrop-filter:saturate(1.2) blur(6px);
+  }
+  .bar-inner{
+    max-width:880px; margin:0 auto; padding:10px 18px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  }
+  .brand{display:flex; align-items:center; gap:10px; min-width:0;}
+  .seal{
+    width:38px; height:38px; border-radius:50%; flex:none;
+    background:conic-gradient(from 45deg, var(--primary), var(--gold), var(--primary));
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-family:'Amiri',serif; font-weight:700; font-size:15px;
+  }
+  .brand h1{font-size:15px; margin:0; font-weight:800; white-space:nowrap;}
+  .brand span{display:block; font-size:11.5px; color:var(--ink-faint); font-weight:500;}
+  .stats{display:flex; align-items:center; gap:12px; font-variant-numeric:tabular-nums;}
+  .stat{text-align:center; font-size:11.5px; color:var(--ink-faint); font-weight:700;}
+  .stat b{display:block; font-size:15px; color:var(--ink); font-weight:800;}
+  .btn{
+    border:none; cursor:pointer; border-radius:999px; padding:9px 18px;
+    font-family:inherit; font-weight:800; font-size:13.5px;
+    background:var(--primary); color:#fff; transition:background .15s ease, transform .1s ease;
+  }
+  .btn:hover{background:var(--primary-dark);}
+  .btn:active{transform:scale(.97);}
+  .btn.ghost{background:transparent; color:var(--primary); border:1.5px solid var(--primary);}
+  .btn:disabled{opacity:.45; cursor:not-allowed;}
+  .progress-track{height:4px; background:var(--border);}
+  .progress-fill{height:100%; background:linear-gradient(90deg, var(--gold), var(--primary)); width:0%; transition:width .25s ease;}
+
+  /* header / intro */
+  .hero{padding:26px 0 6px;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:800;
+    color:var(--gold); letter-spacing:.3px; margin-bottom:8px;
+  }
+  h2.title{font-family:'Amiri',serif; font-size:30px; margin:0 0 6px; text-wrap:balance;}
+  .lede{color:var(--ink-soft); font-size:14.5px; line-height:1.9; max-width:64ch; margin:0 0 14px;}
+  .instructions{
+    background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius);
+    padding:12px 16px; font-size:13px; color:var(--ink-soft); line-height:1.85; margin-bottom:18px;
+  }
+
+  /* setup view */
+  .setup-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:22px; margin-bottom:20px;
+  }
+  .setup-label{font-weight:800; font-size:14px; margin:0 0 12px; display:flex; align-items:center; gap:8px;}
+  .setup-label .n{
+    width:22px; height:22px; border-radius:50%; background:var(--primary); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:11.5px; flex:none;
+  }
+  .lesson-option{
+    display:flex; align-items:flex-start; gap:12px; border:1.5px solid var(--border);
+    border-radius:12px; padding:14px 16px; margin-bottom:10px; cursor:pointer;
+    transition:border-color .12s ease, background .12s ease;
+  }
+  .lesson-option:hover{border-color:var(--primary);}
+  .lesson-option.checked{border-color:var(--primary); background:var(--primary-tint);}
+  .lesson-option input{margin-top:3px; accent-color:var(--primary); width:17px; height:17px; flex:none;}
+  .lesson-option .meta b{display:block; font-size:14.5px; font-weight:800;}
+  .lesson-option .meta span{font-size:12.5px; color:var(--ink-faint);}
+  .lesson-option .count{
+    margin-inline-start:auto; font-size:12px; font-weight:800; color:var(--gold);
+    background:var(--gold-soft); padding:3px 10px; border-radius:999px; white-space:nowrap; flex:none;
+  }
+  .count-row{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:4px;}
+  .count-row input[type="range"]{flex:1; min-width:160px; accent-color:var(--primary);}
+  .count-num{
+    font-family:'Amiri',serif; font-weight:700; font-size:22px; min-width:64px; text-align:center;
+    font-variant-numeric:tabular-nums;
+  }
+  .presets{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .preset{
+    border:1.5px solid var(--border); background:var(--surface); color:var(--ink-soft);
+    padding:5px 12px; border-radius:999px; font-size:12px; font-weight:700; cursor:pointer;
+  }
+  .preset:hover{border-color:var(--gold); color:var(--gold);}
+  .start-row{display:flex; align-items:center; justify-content:space-between; margin-top:18px; gap:10px; flex-wrap:wrap;}
+  .start-note{font-size:12.5px; color:var(--ink-faint);}
+  .btn.big{padding:12px 26px; font-size:14.5px;}
+
+  /* mode tabs */
+  .mode-tabs{display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;}
+  .mode-tab{
+    flex:1; min-width:200px; text-align:center; border:1.5px solid var(--border); background:var(--surface);
+    color:var(--ink-soft); padding:13px 14px; border-radius:12px; font-weight:800; font-size:13.5px;
+    cursor:pointer; transition:border-color .12s ease, background .12s ease, color .12s ease;
+  }
+  .mode-tab .sub{display:block; font-weight:500; font-size:11.5px; color:var(--ink-faint); margin-top:4px;}
+  .mode-tab.active{border-color:var(--primary); background:var(--primary-tint); color:var(--primary);}
+  .mode-tab.active .sub{color:var(--primary);}
+
+  /* difficulty pills */
+  .diff-row{display:flex; gap:10px; flex-wrap:wrap;}
+  .diff-pill{
+    display:flex; align-items:center; gap:8px; border:1.5px solid var(--border); background:var(--surface);
+    padding:9px 16px; border-radius:999px; cursor:pointer; font-size:13px; font-weight:700; color:var(--ink-soft);
+  }
+  .diff-pill input{accent-color:var(--primary); width:15px; height:15px;}
+  .diff-pill.checked{border-color:var(--primary); background:var(--primary-tint); color:var(--primary);}
+  .word-status{margin-top:10px; font-size:12.5px; font-weight:700; color:var(--primary);}
+
+  /* filters */
+  .filters{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:22px;}
+  .chip{
+    border:1.5px solid var(--border); background:var(--surface); color:var(--ink-soft);
+    padding:6px 14px; border-radius:999px; font-size:12.5px; font-weight:700; cursor:pointer;
+  }
+  .chip.active{background:var(--primary); border-color:var(--primary); color:#fff;}
+
+  /* score banner */
+  .banner{
+    display:none; background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius); padding:18px 20px; margin-bottom:24px;
+    box-shadow:0 1px 0 var(--border);
+  }
+  .banner.show{display:block;}
+  .banner-top{display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+  .banner-score{font-family:'Amiri',serif; font-size:34px; font-weight:700; font-variant-numeric:tabular-nums;}
+  .banner-grade{font-weight:800; font-size:13.5px; padding:4px 12px; border-radius:999px;}
+  .banner-tiles{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px;}
+  .tile{background:var(--surface-2); border-radius:10px; padding:10px 12px; text-align:center;}
+  .tile b{display:block; font-size:17px; font-variant-numeric:tabular-nums;}
+  .tile span{font-size:11.5px; color:var(--ink-faint); font-weight:700;}
+
+  /* lesson group header (only shown when >1 lesson mixed) */
+  .lesson-head{
+    display:flex; align-items:center; gap:10px; margin:30px 0 4px;
+    font-family:'Amiri',serif; font-size:20px; font-weight:700; color:var(--primary);
+  }
+  .lesson-head span{font-family:'Tajawal',Arial,sans-serif; font-size:12px; font-weight:700; color:var(--ink-faint);}
+
+  /* sections */
+  .section-head{display:flex; align-items:center; gap:12px; margin:24px 0 14px;}
+  .section-num{
+    font-family:'Amiri',serif; font-weight:700; font-size:15px; color:var(--gold);
+    border:1.5px solid var(--gold); border-radius:50%; width:30px; height:30px;
+    display:flex; align-items:center; justify-content:center; flex:none;
+  }
+  .section-head h3{font-size:16.5px; margin:0; font-weight:800;}
+  .section-rule{flex:1; height:1px; background:var(--border);}
+
+  /* question card */
+  .q{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:16px 18px; margin-bottom:14px; border-inline-end:3px solid var(--primary);
+  }
+  .q[hidden]{display:none;}
+  .q-top{display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:10px;}
+  .q-left{display:flex; align-items:flex-start; gap:10px;}
+  .q-num{
+    background:var(--primary); color:#fff; font-weight:800; font-size:12.5px;
+    width:26px; height:26px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+    flex:none; font-variant-numeric:tabular-nums;
+  }
+  .q-stem{font-size:14.5px; line-height:1.85; font-weight:600;}
+  .badge{font-size:10.5px; font-weight:800; padding:3px 10px; border-radius:999px; white-space:nowrap; flex:none;}
+  .badge.easy{background:var(--success-bg); color:var(--success);}
+  .badge.med{background:var(--amber-bg); color:var(--amber);}
+  .badge.hard{background:var(--danger-bg); color:var(--danger);}
+  .flag{
+    font-size:10.5px; font-weight:800; padding:3px 10px; border-radius:999px;
+    background:var(--amber-bg); color:var(--amber); margin-inline-end:6px; display:none;
+  }
+  .flag.show{display:inline-block;}
+
+  .ayah{
+    font-family:'Amiri',serif; direction:rtl; font-size:18px; line-height:2.15;
+    background:var(--surface-2); border-radius:10px; padding:12px 16px;
+    border-inline-start:3px solid var(--gold); margin-bottom:10px;
+  }
+
+  .opts{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:6px;}
+  @media (max-width:560px){ .opts{grid-template-columns:1fr;} }
+  .opt{
+    display:flex; align-items:center; gap:9px; border:1.5px solid var(--border);
+    border-radius:10px; padding:8px 12px; cursor:pointer; font-size:13.5px;
+    background:var(--surface); transition:border-color .12s ease, background .12s ease;
+  }
+  .opt:hover{border-color:var(--primary);}
+  .opt .letter{
+    width:22px; height:22px; border-radius:50%; border:1.5px solid var(--ink-faint);
+    display:flex; align-items:center; justify-content:center; font-size:11.5px; font-weight:800;
+    flex:none; color:var(--ink-soft);
+  }
+  .opt.selected{border-color:var(--primary); background:var(--primary-tint);}
+  .opt.selected .letter{border-color:var(--primary); background:var(--primary); color:#fff;}
+  .opt.correct{border-color:var(--success); background:var(--success-bg);}
+  .opt.correct .letter{border-color:var(--success); background:var(--success); color:#fff;}
+  .opt.wrong{border-color:var(--danger); background:var(--danger-bg);}
+  .opt.wrong .letter{border-color:var(--danger); background:var(--danger); color:#fff;}
+  .opt.locked{cursor:default;}
+
+  footer{text-align:center; color:var(--ink-faint); font-size:12px; padding:26px 0 6px;}
+</style>
+</head>
+<body>
+<div class="bar">
+  <div class="bar-inner">
+    <div class="brand">
+      <div class="seal">ت إ</div>
+      <div>
+        <h1>بنك اختبارات التربية الإسلامية</h1>
+        <span id="brandSub">اختر الدروس وابدأ الاختبار</span>
+      </div>
+    </div>
+    <div class="stats" id="quizStats" hidden>
+      <div class="stat"><b id="answeredCount">0/0</b>مُجاب</div>
+      <div class="stat"><b id="timer">٠٠:٠٠</b>الوقت</div>
+      <button class="btn ghost" id="backBtn">تعديل الاختيار</button>
+      <button class="btn" id="mainBtn">تصحيح الإجابات</button>
+    </div>
+  </div>
+  <div class="progress-track" id="progressTrack" hidden><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="wrap">
+
+  <!-- ===================== SETUP VIEW ===================== -->
+  <div id="setupView">
+    <div class="hero">
+      <div class="eyebrow">✦ بنك أسئلة تفاعلي</div>
+      <h2 class="title">جهّزي اختبارك</h2>
+      <p class="lede">اختاري درسًا واحدًا أو أكثر، وحدّدي عدد الأسئلة، ليُبنى لك اختبار اختيار من متعدد على نمط الاختبار الوزاري — سهل ومتوسط وصعب — مع تصحيح فوري وتقدير نهائي.</p>
+    </div>
+
+    <div class="mode-tabs" id="modeTabs">
+      <div class="mode-tab active" data-mode="electronic">امتحان إلكتروني تفاعلي<span class="sub">تصحيح فوري داخل الموقع</span></div>
+      <div class="mode-tab" data-mode="word">امتحان Word للطباعة<span class="sub">ملف امتحان + نموذج إجابة منفصل</span></div>
+    </div>
+
+    <div class="setup-card">
+      <div class="setup-label"><span class="n">١</span>اختاري الدرس أو الدروس</div>
+      <div id="lessonList"></div>
+    </div>
+
+    <div class="setup-card" id="diffCard" hidden>
+      <div class="setup-label"><span class="n">٢</span>مستوى الصعوبة</div>
+      <div class="diff-row" id="diffRow">
+        <label class="diff-pill checked"><input type="checkbox" data-diff="easy" checked>سهل</label>
+        <label class="diff-pill checked"><input type="checkbox" data-diff="med" checked>متوسط</label>
+        <label class="diff-pill checked"><input type="checkbox" data-diff="hard" checked>صعب</label>
+      </div>
+    </div>
+
+    <div class="setup-card">
+      <div class="setup-label"><span class="n" id="countStepNum">٢</span>عدد الأسئلة</div>
+      <div class="count-row">
+        <input type="range" id="countRange" min="5" max="5" step="1" value="5">
+        <div class="count-num" id="countNum">٥</div>
+      </div>
+      <div class="presets" id="presets"></div>
+    </div>
+
+    <div class="start-row">
+      <span class="start-note" id="startNote">اختاري درسًا واحدًا على الأقل</span>
+      <button class="btn big" id="startBtn" disabled>ابدأ الاختبار</button>
+    </div>
+    <div class="word-status" id="wordStatus" hidden></div>
+  </div>
+
+  <!-- ===================== QUIZ VIEW ===================== -->
+  <div id="quizView" hidden>
+    <div class="hero" style="padding-top:22px;">
+      <div class="instructions">اختر رمز الإجابة الصحيحة لكل فقرة مما يأتي، ثم اضغط «تصحيح الإجابات» لعرض نتيجتك. يمكنك تصفية الأسئلة حسب مستوى الصعوبة، والضغط على «إعادة المحاولة» لتوليد مجموعة جديدة من نفس اختيارك وترتيب عشوائي للخيارات.</div>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="chip active" data-f="all">الكل</button>
+      <button class="chip" data-f="easy">سهل</button>
+      <button class="chip" data-f="med">متوسط</button>
+      <button class="chip" data-f="hard">صعب</button>
+    </div>
+
+    <div class="banner" id="banner">
+      <div class="banner-top">
+        <div>
+          <div style="font-size:12px; color:var(--ink-faint); font-weight:700;">نتيجتك</div>
+          <div class="banner-score"><span id="scoreNum">0</span> / <span id="scoreTotal">0</span></div>
+        </div>
+        <div class="banner-grade" id="gradeTag">—</div>
+      </div>
+      <div class="banner-tiles">
+        <div class="tile"><b id="tEasy">0/0</b><span>سهل</span></div>
+        <div class="tile"><b id="tMed">0/0</b><span>متوسط</span></div>
+        <div class="tile"><b id="tHard">0/0</b><span>صعب</span></div>
+      </div>
+    </div>
+
+    <div id="sections"></div>
+  </div>
+
+  <footer>تم إعداد هذا البنك من محتوى الدروس المرفقة فقط، على نمط صياغة الاختبار الوزاري الأردني.</footer>
+</div>
+
+<script>
+const LESSONS = [
+  {id:"l1", title:"الدرس الأول", subtitle:"سورة آل عمران، الآيات الكريمة (١٠٢-١٠٥)"},
+  {id:"l2", title:"الدرس الثاني", subtitle:"الحديث الشريف: اتقاء الشُّبهات"},
+  {id:"l3", title:"الدرس الثالث", subtitle:"من صور الضلال: الكفر والشرك والنفاق والبدعة"},
+  {id:"l4", title:"الدرس الرابع", subtitle:"كرامة الإنسان في الشريعة الإسلامية"},
+  {id:"l5", title:"الدرس الخامس", subtitle:"الزواج: مشروعيته ومقدّماته"},
+  {id:"l6", title:"الدرس السادس", subtitle:"الجهاد في الإسلام"},
+];
+
+const SECTIONS = [
+  {id:"vocab", lesson:"l1", title:"المفردات والتراكيب اللغوية"},
+  {id:"fahm", lesson:"l1", title:"فهم الآيات الكريمة ودلالتها"},
+  {id:"raqam", lesson:"l1", title:"تحديد رقم الآية وموضوعها"},
+  {id:"must", lesson:"l1", title:"المصطلحات والمفاهيم الشرعية"},
+  {id:"seerah", lesson:"l1", title:"السياق التاريخي والسيرة النبوية"},
+  {id:"maada", lesson:"l1", title:"أسئلة الاستثناء (ما عدا) والترتيب والمقارنة"},
+  {id:"qiyam", lesson:"l1", title:"القيم والدروس وأسئلة عامة"},
+
+  {id:"l2-vocab", lesson:"l2", title:"المفردات والتراكيب اللغوية"},
+  {id:"l2-fahm", lesson:"l2", title:"فهم الحديث الشريف ودلالته"},
+  {id:"l2-tasnif", lesson:"l2", title:"تصنيف أعمال الإنسان الشرعي"},
+  {id:"l2-mawqif", lesson:"l2", title:"موقف المسلم من الشبهات"},
+  {id:"l2-qalb", lesson:"l2", title:"صلاح القلب وفساده"},
+  {id:"l2-wasael", lesson:"l2", title:"وسائل صلاح القلب"},
+  {id:"l2-rawi", lesson:"l2", title:"راوي الحديث وتخريجه"},
+  {id:"l2-qiyam", lesson:"l2", title:"القيم والمصطلحات وأسئلة عامة"},
+
+  {id:"l3-kufr1", lesson:"l3", title:"مفهوم الكفر وأقسامه"},
+  {id:"l3-kufr2", lesson:"l3", title:"الكفر العملي"},
+  {id:"l3-shirk", lesson:"l3", title:"الشرك وأقسامه"},
+  {id:"l3-nifaq", lesson:"l3", title:"النفاق وأقسامه"},
+  {id:"l3-bidah", lesson:"l3", title:"البدعة السيئة"},
+  {id:"l3-aam", lesson:"l3", title:"أسئلة عامة ومقارنة والتحذير من التكفير"},
+
+  {id:"l4-mafhoom", lesson:"l4", title:"مفهوم الكرامة والتصور الإسلامي العام"},
+  {id:"l4-mazaher", lesson:"l4", title:"مظاهر تكريم الله تعالى الإنسان"},
+  {id:"l4-hurriya", lesson:"l4", title:"مبدأ الحرية"},
+  {id:"l4-musawah", lesson:"l4", title:"مبدأ المساواة"},
+  {id:"l4-amn", lesson:"l4", title:"مبدأ الأمن"},
+  {id:"l4-aam", lesson:"l4", title:"كرامة الإنسان بعد الموت وأسئلة عامة"},
+
+  {id:"l5-mafhoom", lesson:"l5", title:"مفهوم الزواج وحكمه"},
+  {id:"l5-hikma", lesson:"l5", title:"حكمة مشروعية الزواج"},
+  {id:"l5-asus", lesson:"l5", title:"أسس اختيار الزوجين"},
+  {id:"l5-khitba", lesson:"l5", title:"مفهوم الخِطبة وحكمها"},
+  {id:"l5-ahkam", lesson:"l5", title:"الأحكام الشرعية للخِطبة"},
+  {id:"l5-aam", lesson:"l5", title:"الفحص الطبي والقيم وأسئلة عامة"},
+
+  {id:"l6-mafhoom", lesson:"l6", title:"مفهوم الجهاد ومراتبه"},
+  {id:"l6-hukm", lesson:"l6", title:"حكم الجهاد وفضله"},
+  {id:"l6-akhlaq", lesson:"l6", title:"أخلاقيات الجهاد في الإسلام"},
+  {id:"l6-marahil", lesson:"l6", title:"مراحل تشريع الجهاد وأسئلة عامة"},
+];
+
+const QUESTIONS = [
+// ============ LESSON 1: سورة آل عمران (102-105) ============
+{lesson:"l1", sec:"vocab", diff:"easy", ayah:"﴿وَكُنتُمْ عَلَىٰ شَفَا حُفْرَةٍ مِّنَ ٱلنَّارِ﴾", stem:"المعنى الذي يدل عليه لفظ ﴿شَفَا﴾ في الآية الكريمة السابقة هو:", opts:["طرف","هُوّة","نجاة","عذاب"], ans:0},
+{lesson:"l1", sec:"vocab", diff:"easy", ayah:"﴿وَٱعْتَصِمُوا۟ بِحَبْلِ ٱللَّهِ جَمِيعًا﴾", stem:"مرادف كلمة ﴿ٱعْتَصِمُوا۟﴾ الواردة في الآية الكريمة السابقة هو:", opts:["تفرّقوا","تتمسّكوا","تذكّروا","تهتدوا"], ans:1},
+{lesson:"l1", sec:"vocab", diff:"med", ayah:"﴿وَكُنتُمْ عَلَىٰ شَفَا حُفْرَةٍ مِّنَ ٱلنَّارِ﴾", stem:"المعنى الذي يدل عليه لفظ ﴿حُفْرَةٍ﴾ في الآية الكريمة السابقة هو:", opts:["الهُوّة","الطرف","البرهان","الدليل"], ans:0},
+{lesson:"l1", sec:"vocab", diff:"med", ayah:"﴿مِنۢ بَعْدِ مَا جَآءَهُمُ ٱلْبَيِّنَٰتُ﴾", stem:"المقصود بلفظ ﴿ٱلْبَيِّنَٰتُ﴾ في الآية الكريمة السابقة هو:", opts:["الأحكام الشرعية","البراهين والأدلة الواضحة","نعمة الأُلفة","وحدة الأمة"], ans:1},
+
+{lesson:"l1", sec:"fahm", diff:"easy", ayah:"﴿يَٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ ٱتَّقُوا۟ ٱللَّهَ حَقَّ تُقَاتِهِۦ وَلَا تَمُوتُنَّ إِلَّا وَأَنتُم مُّسْلِمُونَ﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على:", opts:["وجوب استمرار تقوى الله حتى الموت","وجوب الجهاد في سبيل الله","تحريم الفرقة والاختلاف","وجوب الأمر بالمعروف"], ans:0},
+{lesson:"l1", sec:"fahm", diff:"med", ayah:"﴿وَٱعْتَصِمُوا۟ بِحَبْلِ ٱللَّهِ جَمِيعًا وَلَا تَفَرَّقُوا۟﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على:", opts:["الدعوة إلى الخير","وجوب التمسك بالإسلام أساسًا لوحدة الأمة","الاعتبار بأحوال الأمم السابقة","تقوى الله حق التقوى"], ans:1},
+{lesson:"l1", sec:"fahm", diff:"easy", ayah:"﴿وَلْتَكُن مِّنكُمْ أُمَّةٌ يَدْعُونَ إِلَى ٱلْخَيْرِ وَيَأْمُرُونَ بِٱلْمَعْرُوفِ وَيَنْهَوْنَ عَنِ ٱلْمُنكَرِ﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على:", opts:["التمسك بالإسلام","الدعوة إلى الخير والأمر بالمعروف والنهي عن المنكر","تقوى الله","نبذ الفرقة"], ans:1},
+{lesson:"l1", sec:"fahm", diff:"med", ayah:"﴿وَلَا تَكُونُوا۟ كَٱلَّذِينَ تَفَرَّقُوا۟ وَٱخْتَلَفُوا۟ مِنۢ بَعْدِ مَا جَآءَهُمُ ٱلْبَيِّنَٰتُ﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على:", opts:["الحث على تقوى الله","وجوب الأمر بالمعروف","التحذير من التفرق والاختلاف بعد قيام الحجة، كحال من سبق من الأمم","وجوب الاعتصام بحبل الله"], ans:2},
+{lesson:"l1", sec:"fahm", diff:"hard", stem:"القول الذي يشير إلى أنّ التفرّق والاختلاف وقع بعد قيام الحجة ووضوح الحق لا بسبب الجهل، هو قوله تعالى:", opts:["﴿ٱتَّقُوا۟ ٱللَّهَ حَقَّ تُقَاتِهِۦ﴾","﴿وَٱعْتَصِمُوا۟ بِحَبْلِ ٱللَّهِ جَمِيعًا﴾","﴿مِنۢ بَعْدِ مَا جَآءَهُمُ ٱلْبَيِّنَٰتُ﴾","﴿يَدْعُونَ إِلَىٰ ٱلْخَيْرِ﴾"], ans:2},
+{lesson:"l1", sec:"fahm", diff:"hard", stem:"الآية الكريمة التي تُشير إلى نعمة الله على المسلمين بتحويلهم من العداوة إلى الأخوّة، هي قوله تعالى:", opts:["﴿وَلَا تَمُوتُنَّ إِلَّا وَأَنتُم مُّسْلِمُونَ﴾","﴿فَأَلَّفَ بَيْنَ قُلُوبِكُمْ فَأَصْبَحْتُم بِنِعْمَتِهِۦٓ إِخْوَٰنًا﴾","﴿وَأُو۟لَٰٓئِكَ هُمُ ٱلْمُفْلِحُونَ﴾","﴿وَأُو۟لَٰٓئِكَ لَهُمْ عَذَابٌ عَظِيمٌ﴾"], ans:1},
+{lesson:"l1", sec:"fahm", diff:"med", ayah:"﴿وَكُنتُمْ عَلَىٰ شَفَا حُفْرَةٍ مِّنَ ٱلنَّارِ فَأَنقَذَكُم مِّنْهَا﴾", stem:"التشبيه الوارد في الآية الكريمة السابقة يصوّر:", opts:["حال المسلمين بعد الهجرة","حال العرب في الجاهلية وقربهم من الهلاك قبل الإسلام","حال أهل الكتاب بعد بعثة النبي ﷺ","حال المنافقين في المدينة"], ans:1},
+{lesson:"l1", sec:"fahm", diff:"easy", ayah:"﴿يَٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ ٱتَّقُوا۟ ٱللَّهَ حَقَّ تُقَاتِهِۦ﴾", stem:"تمام الآية الكريمة السابقة هو قوله تعالى:", opts:["﴿وَلَا تَمُوتُنَّ إِلَّا وَأَنتُم مُّسْلِمُونَ﴾","﴿وَٱعْتَصِمُوا۟ بِحَبْلِ ٱللَّهِ جَمِيعًا﴾","﴿يَدْعُونَ إِلَى ٱلْخَيْرِ﴾","﴿وَأُو۟لَٰٓئِكَ هُمُ ٱلْمُفْلِحُونَ﴾"], ans:0},
+{lesson:"l1", sec:"fahm", diff:"easy", ayah:"﴿وَٱعْتَصِمُوا۟ بِحَبْلِ ٱللَّهِ جَمِيعًا﴾", stem:"تمام الآية الكريمة السابقة هو قوله تعالى:", opts:["﴿وَلَا تَتَّبِعُوا۟ ٱلسُّبُلَ﴾","﴿وَلَا تَفَرَّقُوا۟﴾","﴿وَٱصْبِرُوا۟﴾","﴿وَتَعَاوَنُوا۟﴾"], ans:1},
+{lesson:"l1", sec:"fahm", diff:"med", ayah:"﴿وَلْتَكُن مِّنكُمْ أُمَّةٌ يَدْعُونَ إِلَى ٱلْخَيْرِ﴾", stem:"تمام الآية الكريمة السابقة هو قوله تعالى:", opts:["﴿وَيَأْمُرُونَ بِٱلْمَعْرُوفِ وَيَنْهَوْنَ عَنِ ٱلْمُنكَرِ﴾","﴿وَيَصْبِرُونَ عَلَى ٱلْأَذَىٰ﴾","﴿وَيَتَّقُونَ ٱللَّهَ حَقَّ تُقَاتِهِۦ﴾","﴿وَيَعْتَصِمُونَ بِحَبْلِ ٱللَّهِ﴾"], ans:0},
+{lesson:"l1", sec:"fahm", diff:"med", ayah:"﴿وَلَا تَكُونُوا۟ كَٱلَّذِينَ تَفَرَّقُوا۟ وَٱخْتَلَفُوا۟﴾", stem:"تمام الآية الكريمة السابقة هو قوله تعالى:", opts:["﴿مِنۢ بَعْدِ مَا جَآءَهُمُ ٱلْبَيِّنَٰتُ﴾","﴿مِن قَبْلِ أَن يَأْتِيَهُمُ ٱلرَّسُولُ﴾","﴿فِى شَكٍّ مِّنْهُ﴾","﴿بِغَيْرِ عِلْمٍ﴾"], ans:0},
+{lesson:"l1", sec:"fahm", diff:"med", ayah:"﴿وَٱعْتَصِمُوا۟ بِحَبْلِ ٱللَّهِ جَمِيعًا﴾", stem:"يفهم من لفظ ﴿جَمِيعًا﴾ في الآية الكريمة السابقة أنّ الاعتصام بحبل الله مطلوب من:", opts:["العلماء وحدهم","الحكام وحدهم","جميع المسلمين دون استثناء","الأغنياء دون الفقراء"], ans:2},
+{lesson:"l1", sec:"fahm", diff:"med", ayah:"﴿كَذَٰلِكَ يُبَيِّنُ ٱللَّهُ لَكُمْ ءَايَٰتِهِۦ لَعَلَّكُمْ تَهْتَدُونَ﴾", stem:"يدل قوله تعالى في الآية الكريمة السابقة على:", opts:["أنّ بيان الله لآياته وسيلة لهداية الناس","أنّ الهداية تحصل دون بيان","أنّ الآيات لا تحتاج بيانًا","أنّ الهداية خاصة بالأنبياء"], ans:0},
+{lesson:"l1", sec:"fahm", diff:"easy", ayah:"﴿وَأُو۟لَٰٓئِكَ هُمُ ٱلْمُفْلِحُونَ﴾", stem:"يدل قوله تعالى في الآية الكريمة السابقة على جزاء:", opts:["الآمرين بالمعروف والناهين عن المنكر","المتفرقين المختلفين","الكافرين","المنافقين"], ans:0},
+{lesson:"l1", sec:"fahm", diff:"med", ayah:"﴿وَأُو۟لَٰٓئِكَ لَهُمْ عَذَابٌ عَظِيمٌ﴾", stem:"يدل قوله تعالى في الآية الكريمة السابقة على جزاء:", opts:["الآمرين بالمعروف","المتقين","الذين تفرقوا واختلفوا من بعد ما جاءهم البينات","المهتدين"], ans:2},
+
+{lesson:"l1", sec:"raqam", diff:"med", stem:"رقم الآية الكريمة التي تناولت موضوع (الاعتبار من الأمم السابقة) هو:", opts:["١٠٢","١٠٣","١٠٤","١٠٥"], ans:3},
+{lesson:"l1", sec:"raqam", diff:"med", stem:"رقم الآية الكريمة التي تناولت موضوع (الدعوة إلى الخير) هو:", opts:["١٠٢","١٠٣","١٠٤","١٠٥"], ans:2},
+{lesson:"l1", sec:"raqam", diff:"easy", stem:"رقم الآية الكريمة التي تناولت موضوع (تقوى الله) هو:", opts:["١٠٢","١٠٣","١٠٤","١٠٥"], ans:0},
+{lesson:"l1", sec:"raqam", diff:"easy", stem:"رقم الآية الكريمة التي تناولت موضوع (التمسك بالإسلام أساس وحدة الأمة) هو:", opts:["١٠٢","١٠٣","١٠٤","١٠٥"], ans:1},
+
+{lesson:"l1", sec:"must", diff:"easy", ayah:"﴿وَيَأْمُرُونَ بِٱلْمَعْرُوفِ﴾", stem:"المقصود بـ (المعروف) في الآية الكريمة السابقة هو:", opts:["كل ما تستحسنه الشريعة ويأمر به العقل السليم","كل ما تستقبحه الشريعة وينكره العقل","الجهاد في سبيل الله","التمسك بحبل الله"], ans:0},
+{lesson:"l1", sec:"must", diff:"med", stem:"يُقصد بـ (فرض الكفاية) أنه:", opts:["واجب على كل مسلم بعينه ولا يسقط عن أحد بفعل غيره","إذا قام به من فيه كفاية من الأمة سقط الإثم عن الباقين","عمل مستحب لا يأثم تاركه","عمل مباح يجوز فعله أو تركه"], ans:1},
+{lesson:"l1", sec:"must", diff:"med", stem:"من الأمثلة على فرض الكفاية مما ورد في الدرس:", opts:["الصلوات الخمس","الجهاد وتعلّم الأحكام الشرعية","الصيام","الزكاة"], ans:1},
+{lesson:"l1", sec:"must", diff:"hard", stem:"جميع ما يأتي من فروض العين، ما عدا:", opts:["أداء الصلوات الخمس","صيام رمضان لمن وجب عليه","الجهاد إذا قام به من يكفي من الأمة","اتقاء ما حرّم الله على المكلّف"], ans:2},
+{lesson:"l1", sec:"must", diff:"med", stem:"المفهوم الذي يدل عليه الأمر بالاعتصام بحبل الله ونبذ التفرق في الآية (١٠٣) هو:", opts:["الشورى","وحدة الأمة","العدل","الحرية"], ans:1},
+
+{lesson:"l1", sec:"seerah", diff:"med", stem:"من الأعمال التي قام بها رسول الله ﷺ لتحقيق وحدة المجتمع بعد الهجرة إلى المدينة المنورة:", opts:["بناء المسجد النبوي والمؤاخاة بين المهاجرين والأنصار","إرسال الرسل إلى الملوك","غزو مكة المكرمة","إبطال أحكام الجاهلية كلها دفعة واحدة"], ans:0},
+{lesson:"l1", sec:"seerah", diff:"hard", stem:"نظّم رسول الله ﷺ العلاقة بين مكونات مجتمع المدينة المنورة بعد الهجرة عن طريق:", opts:["إعلان الحرب على اليهود","وضع وثيقة تنظّم العلاقات الداخلية بين سكان المدينة","الهجرة الثانية إلى الحبشة","عقد صلح الحديبية"], ans:1},
+{lesson:"l1", sec:"seerah", diff:"hard", stem:"كان من أسباب نزول هذه الآيات محاولة أحد اليهود إثارة الفتنة بين قبيلتين من الأنصار كانتا متعاديتين في الجاهلية، وهما:", opts:["قريش وثقيف","الأوس والخزرج","بنو قريظة وبنو النضير","المهاجرون والأنصار"], ans:1},
+{lesson:"l1", sec:"seerah", diff:"hard", stem:"الأثر الذي تركته محاولة إثارة العداوة بين الأنصار قبل نزول الآيات هو أنها:", opts:["نجحت في إعادة الفرقة بين المسلمين","ذُكّر المسلمون بنعمة الأُلفة فتنبّهوا ولم تقع الفتنة","أدّت إلى قتال بين الأوس والخزرج","لم يعلم بها رسول الله ﷺ"], ans:1},
+{lesson:"l1", sec:"seerah", diff:"med", stem:"من مظاهر الاهتمام بوحدة المجتمع في سيرة النبي ﷺ بعد الهجرة، كما ورد في الدرس:", opts:["بناء المسجد النبوي فقط","المؤاخاة بين المهاجرين والأنصار فقط","تنظيم العلاقات الداخلية بوثيقة فقط","جميع ما سبق"], ans:3},
+
+{lesson:"l1", sec:"maada", diff:"med", stem:"جميع ما يأتي من موضوعات الآيات الكريمة المقررة من سورة آل عمران، ما عدا:", opts:["تقوى الله تعالى","التمسك بالإسلام أساس وحدة الأمة","الدعوة إلى الخير","قصة أصحاب الكهف"], ans:3},
+{lesson:"l1", sec:"maada", diff:"hard", stem:"الترتيب الصحيح لموضوعات الآيات الكريمة المقررة بحسب ورودها هو:", opts:["تقوى الله، أساس وحدة الأمة، الدعوة إلى الخير، الاعتبار من الأمم السابقة","الدعوة إلى الخير، تقوى الله، أساس وحدة الأمة، الاعتبار من الأمم السابقة","أساس وحدة الأمة، تقوى الله، الاعتبار من الأمم السابقة، الدعوة إلى الخير","الاعتبار من الأمم السابقة، الدعوة إلى الخير، تقوى الله، أساس وحدة الأمة"], ans:0},
+{lesson:"l1", sec:"maada", diff:"med", stem:"كل ما يأتي من نتاجات التعلّم المقررة لهذا الدرس، ما عدا:", opts:["تلاوة الآيات الكريمة تلاوة سليمة","حفظ الآيات الكريمة المقررة غيبًا","استخراج الأحكام الفقهية المتعلقة بالمواريث","الحرص على الوحدة ونبذ الفرقة"], ans:2},
+{lesson:"l1", sec:"maada", diff:"med", stem:"بالمقارنة بين الآمرين بالمعروف والناهين عن المنكر (الآية ١٠٤) والمتفرقين المختلفين (الآية ١٠٥) من حيث الأثر المترتب على كلٍّ منهما:", opts:["كلاهما موعود بالفلاح","كلاهما موعود بالعذاب","الأول موعود بالفلاح والثاني موعود بالعذاب العظيم","لا فرق بين النتيجتين"], ans:2},
+{lesson:"l1", sec:"maada", diff:"hard", stem:"العلاقة بين الآية (١٠٣) والآية (١٠٥) من حيث المضمون هي علاقة:", opts:["تكرار لا فائدة منه","ترغيب في الوحدة (١٠٣) وترهيب من الفرقة (١٠٥)","تناقض بين حكمين","نسخ الآية الأولى للثانية"], ans:1},
+{lesson:"l1", sec:"maada", diff:"hard", stem:"يمكن القول إنّ الآيات الكريمة المقررة (١٠٢-١٠٥) رسمت للمسلمين منهجًا متكاملًا:", opts:["يبدأ بالدعوة إلى الخير وينتهي بتقوى الله","يبدأ بتقوى الله الفردية، ثم الوحدة الجماعية، ثم الدعوة إلى الخير، وينتهي بالتحذير من الفرقة","يبدأ بالتحذير من الفرقة، ثم تقوى الله، ثم الوحدة","لا يوجد ترابط بين الآيات"], ans:1},
+{lesson:"l1", sec:"maada", diff:"med", stem:"جميع ما يأتي مما تضمنته الآيات الكريمة من أوامر إلهية للمؤمنين، ما عدا:", opts:["تقوى الله حق تقاته","الاعتصام بحبل الله جميعًا","الدعوة إلى الخير","الاعتزال عن أمر المجتمع"], ans:3},
+{lesson:"l1", sec:"maada", diff:"hard", stem:"جميع ما يأتي من مقاصد وردت في الآيات الكريمة المقررة، ما عدا:", opts:["تحقيق وحدة الأمة","الحفاظ على المجتمع من الفرقة","الحث على الدعوة إلى الخير","بيان أحكام المواريث"], ans:3},
+{lesson:"l1", sec:"maada", diff:"hard", stem:"العلاقة بين الأمر بالاعتصام بحبل الله والنهي عن التفرق في الآية (١٠٣) هي علاقة:", opts:["تلازم؛ فالاعتصام بحبل الله سبب لعدم التفرق","تضاد لا علاقة بينهما","الاعتصام سبب للتفرق","لا فرق بين الأمرين"], ans:0},
+{lesson:"l1", sec:"maada", diff:"easy", stem:"جميع ما يأتي من الأمور التي حثّت عليها الآيات الكريمة المقررة، ما عدا:", opts:["تقوى الله تعالى","الاعتصام بحبل الله","الدعوة إلى الخير","الانفراد بالرأي ورفض المشورة"], ans:3},
+
+{lesson:"l1", sec:"qiyam", diff:"easy", stem:"من القيم المستفادة من الآيات الكريمة المقررة:", opts:["الحرص على الوحدة ونبذ الفرقة","الحرص على المنافسة الفردية","تفضيل المصلحة الشخصية على الجماعية","الانعزال عن المجتمع"], ans:0},
+{lesson:"l1", sec:"qiyam", diff:"med", ayah:"﴿وَكُنتُمْ عَلَىٰ شَفَا حُفْرَةٍ مِّنَ ٱلنَّارِ فَأَنقَذَكُم مِّنْهَا﴾", stem:"الحكمة من تذكير الله تعالى المسلمين بحالهم في الجاهلية في الآية الكريمة السابقة:", opts:["الاستهزاء بأحوالهم السابقة","بيان عظم نعمة الإسلام عليهم ليشكروها ويحافظوا عليها","تبرير القتال بينهم","الدعوة إلى الرجوع لعادات الجاهلية"], ans:1},
+{lesson:"l1", sec:"qiyam", diff:"hard", stem:"يُستنتج من مجموع الآيات الكريمة (١٠٢-١٠٥) أنّ من أهم عوامل قوة الأمة ومنعتها أمام أعدائها:", opts:["كثرة العدد والعتاد فقط","التمسك بالإسلام وتحقيق الوحدة ونبذ الفرقة","الانشغال بالخلافات الداخلية","تقليد الأمم السابقة في اختلافها"], ans:1},
+{lesson:"l1", sec:"qiyam", diff:"easy", ayah:"﴿وَأُو۟لَٰٓئِكَ هُمُ ٱلْمُفْلِحُونَ﴾", stem:"الوصف الذي وصف الله به الأمة الآمرة بالمعروف والناهية عن المنكر في الآية الكريمة السابقة هو:", opts:["الفائزون","الخاسرون","المعذَّبون","المتفرقون"], ans:0},
+{lesson:"l1", sec:"qiyam", diff:"med", stem:"العاقبة التي توعّد الله بها المتفرقين المختلفين من بعد ما جاءتهم البينات، كما ورد في الآية (١٠٥):", opts:["الفلاح","عذاب عظيم","الأُلفة","الهداية"], ans:1},
+{lesson:"l1", sec:"qiyam", diff:"easy", stem:"السورة القرآنية التي وردت فيها الآيات الكريمة المقررة في هذا الدرس هي:", opts:["البقرة","آل عمران","النساء","المائدة"], ans:1},
+{lesson:"l1", sec:"qiyam", diff:"easy", stem:"من أسماء سورة آل عمران التي وردت فيها الآيات الكريمة المقررة:", opts:["أُمّ الكتاب","بني إسرائيل","الزهراء","الكافية"], ans:2},
+{lesson:"l1", sec:"qiyam", diff:"med", stem:"يتضح من الآيات الكريمة أن الأمر بتقوى الله (حقّ تقاته) يقتضي:", opts:["الاستمرار على طاعة الله حتى الوفاة وعدم الانقطاع عنها","الاكتفاء بأداء الفرائض دون النوافل","تقوى مؤقتة في أوقات الشدة فقط","تفويض الأمر بالمعروف لغير المسلم"], ans:0},
+{lesson:"l1", sec:"qiyam", diff:"hard", stem:"الفرق الجوهري بين حال المسلمين قبل الإسلام وبعده كما صوّرته الآية (١٠٣) هو الانتقال من:", opts:["الوحدة إلى الفرقة","العداوة والتفكك إلى الأُخوّة والألفة","الفلاح إلى الخسران","الأمر بالمعروف إلى النهي عنه"], ans:1},
+{lesson:"l1", sec:"qiyam", diff:"med", stem:"يدلّ الجمع بين (الدعوة إلى الخير) و(الأمر بالمعروف) و(النهي عن المنكر) في الآية (١٠٤) على:", opts:["أنها ثلاث مهام متكاملة يقوم بها من يريد الفلاح","أنها مترادفات لمعنى واحد لا فرق بينها","أنّ الدعوة إلى الخير تُغني عن الأمر بالمعروف","أنّ النهي عن المنكر لا يجب على المسلمين"], ans:0},
+{lesson:"l1", sec:"qiyam", diff:"hard", stem:"العبرة المستفادة من قوله تعالى ﴿وَلَا تَكُونُوا۟ كَٱلَّذِينَ تَفَرَّقُوا۟ وَٱخْتَلَفُوا۟﴾ بالنظر إلى واقع الأمم السابقة، هي:", opts:["الحث على الاقتداء بأهل الكتاب في اختلافهم","التحذير من تكرار خطأ من سبقونا فوقعوا في الفرقة بعد وضوح الحق لهم","إباحة الاختلاف إذا كان بعد قيام الحجة","عدم أهمية الوحدة في حياة الأمم"], ans:1},
+{lesson:"l1", sec:"qiyam", diff:"easy", stem:"من نتاجات التعلّم المقررة لهذا الدرس أن يقوم الطالب بـ:", opts:["بيان معاني المفردات وتراكيب الآيات الكريمة","حفظ سورة كاملة من القرآن الكريم","شرح أحكام الحج","تفسير سورة يوسف"], ans:0},
+{lesson:"l1", sec:"qiyam", diff:"hard", ayah:"﴿فَأَلَّفَ بَيْنَ قُلُوبِكُمْ﴾ … ﴿فَأَصْبَحْتُم بِنِعْمَتِهِۦٓ إِخْوَٰنًا﴾", stem:"الرابط بين شطري الآية الكريمة السابقة هو أنّ:", opts:["الأُلفة بين القلوب سابقة على تحقق الأُخوّة، وهي ثمرتها","الأُخوّة سابقة على الأُلفة","لا علاقة بين الأمرين","الأُلفة لا تكون إلا بعد الموت"], ans:0},
+{lesson:"l1", sec:"qiyam", diff:"hard", stem:"المفهوم الذي يجمع بين معاني الآيات الكريمة الأربع المقررة (١٠٢-١٠٥) هو:", opts:["أحكام المواريث","أسس بناء الأمة القوية المتماسكة المتّقية","آداب الحوار","أحكام الأسرة"], ans:1},
+{lesson:"l1", sec:"qiyam", diff:"easy", stem:"القيمة التي تتعارض مع ما دعت إليه الآيات الكريمة المقررة:", opts:["الوحدة","التعصب والتفرق","الأخوّة","تقوى الله"], ans:1},
+{lesson:"l1", sec:"qiyam", diff:"easy", ayah:"﴿وَإِذْ كُنتُمْ أَعْدَآءً فَأَلَّفَ بَيْنَ قُلُوبِكُمْ فَأَصْبَحْتُم بِنِعْمَتِهِۦٓ إِخْوَٰنًا﴾", stem:"من الحقوق التي تحققت للمسلمين بنعمة الأُلفة بعد العداوة، كما ورد في الآية الكريمة السابقة:", opts:["أصبحوا إخوانًا بنعمة الله","أصبحوا متفرقين","أصبحوا أعداء من جديد","أصبحوا على شفا حفرة من النار"], ans:0},
+{lesson:"l1", sec:"qiyam", diff:"med", ayah:"﴿وَكُنتُمْ عَلَىٰ شَفَا حُفْرَةٍ مِّنَ ٱلنَّارِ فَأَنقَذَكُم مِّنْهَا﴾", stem:"الغاية من إنقاذ الله تعالى المسلمين مما وصفته الآية الكريمة السابقة، هي:", opts:["الاستمرار في العداوة","تذكيرهم بنعمة الإسلام وحمايتهم من الهلاك","العودة إلى عادات الجاهلية","تبرير الفرقة بينهم"], ans:1},
+
+{lesson:"l1", sec:"vocab", diff:"med", ayah:"﴿وَٱذْكُرُوا۟ نِعْمَتَ ٱللَّهِ عَلَيْكُمْ﴾", stem:"معنى ﴿نِعْمَتَ﴾ في الآية الكريمة السابقة هو:", opts:["العطية والفضل من الله تعالى","المصيبة والبلاء","العقوبة والجزاء","الاختبار والابتلاء"], ans:0},
+{lesson:"l1", sec:"vocab", diff:"med", stem:"المقصود بـ(حبل الله) الذي أمر الله تعالى بالاعتصام به في الآية الكريمة هو:", opts:["القرآن الكريم ودين الإسلام","حبل مادي محسوس","نسب القبيلة وعصبيتها","ميثاق سياسي بين القبائل"], ans:0},
+{lesson:"l1", sec:"vocab", diff:"easy", ayah:"﴿فَأَلَّفَ بَيْنَ قُلُوبِكُمْ﴾", stem:"معنى ﴿أَلَّفَ﴾ في الآية الكريمة السابقة هو:", opts:["جمع وقرّب بين القلوب بالمحبة","فرّق وباعد بين القلوب","أنسى الحقوق","أهلك وأفنى"], ans:0},
+{lesson:"l1", sec:"vocab", diff:"easy", ayah:"﴿وَأُو۟لَٰٓئِكَ هُمُ ٱلْمُفْلِحُونَ﴾", stem:"معنى ﴿ٱلْمُفْلِحُونَ﴾ في الآية الكريمة السابقة هو:", opts:["الفائزون الناجحون","الخاسرون","المعذَّبون","المتحيّرون"], ans:0},
+
+{lesson:"l1", sec:"fahm", diff:"med", ayah:"﴿وَلْتَكُن مِّنكُمْ أُمَّةٌ يَدْعُونَ إِلَى ٱلْخَيْرِ وَيَأْمُرُونَ بِٱلْمَعْرُوفِ وَيَنْهَوْنَ عَنِ ٱلْمُنكَرِ﴾", stem:"الصيغة التي استُهلّت بها الآية الكريمة (وَلْتَكُن) تدل على:", opts:["الأمر بوجود جماعة مختصة بالدعوة والأمر بالمعروف والنهي عن المنكر","النهي عن الاجتماع","الإباحة المطلقة","التخيير بين الفعل والترك"], ans:0},
+{lesson:"l1", sec:"fahm", diff:"med", ayah:"﴿وَٱذْكُرُوا۟ نِعْمَتَ ٱللَّهِ عَلَيْكُمْ إِذْ كُنتُمْ أَعْدَآءً فَأَلَّفَ بَيْنَ قُلُوبِكُمْ﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على:", opts:["وجوب تذكر نعمة الله في تأليف القلوب بعد العداوة","نسيان النعم وعدم شكرها","استمرار العداوة بين المسلمين","تحريم الأخوّة بين المؤمنين"], ans:0},
+{lesson:"l1", sec:"fahm", diff:"hard", ayah:"﴿وَلْتَكُن مِّنكُمْ أُمَّةٌ يَدْعُونَ إِلَى ٱلْخَيْرِ﴾", stem:"يدلّ الأمر بوجود ﴿أُمَّةٌ﴾ في الآية (١٠٤) على أنّ الدعوة إلى الخير والأمر بالمعروف والنهي عن المنكر:", opts:["من فروض الكفايات التي يقوم بها من تخصّص لذلك من الأمة","فرض عين على كل فرد بعينه","مستحب لا ثواب فيه","خاص بالعلماء وحدهم دون غيرهم"], ans:0},
+{lesson:"l1", sec:"fahm", diff:"hard", ayah:"﴿وَلَا تَمُوتُنَّ إِلَّا وَأَنتُم مُّسْلِمُونَ﴾", stem:"يُفهم من مجيء الفعل ﴿تَمُوتُنَّ﴾ بصيغة التوكيد في الآية الكريمة السابقة أنّ المطلوب:", opts:["الثبات على الإسلام حتى الممات دون انقطاع عن التقوى","الإسلام في لحظة الموت فقط","جواز الارتداد ثم العودة إلى الإسلام","عدم أهمية حسن الخاتمة"], ans:0},
+{lesson:"l1", sec:"fahm", diff:"med", ayah:"﴿كَذَٰلِكَ يُبَيِّنُ ٱللَّهُ لَكُمْ ءَايَٰتِهِۦ لَعَلَّكُمْ تَهْتَدُونَ﴾", stem:"غاية بيان الله تعالى لآياته كما وردت في ختام الآية الكريمة السابقة هي:", opts:["رجاء اهتداء الناس بها","إثبات عجز الناس عن الفهم","إشغال الناس عن أمور دينهم","إبطال الحجة على الناس"], ans:0},
+
+{lesson:"l1", sec:"raqam", diff:"med", stem:"رقم الآية الكريمة التي ورد فيها ذكر (المفلحون) هو:", opts:["١٠٢","١٠٣","١٠٤","١٠٥"], ans:2},
+{lesson:"l1", sec:"raqam", diff:"med", stem:"رقم الآية الكريمة التي ورد فيها ذكر (شَفَا حُفْرَةٍ مِّنَ ٱلنَّارِ) هو:", opts:["١٠٢","١٠٣","١٠٤","١٠٥"], ans:1},
+{lesson:"l1", sec:"raqam", diff:"easy", stem:"عدد الآيات الكريمة المقررة في هذا الدرس من سورة آل عمران هو:", opts:["آيتان","ثلاث آيات","أربع آيات","خمس آيات"], ans:2},
+
+{lesson:"l1", sec:"must", diff:"med", stem:"يُعرَّف (فرض العين) بأنه:", opts:["ما يجب على كل مكلف بعينه ولا يسقط عنه بفعل غيره","ما يسقط الإثم فيه عن الباقين إذا قام به البعض","عمل مستحب لا يأثم تاركه","عمل مباح يجوز فعله أو تركه"], ans:0},
+{lesson:"l1", sec:"must", diff:"easy", ayah:"﴿وَيَنْهَوْنَ عَنِ ٱلْمُنكَرِ﴾", stem:"المقصود بـ(المنكر) الذي أمرت الآية الكريمة بالنهي عنه هو:", opts:["كل ما تستقبحه الشريعة الإسلامية وينكره العقل السليم","كل ما تستحسنه الشريعة الإسلامية","الأمور المباحة كلها","العادات الاجتماعية فقط"], ans:0},
+{lesson:"l1", sec:"must", diff:"easy", stem:"تُعدّ الدعوة إلى الخير، والأمر بالمعروف، والنهي عن المنكر، من حيث الحكم الشرعي، من:", opts:["فروض الكفايات","فروض الأعيان","المندوبات فقط","المباحات"], ans:0},
+
+{lesson:"l1", sec:"seerah", diff:"med", stem:"كانت المؤاخاة التي عقدها النبي ﷺ بين المهاجرين والأنصار بعد الهجرة تهدف إلى:", opts:["توثيق الروابط الاجتماعية وتحقيق التكافل والوحدة بين المسلمين","تقسيم الغنائم على المقاتلين","تنظيم صفوف الجيش فقط","توزيع الأراضي الزراعية فقط"], ans:0},
+{lesson:"l1", sec:"seerah", diff:"med", stem:"نزلت الآيات الكريمة المقررة (١٠٢-١٠٥) في المدينة المنورة؛ وهذا يدل على أنّ هذا الجزء من سورة آل عمران من الآيات:", opts:["المدنية","المكية","التي لا يُعرف مكان نزولها","المختلف في مكان نزولها بين العلماء"], ans:0},
+
+{lesson:"l1", sec:"maada", diff:"med", stem:"جميع الآيات الكريمة الآتية اشتملت على أمر إلهي، ما عدا واحدة اشتملت على نهي، فما هي؟", opts:["﴿ٱتَّقُوا۟ ٱللَّهَ حَقَّ تُقَاتِهِۦ﴾","﴿وَٱعْتَصِمُوا۟ بِحَبْلِ ٱللَّهِ جَمِيعًا﴾","﴿وَلَا تَكُونُوا۟ كَٱلَّذِينَ تَفَرَّقُوا۟﴾","﴿وَلْتَكُن مِّنكُمْ أُمَّةٌ يَدْعُونَ إِلَى ٱلْخَيْرِ﴾"], ans:2},
+{lesson:"l1", sec:"maada", diff:"med", stem:"بالمقارنة بين مطلع الآية (١٠٢) ومطلع الآية (١٠٣)، فإنّ كلتيهما استُهلّتا بنداء:", opts:["﴿يَٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟﴾","﴿يَٰٓأَيُّهَا ٱلنَّاسُ﴾","﴿قُلْ﴾","لم تُستهلّا بنداء"], ans:0},
+
+{lesson:"l1", sec:"qiyam", diff:"med", stem:"من الآثار المترتبة على تحقيق (الاعتصام بحبل الله وعدم التفرق) كما تصوّره الآيات الكريمة:", opts:["الانتقال من العداوة إلى الأخوّة والنجاة من الهلاك","زيادة الفرقة والاختلاف","استحقاق العذاب العظيم","الخسران في الدنيا والآخرة"], ans:0},
+{lesson:"l1", sec:"qiyam", diff:"hard", stem:"يُستفاد من سياق الآيات الكريمة المقررة أنّ وحدة الأمة وتماسكها:", opts:["نعمة من الله تستوجب الشكر بالمحافظة عليها","أمر ثانوي لا قيمة كبيرة له","نتيجة تلقائية لا تحتاج جهدًا","مقصورة على عصر الصحابة فقط"], ans:0},
+
+// ============ LESSON 2: الحديث الشريف - اتقاء الشبهات ============
+{lesson:"l2", sec:"l2-vocab", diff:"easy", ayah:"إِنَّ ٱلْحَلَالَ بَيِّنٌ وَإِنَّ ٱلْحَرَامَ بَيِّنٌ", stem:"المعنى الذي يدل عليه لفظ ﴿بَيِّنٌ﴾ في الحديث الشريف السابق هو:", opts:["ظاهر معلوم","خفي غامض","مشكوك فيه","نادر الحدوث"], ans:0},
+{lesson:"l2", sec:"l2-vocab", diff:"easy", ayah:"وَبَيْنَهُمَا أُمُورٌ مُشْتَبِهَاتٌ لَا يَعْلَمُهُنَّ كَثِيرٌ مِنَ ٱلنَّاسِ", stem:"المعنى الذي يدل عليه لفظ ﴿يَعْلَمُهُنَّ﴾ في الحديث الشريف السابق هو:", opts:["يعرفهنّ","يتركهنّ","يخفيهنّ","يتقيهنّ"], ans:0},
+{lesson:"l2", sec:"l2-vocab", diff:"med", ayah:"كَٱلرَّاعِي يَرْعَىٰ حَوْلَ ٱلْحِمَىٰ يُوشِكُ أَن يُوَاقِعَهُ", stem:"معنى لفظ ﴿ٱلْحِمَى﴾ في الحديث الشريف السابق هو:", opts:["أرض محمية يُمنع الاقتراب منها إلا بإذن صاحبها","أرض مباحة للجميع دون قيد","أرض خصبة للزراعة","أرض واسعة قاحلة"], ans:0},
+{lesson:"l2", sec:"l2-vocab", diff:"med", ayah:"كَٱلرَّاعِي يَرْعَىٰ حَوْلَ ٱلْحِمَىٰ يُوشِكُ أَن يُوَاقِعَهُ", stem:"معنى لفظ ﴿يُوشِكُ﴾ في الحديث الشريف السابق هو:", opts:["يبتعد","يقرُب ويكاد","يرفض","يجهل"], ans:1},
+{lesson:"l2", sec:"l2-vocab", diff:"easy", ayah:"أَلَا وَإِنَّ فِي ٱلْجَسَدِ مُضْغَةً", stem:"معنى لفظ ﴿مُضْغَةً﴾ في الحديث الشريف السابق هو:", opts:["قطعة من اللحم","عضو من أعضاء الجسد الظاهرة","الروح","قطعة من العظم"], ans:0},
+
+{lesson:"l2", sec:"l2-fahm", diff:"easy", stem:"تمام قول النبي ﷺ: «إنّ الحلال بيّنٌ وإنّ الحرام بيّنٌ» هو:", opts:["وبينهما أمور مشتبهات لا يعلمهنّ كثير من الناس","فمن اتقى الشبهات استبرأ لدينه","كالراعي يرعى حول الحمى","ألا وهي القلب"], ans:0},
+{lesson:"l2", sec:"l2-fahm", diff:"med", stem:"تمام قول النبي ﷺ: «فمن اتقى الشبهات» هو:", opts:["استبرأ لدينه وعرضه","وقع في الحرام","كالراعي يرعى حول الحمى","صلح الجسد كله"], ans:0},
+{lesson:"l2", sec:"l2-fahm", diff:"easy", stem:"تمام قول النبي ﷺ: «ومن وقع في الشبهات» هو:", opts:["استبرأ لدينه وعرضه","وقع في الحرام","صلح الجسد كله","يعلمهنّ كثير من الناس"], ans:1},
+{lesson:"l2", sec:"l2-fahm", diff:"med", stem:"تمام قول النبي ﷺ: «ألا وإنّ لكل مَلِكٍ حِمًى» هو:", opts:["ألا وإنّ حِمى الله محارمه","ألا وهي القلب","فمن اتقى الشبهات استبرأ","يوشك أن يواقعه"], ans:0},
+{lesson:"l2", sec:"l2-fahm", diff:"hard", stem:"يدلّ قول النبي ﷺ: «ألا وإنّ لكل ملِك حِمًى، ألا وإنّ حِمى الله محارمه» على:", opts:["أنّ محارم الله هي حدوده التي نهى عباده عن الاقتراب منها، كحمى الملوك","أنّ لكل ملك أرضًا يجب على الرعية زراعتها","أنّ المحارم مباحة لمن يملك سلطة","أنّ حمى الله خاص بالملوك دون عامة الناس"], ans:0},
+{lesson:"l2", sec:"l2-fahm", diff:"med", stem:"يدلّ قول النبي ﷺ: «ألا وإنّ في الجسد مضغة إذا صلحت صلح الجسد كله» على:", opts:["أنّ صلاح الجسد كله مرتبط بصلاح القلب","أنّ صلاح الجسد لا علاقة له بالقلب","أنّ المضغة عضو لا قيمة له","أنّ الجسد يصلح دون القلب"], ans:0},
+{lesson:"l2", sec:"l2-fahm", diff:"easy", stem:"العضو الذي أشار إليه النبي ﷺ بقوله «ألا وهي القلب» هو الذي يتوقف عليه:", opts:["صلاح الجسد كله وفساده","قوة الجسد البدنية فقط","لون البشرة","طول العمر"], ans:0},
+
+{lesson:"l2", sec:"l2-tasnif", diff:"easy", stem:"أعمال الإنسان من حيث وضوح حكمها الشرعي في الحديث الشريف (اتقاء الشبهات) تنقسم إلى:", opts:["الحلال الواضح، والحرام الواضح، والمشتبهات","الواجب والمندوب فقط","الفرض والسنة فقط","الحلال والحرام فقط دون قسم ثالث"], ans:0},
+{lesson:"l2", sec:"l2-tasnif", diff:"med", stem:"يُعرَّف (الحلال الواضح) بأنه:", opts:["ما دلّت النصوص الشرعية على حِلّه ولا يخفى على أحد من الناس","ما اختلف العلماء في حكمه","ما دلّت النصوص على تحريمه","ما لم يرد فيه نص شرعي"], ans:0},
+{lesson:"l2", sec:"l2-tasnif", diff:"easy", stem:"من الأمثلة على الحلال الواضح مما ورد في الدرس:", opts:["البيوع، وأكل الطيبات، وشرب الماء","الزنا والسرقة","الربا وأكل مال اليتيم","شرب الخمر"], ans:0},
+{lesson:"l2", sec:"l2-tasnif", diff:"easy", stem:"من الأمثلة على الحرام الواضح مما ورد في الدرس:", opts:["البيوع المشروعة","الزنا، والخمر، والربا، والسرقة","أكل الطيبات","شرب الماء"], ans:1},
+{lesson:"l2", sec:"l2-tasnif", diff:"med", stem:"يُعرَّف (المشتبهات) بأنها:", opts:["أمور واضحة الحل بالإجماع","أمور ملتبسة بين الحلال والحرام لم يتبيّن حكمها الشرعي بوضوح","أمور محرّمة بنص قطعي","أمور مباحة لكل الناس بلا استثناء"], ans:1},
+{lesson:"l2", sec:"l2-tasnif", diff:"hard", stem:"من أسباب التباس حكم (المشتبهات) الشرعي كما ورد في الدرس:", opts:["تعارض الأدلة الشرعية فيها، أو خفاء وجه الدلالة فيها على المكلف","كثرة النصوص الواضحة فيها","إجماع العلماء على تحريمها","وضوح دليلها القطعي"], ans:0},
+
+{lesson:"l2", sec:"l2-mawqif", diff:"med", stem:"موقف المسلم (المتقي للشبهات) منها كما بيّن الحديث الشريف هو أنه:", opts:["يبتعد عنها ويستبرئ لدينه وعرضه","يقترب منها دون حرج","يستحلّها تدريجيًا","لا يبالي بها"], ans:0},
+{lesson:"l2", sec:"l2-mawqif", diff:"hard", stem:"التشبيه الذي ضربه النبي ﷺ لمن يقع في المشتبهات ويكثر منها هو تشبيهه بـ:", opts:["راعٍ يرعى غنمه بعيدًا عن الحمى","راعٍ يرعى حول الحمى يوشك أن يقع فيها","تاجر أمين في تجارته","عالم متمكن من علمه"], ans:1},
+{lesson:"l2", sec:"l2-mawqif", diff:"med", stem:"الخطر الذي يتعرض له من يُكثر الوقوع في المشتبهات، كما بيّن الحديث الشريف:", opts:["ضعف الوازع الديني وسهولة الوقوع في الحرام","زيادة الورع والتقوى","تقوية دينه وعرضه","السلامة التامة من الحرام"], ans:0},
+{lesson:"l2", sec:"l2-mawqif", diff:"easy", stem:"جزاء من يتقي الشبهات كما ورد في الحديث الشريف هو أنه:", opts:["استبرأ لدينه وعرضه","وقع في الحرام","خسر دينه ودنياه","أصبح من أهل الشبهات"], ans:0},
+
+{lesson:"l2", sec:"l2-qalb", diff:"easy", stem:"يبيّن الحديث الشريف أنّ استقامة الإنسان وصلاح جوارحه أساسها:", opts:["صلاح القلب","قوة الجسد","كثرة المال","سعة العلم فقط"], ans:0},
+{lesson:"l2", sec:"l2-qalb", diff:"med", stem:"إذا صلح قلب الإنسان، فإنّ ذلك ينعكس على:", opts:["جوارحه كلها فتصلح معه","جسده فقط دون سلوكه","ماله فقط","مظهره الخارجي فقط"], ans:0},
+{lesson:"l2", sec:"l2-qalb", diff:"med", stem:"من آثار فساد القلب كما يُفهم من الحديث الشريف:", opts:["فساد الجوارح وانحرافها عن الاستقامة","صلاح الجوارح تلقائيًا","زيادة الورع","اجتناب المعاصي"], ans:0},
+
+{lesson:"l2", sec:"l2-wasael", diff:"med", stem:"من الأعمال التي تُعين المسلم على صلاح قلبه كما ورد في الدرس:", opts:["المحافظة على أداء العبادات كالصلاة والصيام","الإكثار من مجالسة أهل الفسق","إهمال قراءة القرآن الكريم","الانشغال الدائم عن الدعاء"], ans:0},
+{lesson:"l2", sec:"l2-wasael", diff:"med", ayah:"﴿أَفَلَا يَتَدَبَّرُونَ ٱلْقُرْءَانَ أَمْ عَلَىٰ قُلُوبٍ أَقْفَالُهَآ﴾", stem:"يستدل بالآية الكريمة السابقة على وسيلة من وسائل صلاح القلب، هي:", opts:["قراءة القرآن الكريم والتدبر فيه","المحافظة على العبادات","مجالسة الصالحين","التوكل على الله بالدعاء"], ans:0},
+{lesson:"l2", sec:"l2-wasael", diff:"hard", ayah:"﴿وَٱتَّبِعْ سَبِيلَ مَنْ أَنَابَ إِلَىَّ﴾", stem:"يستدل بالآية الكريمة السابقة على وسيلة من وسائل صلاح القلب، هي:", opts:["مجالسة الصالحين والابتعاد عن أهل الفسق","تناول الحلال الطيب من الطعام","التوكل على الله بالدعاء","المحافظة على أداء العبادات"], ans:0},
+{lesson:"l2", sec:"l2-wasael", diff:"med", ayah:"﴿ٱدْعُونِىٓ أَسْتَجِبْ لَكُمْ﴾", stem:"يستدل بالآية الكريمة السابقة على وسيلة من وسائل صلاح القلب، هي:", opts:["التوكل على الله بالدعاء","قراءة القرآن الكريم","مجالسة الصالحين","تناول الحلال الطيب"], ans:0},
+{lesson:"l2", sec:"l2-wasael", diff:"easy", stem:"من وسائل صلاح القلب الواردة في الدرس أيضًا:", opts:["تناول الحلال الطيب من الطعام والشراب","الإكثار من أكل الشبهات","إهمال العبادات","الابتعاد عن القرآن الكريم"], ans:0},
+{lesson:"l2", sec:"l2-wasael", diff:"hard", stem:"جميع ما يأتي من وسائل صلاح القلب الواردة في الدرس، ما عدا:", opts:["المحافظة على أداء العبادات","قراءة القرآن الكريم والتدبر فيه","مجالسة أهل الفسق والمعاصي","التوكل على الله بالدعاء"], ans:2},
+
+{lesson:"l2", sec:"l2-rawi", diff:"easy", stem:"راوي الحديث الشريف (اتقاء الشبهات) هو الصحابي الجليل:", opts:["النعمان بن بشير رضي الله عنهما","أبو هريرة رضي الله عنه","معاذ بن جبل رضي الله عنه","عبد الله بن عباس رضي الله عنهما"], ans:0},
+{lesson:"l2", sec:"l2-rawi", diff:"med", stem:"من الصفات التي عُرف بها الصحابي النعمان بن بشير رضي الله عنهما:", opts:["أول مولود للأنصار في المدينة المنورة بعد الهجرة","أول من أسلم من الأنصار","كاتب الوحي","خاتم الحفاظ"], ans:0},
+{lesson:"l2", sec:"l2-rawi", diff:"easy", stem:"درجة الحديث الشريف (اتقاء الشبهات) من حيث التخريج هي أنه:", opts:["متفق عليه (رواه البخاري ومسلم)","حديث ضعيف","حديث موضوع","لم يروه أحد من أصحاب الكتب الستة"], ans:0},
+
+{lesson:"l2", sec:"l2-qiyam", diff:"med", stem:"يُعرَّف (الورع) بأنه:", opts:["اجتناب الشبهات خوفًا من الوقوع في المحرمات","فعل المحرمات جهرًا","الوقوع في الشبهات عمدًا","ترك الواجبات تحرزًا"], ans:0},
+{lesson:"l2", sec:"l2-qiyam", diff:"easy", stem:"من القيم المستفادة من الحديث الشريف (اتقاء الشبهات):", opts:["الحرص على الحلال والابتعاد عن الشبهات","تتبع الشبهات لمعرفة حكمها بالتجربة","تفضيل الشك على اليقين","إهمال أمر القلب"], ans:0},
+{lesson:"l2", sec:"l2-qiyam", diff:"med", stem:"جميع ما يأتي من نتاجات التعلّم المقررة لهذا الدرس، ما عدا:", opts:["قراءة الحديث النبوي الشريف قراءة سليمة","حفظ الحديث النبوي الشريف المقرر غيبًا","تحليل مضمون الحديث النبوي الشريف","استخراج أحكام المواريث من الحديث"], ans:3},
+{lesson:"l2", sec:"l2-qiyam", diff:"hard", stem:"العلاقة بين قوله ﷺ «فمن اتقى الشبهات استبرأ لدينه وعرضه» وقوله «ومن وقع في الشبهات وقع في الحرام» هي علاقة:", opts:["مقابلة بين نتيجتين متضادتين لموقفين مختلفين من الشبهات","تكرار لا فائدة منه","تناقض بين حكمين شرعيين","نسخ الجملة الأولى للثانية"], ans:0},
+{lesson:"l2", sec:"l2-qiyam", diff:"hard", stem:"يمكن القول إنّ الحديث الشريف (اتقاء الشبهات) رسم للمسلم منهجًا متكاملًا يبدأ بـ:", opts:["بيان أقسام الأحكام الثلاثة، ثم موقف المسلم من المشتبهات، وينتهي ببيان أثر صلاح القلب على الجسد كله","بيان أحكام المواريث فقط","الحديث عن الجهاد فقط","سرد قصص الأنبياء"], ans:0},
+{lesson:"l2", sec:"l2-qiyam", diff:"med", stem:"الحكمة من ضرب النبي ﷺ مثل (الراعي يرعى حول الحمى) لمن يقع في الشبهات:", opts:["تقريب الفكرة بصورة محسوسة لبيان خطر الاقتراب من الحرام","الحث على الرعي وتربية المواشي","بيان فضل أصحاب الأنعام","الترغيب في السفر إلى البادية"], ans:0},
+
+{lesson:"l2", sec:"l2-vocab", diff:"med", ayah:"أَلَا وَإِنَّ لِكُلِّ مَلِكٍ حِمًى", stem:"معنى لفظ ﴿حِمًى﴾ الوارد في هذا الموضع من الحديث الشريف هو:", opts:["أرض ممنوعة يخصّها الملك لنفسه ويمنع الناس منها","أرض مشتركة بين الرعية جميعًا","سوق تجاري خاص بالملك","مكان لجباية الأموال"], ans:0},
+{lesson:"l2", sec:"l2-vocab", diff:"med", ayah:"وَإِنَّ حِمَى ٱللَّهِ مَحَارِمُهُ", stem:"يدل قوله ﷺ ﴿وَإِنَّ حِمَى ٱللَّهِ مَحَارِمُهُ﴾ على أنّ:", opts:["ما حرّمه الله على عباده هو حماه الذي لا يجوز الاقتراب منه","المحارم مباحة لمن يخاف الله","لا حمى لله كما لغيره من الملوك","الحمى خاص بالملوك دون الله"], ans:0},
+{lesson:"l2", sec:"l2-fahm", diff:"easy", stem:"بيّن النبي ﷺ في مطلع الحديث الشريف أنّ الأمور من حيث الحكم تنقسم إلى:", opts:["حلال بيّن، وحرام بيّن، وأمور مشتبهات","حلال بيّن وحرام بيّن فقط","مباح ومكروه فقط","واجب وحرام فقط"], ans:0},
+{lesson:"l2", sec:"l2-fahm", diff:"med", stem:"سبب وقوع (كثير من الناس) في جهل الأمور المشتبهات كما يُفهم من الحديث الشريف هو:", opts:["عدم العلم بحقيقتها وتداخل شبهها بالحلال والحرام","تعمّدهم الوقوع في الحرام","عدم وجود علماء يبيّنون الأحكام","أنّها أمور لا حكم لها أصلًا"], ans:0},
+{lesson:"l2", sec:"l2-tasnif", diff:"easy", stem:"موقف المسلم الورع تجاه (الأمور المشتبهات) بحسب الحديث الشريف هو:", opts:["اجتنابها استبراءً لدينه وعرضه","الوقوع فيها لأنها ليست حرامًا صراحة","إهمال أمرها لأنها لا تستحق الاهتمام","تحليلها بالرأي دون الرجوع لأهل العلم"], ans:0},
+{lesson:"l2", sec:"l2-tasnif", diff:"med", stem:"تصنيف الناس تجاه المشتبهات بحسب الحديث الشريف ينقسم إلى فريقين، هما من:", opts:["اتقاها فاستبرأ لدينه وعرضه، ومن وقع فيها فأوشك أن يواقع الحرام","المؤمنين والكافرين فقط","العرب والعجم","الرجال والنساء"], ans:0},
+{lesson:"l2", sec:"l2-mawqif", diff:"med", stem:"من المواقف العملية الدالة على تطبيق مبدأ (اتقاء الشبهات) في حياة المسلم:", opts:["التوقف عن أكل طعام مشكوك في مصدره حتى يتبين حِلّه","تناول كل ما يُعرض عليه دون سؤال","الاعتماد على ظنه فقط في كل الأمور","انتظار غيره ليقرر له"], ans:0},
+{lesson:"l2", sec:"l2-mawqif", diff:"hard", stem:"لو عُرض على مسلم كسب مال لا يعرف مصدره بدقة، فإنّ الموقف الأقرب لهدي الحديث الشريف هو:", opts:["التحري والتثبت قبل الإقدام عليه صيانةً لدينه وعرضه","أخذه فورًا ما دام لم يُحرَّم بالنص","تركه للآخرين دون تحرٍّ","سؤال من لا علم له بالمسألة"], ans:0},
+{lesson:"l2", sec:"l2-qalb", diff:"easy", ayah:"أَلَا وَإِنَّ فِي ٱلْجَسَدِ مُضْغَةً إِذَا صَلَحَتْ صَلَحَ ٱلْجَسَدُ كُلُّهُ", stem:"يدل هذا الجزء من الحديث الشريف على أنّ صلاح القلب يؤدي إلى:", opts:["صلاح سائر الجوارح والأعمال","فساد الجوارح","لا علاقة بين القلب والجوارح","صلاح المال فقط"], ans:0},
+{lesson:"l2", sec:"l2-qalb", diff:"med", stem:"يُستدل من ختام الحديث الشريف بذكر (القلب) على أنّ:", opts:["القلب هو الموجّه الحقيقي لسلوك الإنسان وأفعاله","القلب عضو لا علاقة له بالسلوك","الجوارح مستقلة تمامًا عن القلب","العقل هو المقصود بالمضغة"], ans:0},
+{lesson:"l2", sec:"l2-qalb", diff:"hard", stem:"العلاقة بين اتقاء الشبهات في بداية الحديث الشريف وصلاح القلب في ختامه هي علاقة:", opts:["سبب بنتيجة؛ فاتقاء الشبهات وسيلة لصلاح القلب الذي يصلح به الجسد كله","لا علاقة بينهما","تضاد وتناقض","تكرار للمعنى نفسه دون رابط"], ans:0},
+{lesson:"l2", sec:"l2-wasael", diff:"med", stem:"من الوسائل المعينة على اتقاء الشبهات في واقع المسلم المعاصر:", opts:["سؤال أهل العلم والاختصاص عند الشك في حكم أمر ما","الاعتماد على الشائعات في تحديد الأحكام","تقليد من لا علم لهم في المسائل الشرعية","تجاهل الشك وعدم البحث عن الحكم"], ans:0},
+{lesson:"l2", sec:"l2-wasael", diff:"med", stem:"جميع ما يأتي من الوسائل التي تعين المسلم على اتقاء الشبهات، ما عدا:", opts:["تتبع رخص المذاهب دون ضابط","تقوى الله ومراقبته في السر والعلن","الرجوع إلى أهل العلم عند الاشتباه","تربية النفس على الورع"], ans:0},
+{lesson:"l2", sec:"l2-rawi", diff:"med", stem:"راوي الحديث الشريف (اتقاء الشبهات) من الصحابة رضي الله عنه هو:", opts:["النعمان بن بشير رضي الله عنه","أبو هريرة رضي الله عنه","عبد الله بن عمر رضي الله عنهما","أنس بن مالك رضي الله عنه"], ans:0},
+{lesson:"l2", sec:"l2-rawi", diff:"easy", stem:"مصدر الحديث الشريف (اتقاء الشبهات) هو:", opts:["كتب السنة النبوية المطهرة","القرآن الكريم مباشرة","كتب التفسير فقط","كتب الفقه المقارن"], ans:0},
+{lesson:"l2", sec:"l2-qiyam", diff:"easy", stem:"يُعدّ الحديث الشريف (اتقاء الشبهات) من جوامع كلم النبي ﷺ لأنه:", opts:["جمع أصولًا عظيمة في الحلال والحرام والورع وصلاح القلب في ألفاظ يسيرة","تحدث عن موضوع واحد محدود فقط","خاص بأحكام المعاملات المالية دون غيرها","اقتصر على بيان أحكام الطلاق"], ans:0},
+{lesson:"l2", sec:"l2-qiyam", diff:"med", stem:"من الآثار السلبية المترتبة على التهاون في أمر الشبهات كما يفهم من الحديث الشريف:", opts:["الوقوع التدريجي في الحرام دون شعور","زيادة الورع والتقوى","صلاح القلب وسائر الجسد","البعد التام عن الحرام"], ans:0},
+{lesson:"l2", sec:"l2-qiyam", diff:"hard", stem:"جميع ما يأتي من نتاجات التعلّم المقررة لهذا الدرس، ما عدا:", opts:["تحديد أحكام الزواج ومقدماته","تلخيص مضمون الحديث الشريف","استنباط القيم التربوية من الحديث","بيان أثر اتقاء الشبهات في صلاح الفرد والمجتمع"], ans:0},
+{lesson:"l2", sec:"l2-mawqif", diff:"easy", stem:"من الفوائد التربوية لاتقاء المسلم الشبهات في حياته اليومية:", opts:["المحافظة على سلامة دينه وصون سمعته بين الناس","التشدد على الآخرين في كل أمر","إهمال شؤون دنياه بالكلية","الانعزال عن المجتمع"], ans:0},
+{lesson:"l2", sec:"l2-tasnif", diff:"hard", stem:"بالمقارنة بين (الحلال البيّن) و(الحرام البيّن) و(المشتبهات)، فإنّ القدر المشترك بينها جميعًا أنها:", opts:["أمور ذات حكم يمكن الوصول إليه بالعلم أو بالتقوى والورع","جميعها محرمة قطعًا","جميعها مباحة دون استثناء","لا ضابط شرعي لمعرفة أي منها"], ans:0},
+
+// ============ LESSON 3: من صور الضلال ============
+{lesson:"l3", sec:"l3-kufr1", diff:"easy", stem:"يتقسم الكفر إلى نوعين، هما:", opts:["الكفر الاعتقادي والكفر العملي","الشرك الأكبر والأصغر","النفاق الاعتقادي والعملي","البدعة الحسنة والسيئة"], ans:0},
+{lesson:"l3", sec:"l3-kufr1", diff:"med", stem:"يُعرَّف (الكفر الاعتقادي) بأنه:", opts:["الكفر الذي يُخرج صاحبه من ملّة الإسلام","الكفر الذي لا يُخرج صاحبه من الإسلام","اتصاف الإنسان بصفة من صفات المنافقين","إحداث أمر جديد في الدين"], ans:0},
+{lesson:"l3", sec:"l3-kufr1", diff:"med", stem:"من صور الكفر الاعتقادي:", opts:["إنكار ركن من أركان الإيمان أو الإسلام","الرياء في العبادة","الحلف بغير الله","تقليد الآخرين في المباحات"], ans:0},
+{lesson:"l3", sec:"l3-kufr1", diff:"hard", stem:"من صور الكفر الاعتقادي أيضًا:", opts:["إنكار حكم قطعي معلوم من الدين بالضرورة، كإنكار حرمة الخمر","التأخر عن أداء صلاة الجماعة","الوقوع في بعض الذنوب الصغيرة","الشك في مسألة فقهية اجتهادية سائغة"], ans:0},
+
+{lesson:"l3", sec:"l3-kufr2", diff:"med", stem:"يتقسم الكفر العملي إلى قسمين، هما:", opts:["كفر يُخرج فاعله من الإسلام، وكفر لا يُخرج فاعله منه","كفر أكبر وكفر أصغر فقط","شرك أكبر وشرك أصغر","نفاق اعتقادي ونفاق عملي"], ans:0},
+{lesson:"l3", sec:"l3-kufr2", diff:"hard", stem:"من صور الكفر العملي الذي يُخرج فاعله من الإسلام:", opts:["ترك جنس الصلاة بالكلية، أو الرضا بحكم غير حكم الله","التأخر أحيانًا عن صلاة الجماعة","الوقوع في الغيبة والنميمة","النسيان في أداء بعض الأذكار"], ans:0},
+{lesson:"l3", sec:"l3-kufr2", diff:"med", stem:"من صور الكفر العملي الذي لا يُخرج فاعله من الإسلام:", opts:["ارتكاب بعض المعاصي الكبيرة، كقتل النفس المحرّمة والزنا","إنكار ركن من أركان الإيمان","الرضا بحكم غير حكم الله","جحود القرآن الكريم"], ans:0},
+{lesson:"l3", sec:"l3-kufr2", diff:"hard", stem:"الفرق بين نوعَي الكفر العملي هو:", opts:["الأول يُخرج صاحبه من الإسلام، والثاني معصية كبيرة لا تُخرج منه","لا فرق بينهما في الحكم","كلاهما يُخرج من الإسلام","كلاهما لا يُخرج من الإسلام"], ans:0},
+
+{lesson:"l3", sec:"l3-shirk", diff:"easy", stem:"يتقسم الشرك إلى قسمين، هما:", opts:["الشرك الأكبر والشرك الأصغر","الكفر الاعتقادي والعملي","النفاق الاعتقادي والعملي","البدعة الحسنة والسيئة"], ans:0},
+{lesson:"l3", sec:"l3-shirk", diff:"med", stem:"يُعرَّف (الشرك الأكبر) بأنه:", opts:["أن يجعل الإنسان مع الله تعالى إلهًا آخر يعبده ويتقرب إليه","إظهار الإيمان وإبطان الكفر","قصد الإنسان بعبادته مدح الناس","إحداث أمر جديد في الدين"], ans:0},
+{lesson:"l3", sec:"l3-shirk", diff:"med", ayah:"﴿إِنَّ ٱللَّهَ لَا يَغْفِرُ أَن يُشْرَكَ بِهِۦ وَيَغْفِرُ مَا دُونَ ذَٰلِكَ لِمَن يَشَآءُ﴾", stem:"تدل الآية الكريمة السابقة على:", opts:["أنّ الشرك بالله لا يغفره الله لمن مات عليه دون توبة","أنّ جميع الذنوب مغفورة دون استثناء","أنّ الشرك ذنب صغير يسير","أنّ الله لا يغفر أي ذنب"], ans:0},
+{lesson:"l3", sec:"l3-shirk", diff:"easy", stem:"الشرك الأكبر يُعدّ من صور الضلال التي:", opts:["تُخرج صاحبها من الإسلام","لا تؤثر في إسلام صاحبها","تُعد من الذنوب الصغيرة","لا حكم شرعيًا لها"], ans:0},
+{lesson:"l3", sec:"l3-shirk", diff:"med", stem:"يُعرَّف (الشرك الأصغر) بأنه:", opts:["ما ورد ذكره في نصوص الشرع بلفظ الشرك، لكن دون درجة الشرك الأكبر","ما لم يرد له ذكر في نصوص الشرع","إنكار ركن من أركان الإيمان","اتصاف الإنسان بصفة من صفات المنافقين"], ans:0},
+{lesson:"l3", sec:"l3-shirk", diff:"easy", stem:"من الأمثلة على الشرك الأصغر مما ورد في الدرس:", opts:["الرياء في العبادة","عبادة الأصنام","إنكار وجوب الصلاة","جحود القرآن الكريم"], ans:0},
+{lesson:"l3", sec:"l3-shirk", diff:"med", stem:"يدل قول النبي ﷺ: «إنّ أخوف ما أخاف عليكم الشرك الأصغر... الرياء» على:", opts:["أنّ الرياء صورة من صور الشرك الأصغر يُخشى منها على المسلم","أنّ الرياء لا يضر صاحبه","أنّ الشرك الأصغر أشد خطرًا من الأكبر","أنّ الرياء من صفات المنافقين فقط دون غيرها"], ans:0},
+{lesson:"l3", sec:"l3-shirk", diff:"hard", stem:"يدل قول النبي ﷺ: «من حلف بغير الله فقد أشرك» على:", opts:["أنّ الحلف بغير الله من صور الشرك الأصغر","أنّ الحلف بغير الله مباح","أنّ الحلف بغير الله من الشرك الأكبر المخرج من الملة","أنّ الحلف لا يجوز مطلقًا حتى بالله"], ans:0},
+
+{lesson:"l3", sec:"l3-nifaq", diff:"easy", stem:"يتقسم النفاق إلى قسمين، هما:", opts:["النفاق الاعتقادي والنفاق العملي","الشرك الأكبر والأصغر","الكفر الاعتقادي والعملي","البدعة الحسنة والسيئة"], ans:0},
+{lesson:"l3", sec:"l3-nifaq", diff:"med", stem:"يُعرَّف (النفاق الاعتقادي) بأنه:", opts:["إظهار الإيمان وإبطان الكفر","اتصاف الإنسان بصفة من صفات المنافقين مع بقاء أصل الإيمان","إنكار ركن من أركان الإسلام","إحداث أمر جديد في الدين"], ans:0},
+{lesson:"l3", sec:"l3-nifaq", diff:"med", stem:"حكم صاحب النفاق الاعتقادي هو أنه:", opts:["يُحكم بكفره ويُخلّد في الدرك الأسفل من النار","مسلم كامل الإيمان","عاصٍ فقط دون كفر","مجتهد مأجور"], ans:0},
+{lesson:"l3", sec:"l3-nifaq", diff:"hard", stem:"زعيم النفاق الذي ظهر في المدينة المنورة بعد هجرة النبي ﷺ إليها هو:", opts:["عبد الله بن أُبيّ بن سلول","أبو سفيان بن حرب","النعمان بن بشير","عبد الله بن مسعود"], ans:0},
+{lesson:"l3", sec:"l3-nifaq", diff:"med", ayah:"﴿إِنَّ ٱلْمُنَٰفِقِينَ فِى ٱلدَّرْكِ ٱلْأَسْفَلِ مِنَ ٱلنَّارِ﴾", stem:"تدل الآية الكريمة السابقة على:", opts:["شدة عذاب المنافقين في الآخرة","أنّ المنافقين ناجون من العذاب","أنّ النفاق ذنب يسير","أنّ المنافقين يدخلون أعلى درجات الجنة"], ans:0},
+{lesson:"l3", sec:"l3-nifaq", diff:"med", stem:"يُعرَّف (النفاق العملي) بأنه:", opts:["اتصاف الإنسان بصفات تشبه صفات المنافقين مع بقاء أصل الإيمان","إظهار الإيمان وإبطان الكفر بالكلية","إنكار حكم قطعي من الدين","الشرك بالله تعالى"], ans:0},
+{lesson:"l3", sec:"l3-nifaq", diff:"easy", stem:"من صفات المنافق كما بيّنها النبي ﷺ في الحديث الشريف:", opts:["إذا حدّث كذب، وإذا وعد أخلف، وإذا اؤتمن خان","إذا حدّث صدق، وإذا وعد وفى، وإذا اؤتمن أدّى","إذا صلّى خشع، وإذا صام أخلص","إذا أنفق أخفى، وإذا ذكر الله خشع"], ans:0},
+{lesson:"l3", sec:"l3-nifaq", diff:"hard", stem:"حكم النفاق العملي أنه:", opts:["لا يُخرج صاحبه من الإسلام، لكنه يُلحقه بصفة من صفات المنافقين","يُخرج صاحبه من الإسلام كليًا","لا إثم فيه مطلقًا","أشد خطرًا من النفاق الاعتقادي"], ans:0},
+
+{lesson:"l3", sec:"l3-bidah", diff:"easy", stem:"يُعرَّف (البدعة السيئة) بأنها:", opts:["إحداث أمر جديد في الدين لم يأت به الشرع","اتباع سنة النبي ﷺ في العبادات","الاجتهاد في المسائل الفقهية المستجدة","تطبيق أحكام الشريعة كما وردت"], ans:0},
+{lesson:"l3", sec:"l3-bidah", diff:"med", ayah:"«مَنْ أَحْدَثَ فِي أَمْرِنَا هَٰذَا مَا لَيْسَ مِنْهُ فَهُوَ رَدٌّ»", stem:"يدل الحديث الشريف السابق على:", opts:["رد كل عمل مبتدع لا أصل له في الشرع","قبول كل عمل جديد ولو لم يكن من الدين","وجوب الاجتهاد في كل زمان","إباحة إحداث أمور جديدة في الدين"], ans:0},
+{lesson:"l3", sec:"l3-bidah", diff:"hard", stem:"من صور البدعة السيئة مما ورد في الدرس:", opts:["إحداث موالد جديدة ليس لها أصل في الشرع","إقامة الصلوات الخمس في وقتها","صيام رمضان","أداء الحج لمن استطاع إليه سبيلًا"], ans:0},
+{lesson:"l3", sec:"l3-bidah", diff:"hard", stem:"من الأمور التي يظنها البعض بدعة سيئة وليست كذلك، كما ورد في الدرس:", opts:["بناء المدارس وتعليم القراءة والكتابة وطباعة المصاحف","إحداث عبادة جديدة لم يشرعها الله","الابتداع في أصول الدين","إحداث عيد ديني جديد"], ans:0},
+{lesson:"l3", sec:"l3-bidah", diff:"med", stem:"يدل قول النبي ﷺ: «من سنّ في الإسلام سنة سيئة كان عليه وزرها ووزر من عمل بها من بعده» على:", opts:["أنّ من ابتدع بدعة سيئة يتحمل وزرها ووزر من اقتدى به فيها","أنّ الوزر يقتصر على فاعل البدعة وحده","أنّ البدعة السيئة لا إثم فيها","أنّ من عمل بالبدعة بعد صاحبها لا إثم عليه"], ans:0},
+
+{lesson:"l3", sec:"l3-aam", diff:"easy", stem:"جميع ما يأتي من صور الضلال التي تناولها الدرس، ما عدا:", opts:["الكفر","الشرك","النفاق والبدعة السيئة","الصبر واليقين"], ans:3},
+{lesson:"l3", sec:"l3-aam", diff:"hard", stem:"أشد صور الضلال خطرًا من حيث إخراج صاحبها من الإسلام:", opts:["الكفر الاعتقادي، والشرك الأكبر، والنفاق الاعتقادي","الشرك الأصغر فقط","النفاق العملي فقط","البدعة الحسنة"], ans:0},
+{lesson:"l3", sec:"l3-aam", diff:"med", stem:"من صور الضلال التي لا تُخرج صاحبها من الإسلام، وإن كانت محرّمة:", opts:["الشرك الأصغر، والنفاق العملي، وبعض صور الكفر العملي","الشرك الأكبر","الكفر الاعتقادي","النفاق الاعتقادي"], ans:0},
+{lesson:"l3", sec:"l3-aam", diff:"hard", stem:"الموقف الشرعي الصحيح تجاه إطلاق لفظ (الكفر) على أحد المسلمين هو:", opts:["الامتناع عن ذلك إلا بموجب شرعي واضح، لخطورة التكفير وأثره في تفريق الأمة","إطلاقه على كل من يخالفنا الرأي","إطلاقه على من ترك بعض النوافل","إطلاقه دون تثبت أو دليل"], ans:0},
+{lesson:"l3", sec:"l3-aam", diff:"med", stem:"من القيم المستفادة من دراسة صور الضلال:", opts:["الحرص على سلامة العقيدة واجتناب أسباب الضلال","تتبع عيوب الآخرين واتهامهم بالكفر","التساهل في الألفاظ المكفّرة","الانشغال بتصنيف الناس دون تزكية النفس"], ans:0},
+{lesson:"l3", sec:"l3-aam", diff:"med", stem:"من نتاجات التعلّم المقررة لهذا الدرس:", opts:["بيان مفهوم كلٍّ من الكفر والشرك والنفاق والبدعة، وتوضيح أقسامها","حفظ أحكام المواريث","تعلّم أحكام صلاة المسافر","دراسة سيرة الخلفاء الراشدين"], ans:0},
+{lesson:"l3", sec:"l3-aam", diff:"hard", stem:"العلاقة بين (الكفر الاعتقادي) و(الشرك الأكبر) و(النفاق الاعتقادي) من حيث الحكم الشرعي هي:", opts:["تتفق جميعها في إخراج صاحبها من ملّة الإسلام وإن اختلفت صورها","لا علاقة بينها إطلاقًا","الشرك الأكبر وحده يُخرج من الإسلام دون الباقي","النفاق الاعتقادي أخف من الكفر والشرك"], ans:0},
+{lesson:"l3", sec:"l3-aam", diff:"easy", stem:"الصورة التي يدل عليها الرياء في العبادة من صور الضلال هي:", opts:["الشرك الأصغر","الكفر الاعتقادي","النفاق الاعتقادي","البدعة السيئة"], ans:0},
+{lesson:"l3", sec:"l3-aam", diff:"med", stem:"الصورة التي يدل عليها (إظهار الإيمان وإبطان الكفر) من صور الضلال هي:", opts:["النفاق الاعتقادي","الشرك الأصغر","الكفر العملي غير المخرج من الملة","البدعة السيئة"], ans:0},
+{lesson:"l3", sec:"l3-aam", diff:"easy", stem:"حكم صاحب الشرك الأكبر إن مات عليه دون توبة:", opts:["لا يغفر الله له، ويُخلّد في النار","يُغفر له كسائر الذنوب","يُعامل معاملة العاصي فقط","لا حكم شرعيًا في المسألة"], ans:0},
+{lesson:"l3", sec:"l3-aam", diff:"hard", stem:"بالمقارنة بين (الكفر العملي المخرج من الملة) و(الكفر العملي غير المخرج منها)، فإنّ الفارق الجوهري بينهما هو:", opts:["الأول ناقض لأصل الإيمان، والثاني معصية كبيرة مع بقاء أصل الإيمان","لا فارق حقيقي بينهما","الثاني أشد خطرًا من الأول","كلاهما يوجب الخلود في النار"], ans:0},
+
+{lesson:"l3", sec:"l3-kufr1", diff:"easy", stem:"يُعرَّف (الكفر) في اللغة بأنه:", opts:["الستر والتغطية","الإظهار والإعلان","الزيادة والنماء","التصديق واليقين"], ans:0},
+{lesson:"l3", sec:"l3-kufr1", diff:"med", stem:"من صور الكفر الاعتقادي:", opts:["كفر التكذيب بأن يكذّب الإنسان بما جاء به الرسول ﷺ","الحلف بغير الله","لبس الحرير للرجال","التبرك بغير الله دون اعتقاد التأثير"], ans:0},
+{lesson:"l3", sec:"l3-kufr2", diff:"easy", stem:"يُعرَّف (الكفر العملي) بأنه:", opts:["ارتكاب معصية سمّاها الشرع كفرًا دون أن تُخرج صاحبها من الملّة","إنكار وجود الله تعالى","تكذيب الرسل عليهم السلام","جحود ما عُلم من الدين بالضرورة"], ans:0},
+{lesson:"l3", sec:"l3-kufr2", diff:"med", stem:"قول النبي ﷺ (سباب المسلم فسوق وقتاله كفر) يُعدّ مثالًا على:", opts:["الكفر العملي غير المخرج من الملة","الكفر الاعتقادي المخرج من الملة","الشرك الأكبر","النفاق الاعتقادي"], ans:0},
+{lesson:"l3", sec:"l3-shirk", diff:"easy", stem:"يُعرَّف (الشرك) بأنه:", opts:["أن يُجعل لله شريك في ربوبيته أو ألوهيته أو أسمائه وصفاته","ترك الصلاة تهاونًا","الحلف بغير الله سبحانه","الرياء في بعض الأعمال"], ans:0},
+{lesson:"l3", sec:"l3-shirk", diff:"med", stem:"من صور الشرك الأكبر:", opts:["دعاء غير الله فيما لا يقدر عليه إلا الله","الحلف بغير الله تعالى","قول (ما شاء الله وشئت)","يسير الرياء في العمل"], ans:0},
+{lesson:"l3", sec:"l3-shirk", diff:"med", stem:"من صور الشرك الأصغر:", opts:["الحلف بغير الله تعالى","دعاء الأموات والاستغاثة بهم","اعتقاد أنّ لغير الله تصرفًا مستقلًا في الكون","صرف الذبح لغير الله"], ans:0},
+{lesson:"l3", sec:"l3-shirk", diff:"hard", stem:"العلاقة بين (الشرك الأكبر) و(الشرك الأصغر) من حيث الحكم هي:", opts:["الأكبر يُخرج من الملّة ويُحبط العمل، والأصغر معصية كبيرة لا يُخرج منها","كلاهما يُخرج من الملّة سواء بسواء","الأصغر أشد خطرًا من الأكبر","لا فرق بينهما في الحكم الشرعي"], ans:0},
+{lesson:"l3", sec:"l3-nifaq", diff:"easy", stem:"يُعرَّف (النفاق) بأنه:", opts:["إظهار خلاف ما يُبطن من الكفر أو المعصية","إظهار الإيمان وإبطانه معًا","التصديق الجازم بما جاء به الرسول ﷺ","إنكار وجود الله جحودًا"], ans:0},
+{lesson:"l3", sec:"l3-nifaq", diff:"med", stem:"من علامات النفاق العملي التي بيّنها النبي ﷺ:", opts:["إذا حدّث كذب، وإذا وعد أخلف، وإذا اؤتمن خان","إظهار الإيمان وإبطان الكفر","الرغبة الدائمة في مجالسة المنافقين","إنكار البعث والحساب"], ans:0},
+{lesson:"l3", sec:"l3-nifaq", diff:"hard", stem:"بالمقارنة بين (النفاق الاعتقادي) و(النفاق العملي)، فإنّ:", opts:["الأول يُخرج من الملة وصاحبه في الدرك الأسفل من النار، والثاني معصية لا يُخرج منها","كلاهما يخرج صاحبه من الملة","الثاني أشد خطرًا من الأول","لا فرق بينهما في شيء"], ans:0},
+{lesson:"l3", sec:"l3-nifaq", diff:"med", stem:"سبب خطورة النفاق الاعتقادي الشديدة مقارنة بالكفر الصريح:", opts:["إخفاء الكفر تحت ستار الإيمان وخداع المسلمين به","أنّ صاحبه لا يُحاسب عليه","أنه أهون من الكفر الصريح عند الله","أنّ القرآن الكريم لم يتحدث عنه"], ans:0},
+{lesson:"l3", sec:"l3-bidah", diff:"easy", stem:"يُعرَّف (البدعة) في الدين بأنها:", opts:["إحداث أمر جديد في الدين لم يكن عليه النبي ﷺ ولا أصحابه","كل أمر جديد استُحدث في الدنيا كالوسائل الحديثة","الاجتهاد في فهم النصوص الشرعية","تجديد أساليب الدعوة إلى الله"], ans:0},
+{lesson:"l3", sec:"l3-bidah", diff:"med", stem:"جميع ما يأتي من صور البدعة في الدين، ما عدا:", opts:["استخدام وسائل التقنية الحديثة في الدعوة إلى الله","الاحتفال بمناسبات دينية لم يرد بها دليل شرعي","إحداث عبادات لم يشرعها الله","الابتداع في أصل العبادة أو صفتها"], ans:0},
+{lesson:"l3", sec:"l3-bidah", diff:"med", stem:"قول النبي ﷺ (من أحدث في أمرنا هذا ما ليس منه فهو رد) يدل على:", opts:["رد كل بدعة مُحدثة في الدين وعدم قبولها","جواز الابتداع في العبادات بنية حسنة","وجوب اتباع كل جديد في الدين","إباحة تغيير أحكام الشريعة الثابتة"], ans:0},
+{lesson:"l3", sec:"l3-bidah", diff:"hard", stem:"العلاقة بين (البدعة) و(الكفر والشرك والنفاق) من حيث الأثر هي أنّ جميعها:", opts:["صور من صور الضلال التي تُبعد صاحبها عن جادة الدين الصحيح وإن تفاوتت خطورتها","متساوية في الحكم والخطورة تمامًا","لا علاقة بينها في شيء","خاصة بالأمم السابقة دون هذه الأمة"], ans:0},
+{lesson:"l3", sec:"l3-aam", diff:"med", stem:"من آثار انتشار (صور الضلال: الكفر والشرك والنفاق والبدعة) في المجتمع المسلم:", opts:["ضعف الوحدة وانحراف السلوك عن جادة الدين الصحيح","زيادة تماسك المجتمع وترابطه","تقوية الوازع الديني لدى الأفراد","لا أثر لها على المجتمع"], ans:0},
+{lesson:"l3", sec:"l3-aam", diff:"easy", stem:"من وسائل الوقاية من الوقوع في صور الضلال (الكفر والشرك والنفاق والبدعة):", opts:["التمسك بالكتاب والسنة وفهمهما وفق منهج أهل العلم","اتباع كل ما يستحسنه العقل دون ضابط شرعي","الانعزال عن طلب العلم الشرعي","تقليد كل من يظهر التدين"], ans:0},
+{lesson:"l3", sec:"l3-aam", diff:"hard", stem:"بالترتيب من حيث شدة الخطورة على أصل الإيمان (من الأخطر إلى الأقل)، الترتيب الصحيح لصور الضلال هو:", opts:["الشرك الأكبر، فالكفر الاعتقادي، فالنفاق الاعتقادي، فالبدعة المكفّرة","البدعة، فالنفاق، فالشرك، فالكفر","النفاق العملي، فالشرك الأصغر، فالكفر العملي، فالبدعة الحسنة","لا يمكن ترتيبها لتساويها جميعًا"], ans:0},
+{lesson:"l3", sec:"l3-kufr1", diff:"hard", stem:"العلاقة بين (كفر الجحود) و(كفر التكذيب) هي أنّ كليهما:", opts:["من صور الكفر الاعتقادي المخرجة من الملة وإن اختلف الباعث عليهما","من صور الكفر العملي غير المخرج من الملة","لا يشتركان في أي وصف","خاصان بمن لم تبلغه الدعوة"], ans:0},
+
+// ============ LESSON 4: كرامة الإنسان في الشريعة الإسلامية ============
+{lesson:"l4", sec:"l4-mafhoom", diff:"easy", stem:"المفهوم الذي تشير إليه العبارة الآتية: «حقُّ الفرد في أنْ تكون له قيمة، وأنْ يُحترَمَ لذاته، وأنْ يُعامَل بصورة لائقة» هو:", opts:["الكرامة","الاستخلاف","الأمن","عمارة الأرض"], ans:0},
+{lesson:"l4", sec:"l4-mafhoom", diff:"easy", stem:"السمة التي يتسم بها التصوّر الإسلامي لكرامة الإنسان الإنسانية هي:", opts:["العمومية والإطلاق للبشرية جميعًا من دون تمييز","الخصوصية بأهل دين معيّن","التمييز بحسب القدرة الجسدية","التمييز بحسب العرق"], ans:0},
+{lesson:"l4", sec:"l4-mafhoom", diff:"med", stem:"التكريم الإلهي للإنسان في التصوّر الإسلامي مطلقٌ للبشرية جميعًا؛ لا فرق فيه بسبب أيٍّ ممّا يأتي، ما عدا:", opts:["الاختلاف في الدين","الاختلاف في اللون","الاختلاف في القدرة الجسدية","التفاضل بالتقوى عند الله"], ans:3},
+{lesson:"l4", sec:"l4-mafhoom", diff:"med", stem:"العلّة التي من أجلها وضع الإسلام تشريعات وأحكامًا شرعية تتعلق بالإنسان هي:", opts:["حفظ كرامة الإنسان","إثقال كاهل الإنسان بالتكاليف","تمييز فئة من الناس على أخرى","تقييد حرية الإنسان بلا سبب"], ans:0},
+{lesson:"l4", sec:"l4-mafhoom", diff:"hard", stem:"السبب الذي دفع الإسلام إلى وضع تشريعات تحفظ كرامة الإنسان هو:", opts:["أنّ التصوّر الإسلامي لكرامة الإنسان يتسم بالعمومية والإطلاق لجميع البشر","رغبة الإسلام في التميّز عن الشرائع الأخرى","ضعف الوازع الأخلاقي عند الناس عمومًا","كثرة الخلافات بين الناس في تلك الحقبة"], ans:0},
+{lesson:"l4", sec:"l4-mafhoom", diff:"easy", stem:"من نتاجات التعلّم المتوقّعة من درس (كرامة الإنسان في الشريعة الإسلامية) جميع ما يأتي، ما عدا:", opts:["بيان مظاهر تكريم الله تعالى الإنسان","توضيح مبادئ الإسلام لتحقيق الكرامة الإنسانية","تقدير حرص الإسلام على حفظ الكرامة الإنسانية","تعداد أركان الإيمان الستة"], ans:3},
+
+{lesson:"l4", sec:"l4-mazaher", diff:"easy", ayah:"﴿وَإِذْ قُلْنَا لِلْمَلَائِكَةِ ٱسْجُدُوا۟ لِآدَمَ﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على مظهر من مظاهر تكريم الله تعالى الإنسان، هو:", opts:["أمر الملائكة بالسجود لآدم؛ تقديرًا وتكريمًا له","تفضيله على سائر المخلوقات","تسخير الكون له","تكليفه بحمل الأمانة"], ans:0},
+{lesson:"l4", sec:"l4-mazaher", diff:"easy", ayah:"﴿لَقَدْ خَلَقْنَا ٱلْإِنسَٰنَ فِىٓ أَحْسَنِ تَقْوِيمٍ﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على:", opts:["خَلْق الإنسان في أحسن تقويم","تفضيل الإنسان على سائر المخلوقات","تسخير الكون للإنسان","تكليف الإنسان بحمل الأمانة"], ans:0},
+{lesson:"l4", sec:"l4-mazaher", diff:"med", stem:"ممّا منح الله تعالى الإنسانَ بعد أن خلقه في أحسن تقويم؛ العقلَ والإرادةَ وحريةَ الاختيار، والقدرةَ على تمييز الخير من الشر والحق من الباطل، وعلّمه:", opts:["البيان والقدرة على التعبير والإقناع","الغيب المطلق","أسماء المخلوقات جميعها فقط","أحكام الفرائض فقط"], ans:0},
+{lesson:"l4", sec:"l4-mazaher", diff:"easy", ayah:"﴿وَلَقَدْ كَرَّمْنَا بَنِىٓ ءَادَمَ وَحَمَلْنَٰهُمْ فِى ٱلْبَرِّ وَٱلْبَحْرِ وَرَزَقْنَٰهُم مِّنَ ٱلطَّيِّبَٰتِ وَفَضَّلْنَٰهُمْ عَلَىٰ كَثِيرٍ مِّمَّنْ خَلَقْنَا تَفْضِيلًا﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على مظهر من مظاهر التكريم، هو:", opts:["تفضيل الإنسان على سائر المخلوقات","أمر الملائكة بالسجود لآدم","تسخير الكون للإنسان","تكليف الإنسان بحمل الرسالة"], ans:0},
+{lesson:"l4", sec:"l4-mazaher", diff:"med", ayah:"﴿أَلَمْ تَرَوْا۟ أَنَّ ٱللَّهَ سَخَّرَ لَكُم مَّا فِى ٱلسَّمَٰوَٰتِ وَمَا فِى ٱلْأَرْضِ﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على مظهر من مظاهر التكريم، هو:", opts:["تسخير الكون للإنسان","تفضيل الإنسان على المخلوقات","خَلْقه في أحسن تقويم","وضع الأحكام الشرعية لحفظ كرامته"], ans:0},
+{lesson:"l4", sec:"l4-mazaher", diff:"hard", ayah:"﴿إِنَّا عَرَضْنَا ٱلْأَمَانَةَ عَلَى ٱلسَّمَٰوَٰتِ وَٱلْأَرْضِ وَٱلْجِبَالِ فَأَبَيْنَ أَن يَحْمِلْنَهَا وَأَشْفَقْنَ مِنْهَا وَحَمَلَهَا ٱلْإِنسَٰنُ﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على مظهر من مظاهر التكريم، هو:", opts:["تكليف الإنسان بحمل الرسالة وتبليغها","تفضيله على سائر المخلوقات","تسخير الكون له","أمر الملائكة بالسجود له"], ans:0},
+{lesson:"l4", sec:"l4-mazaher", diff:"med", ayah:"﴿يَٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ لَا يَسْخَرْ قَوْمٌ مِّن قَوْمٍ عَسَىٰٓ أَن يَكُونُوا۟ خَيْرًا مِّنْهُمْ وَلَا نِسَآءٌ مِّن نِّسَآءٍ عَسَىٰٓ أَن يَكُنَّ خَيْرًا مِّنْهُنَّ وَلَا تَلْمِزُوٓا۟ أَنفُسَكُمْ وَلَا تَنَابَزُوا۟ بِٱلْأَلْقَٰبِ﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على مظهر من مظاهر التكريم، هو:", opts:["وضع أحكام شرعية لحفظ كرامة الإنسان؛ كتحريم الاستهزاء والسخرية والتنابز بالألقاب","تسخير الكون للإنسان","تفضيل الإنسان على المخلوقات","تكليف الإنسان بحمل الأمانة"], ans:0},
+{lesson:"l4", sec:"l4-mazaher", diff:"hard", stem:"من مظاهر تكريم الله تعالى للإنسان كما وردت في الدرس، جميع ما يأتي، ما عدا:", opts:["سجود الملائكة لآدم عليه السلام","خَلْقه في أحسن تقويم","تفضيله على سائر المخلوقات","مساواته بالملائكة في المنزلة"], ans:3},
+{lesson:"l4", sec:"l4-mazaher", diff:"easy", stem:"عدد مظاهر تكريم الله تعالى للإنسان التي وردت في الدرس هو:", opts:["أربعة","خمسة","ستة","سبعة"], ans:2},
+
+{lesson:"l4", sec:"l4-hurriya", diff:"easy", ayah:"﴿لَآ إِكْرَاهَ فِى ٱلدِّينِ﴾", stem:"أحد مبادئ الإسلام لتحقيق الكرامة الإنسانية، الذي يشير إليه قوله تعالى في الآية الكريمة السابقة، هو:", opts:["الحرية","المساواة","الأمن","العدل"], ans:0},
+{lesson:"l4", sec:"l4-hurriya", diff:"med", stem:"أبرز صور الحرية التي أعطاها الإسلام للإنسان هي:", opts:["حرية الاعتقاد؛ بإعطائه الحق في اختيار دينه وممارسة شعائره الدينية وفق أحكام دينه","إجباره على اعتناق دين معيّن","تقييد حريته في التعبير عن رأيه مطلقًا","حرمانه من ممارسة شعائره الدينية"], ans:0},
+{lesson:"l4", sec:"l4-hurriya", diff:"med", stem:"الحقّ الذي أعطاه الإسلام للإنسان في التعبير عن رأيه هو:", opts:["الحق في التعبير وإبداء الرأي ضمن ضوابط لا تُفضي إلى إيذاء الآخرين أو الاعتداء عليهم","الحق في التعبير دون أي ضوابط","حرمانه من إبداء رأيه بالكلية","حصر حق التعبير بفئة معيّنة من الناس"], ans:0},
+{lesson:"l4", sec:"l4-hurriya", diff:"easy", stem:"مرتبة قيمة الحرية عند الإسلام كما وردت في الدرس:", opts:["أعلى الإسلام من قيمة الحرية، وجعلها حقًا من حقوق الإنسان الأساسية","اعتبر الإسلام الحرية أمرًا ثانويًا لا قيمة له","لم يتطرّق الإسلام إلى مفهوم الحرية","قيّد الإسلام الحرية تقييدًا كاملًا"], ans:0},
+{lesson:"l4", sec:"l4-hurriya", diff:"hard", stem:"العلاقة بين (حرية الاعتقاد) و(حرية التعبير عن الرأي) في التصوّر الإسلامي هي:", opts:["كلتاهما من صور مبدأ الحرية الذي أقرّه الإسلام، لكنّ حرية التعبير مقيّدة بضوابط لا تؤذي الآخرين","لا علاقة بينهما إطلاقًا","حرية الاعتقاد مقيّدة بضوابط دون حرية التعبير","كلتاهما بلا أي ضوابط شرعية"], ans:0},
+{lesson:"l4", sec:"l4-hurriya", diff:"med", stem:"تمام الآية الكريمة: ﴿لَآ إِكْرَاهَ فِى ______﴾ [البقرة: 256]", opts:["ٱلدِّينِ","ٱلْعِبَادَةِ","ٱلصَّلَاةِ","ٱلزَّكَاةِ"], ans:0},
+
+{lesson:"l4", sec:"l4-musawah", diff:"easy", ayah:"﴿يَٰٓأَيُّهَا ٱلنَّاسُ إِنَّا خَلَقْنَٰكُم مِّن ذَكَرٍ وَأُنثَىٰ وَجَعَلْنَٰكُمْ شُعُوبًا وَقَبَآئِلَ لِتَعَارَفُوٓا۟ إِنَّ أَكْرَمَكُمْ عِندَ ٱللَّهِ أَتْقَىٰكُمْ﴾", stem:"أحد مبادئ الإسلام لتحقيق الكرامة الإنسانية، الذي يشير إليه قوله تعالى في الآية الكريمة السابقة، هو:", opts:["المساواة","الحرية","الأمن","العدالة الاجتماعية"], ans:0},
+{lesson:"l4", sec:"l4-musawah", diff:"easy", stem:"معيار التفاضل بين الناس عند الله تعالى بحسب قوله تعالى ﴿إِنَّ أَكْرَمَكُمْ عِندَ ٱللَّهِ أَتْقَىٰكُمْ﴾ هو:", opts:["التقوى","اللون","العرق","الغنى والمال"], ans:0},
+{lesson:"l4", sec:"l4-musawah", diff:"med", stem:"قال رسول الله ﷺ: «لَا فَضْلَ لِعَرَبِيٍّ عَلَى أَعْجَمِيٍّ، وَلَا لِعَجَمِيٍّ عَلَى عَرَبِيٍّ، وَلَا لِأَحْمَرَ عَلَى أَسْوَدَ، وَلَا لِأَسْوَدَ عَلَى أَحْمَرَ إِلَّا بِٱلتَّقْوَىٰ، ٱلنَّاسُ مِنْ آدَمَ، وَآدَمُ مِنْ تُرَابٍ» [رواه أحمد]. يدلّ هذا الحديث الشريف على:", opts:["مبدأ المساواة بين الناس جميعًا بصرف النظر عن العرق واللون","وجوب الجهاد في سبيل الله","مبدأ الحرية في الاعتقاد","تحريم الاستهزاء بالآخرين"], ans:0},
+{lesson:"l4", sec:"l4-musawah", diff:"hard", stem:"ساوى الإسلام بين الناس كافّةً بصرف النظر عن جميع ما يأتي، ما عدا:", opts:["الدين","اللون","العرق","التقوى"], ans:3},
+{lesson:"l4", sec:"l4-musawah", diff:"med", stem:"تمام الحديث الشريف: «...ٱلنَّاسُ مِنْ آدَمَ، وَآدَمُ مِنْ ______» [رواه أحمد]", opts:["تُرَابٍ","نُورٍ","مَاءٍ","طِينٍ"], ans:0},
+{lesson:"l4", sec:"l4-musawah", diff:"easy", stem:"الأصل الذي بيّن الإسلام أنّ الناس جميعًا ينتمون إليه هو:", opts:["أصل واحد (آدم عليه السلام)","أصول متعددة بحسب الأعراق","لا أصل مشترك بينهم","أصل يختلف باختلاف الألوان"], ans:0},
+{lesson:"l4", sec:"l4-musawah", diff:"hard", stem:"الآية الكريمة التي تدلّ على أنّ الإسلام ربط التفاضل بين الناس بالتقوى لا بالنسب أو اللون، هي قوله تعالى:", opts:["﴿إِنَّ أَكْرَمَكُمْ عِندَ ٱللَّهِ أَتْقَىٰكُمْ﴾","﴿لَآ إِكْرَاهَ فِى ٱلدِّينِ﴾","﴿مَن قَتَلَ نَفْسًۢا بِغَيْرِ نَفْسٍ﴾","﴿لَقَدْ خَلَقْنَا ٱلْإِنسَٰنَ فِىٓ أَحْسَنِ تَقْوِيمٍ﴾"], ans:0},
+
+{lesson:"l4", sec:"l4-amn", diff:"easy", ayah:"﴿مَن قَتَلَ نَفْسًۢا بِغَيْرِ نَفْسٍ أَوْ فَسَادٍ فِى ٱلْأَرْضِ فَكَأَنَّمَا قَتَلَ ٱلنَّاسَ جَمِيعًا﴾", stem:"أحد مبادئ الإسلام لتحقيق الكرامة الإنسانية، الذي يشير إليه قوله تعالى في الآية الكريمة السابقة، هو:", opts:["الأمن","المساواة","الحرية","العدل"], ans:0},
+{lesson:"l4", sec:"l4-amn", diff:"med", stem:"حرص الإسلام على توفير الأمن للإنسان في:", opts:["نفسه وماله وعرضه","نفسه فقط","ماله فقط دون سواه","عرضه فقط دون سواه"], ans:0},
+{lesson:"l4", sec:"l4-amn", diff:"med", stem:"صور الاعتداء التي منع الإسلام وقوعها على الإنسان تشمل جميع ما يأتي، ما عدا:", opts:["الشتم والسب","الضرب والإيذاء","التعاون والتكافل الاجتماعي","القتل"], ans:2},
+{lesson:"l4", sec:"l4-amn", diff:"hard", stem:"الآية الكريمة التي تدلّ على عِظَم جريمة قتل النفس بغير حق، وأنّها كقتل الناس جميعًا، هي قوله تعالى:", opts:["﴿مَن قَتَلَ نَفْسًۢا بِغَيْرِ نَفْسٍ أَوْ فَسَادٍ فِى ٱلْأَرْضِ فَكَأَنَّمَا قَتَلَ ٱلنَّاسَ جَمِيعًا﴾","﴿لَآ إِكْرَاهَ فِى ٱلدِّينِ﴾","﴿إِنَّ أَكْرَمَكُمْ عِندَ ٱللَّهِ أَتْقَىٰكُمْ﴾","﴿وَلَقَدْ كَرَّمْنَا بَنِىٓ ءَادَمَ﴾"], ans:0},
+{lesson:"l4", sec:"l4-amn", diff:"easy", stem:"من ثمار توفير الأمن للإنسان في المجتمع:", opts:["سيادة الاستقرار وتحقّق السعادة لأفراد المجتمع","انتشار الفوضى وعدم الاستقرار","ضعف الروابط الاجتماعية","كثرة الخلافات بين الناس"], ans:0},
+{lesson:"l4", sec:"l4-amn", diff:"med", stem:"السورة التي وردت فيها الآية الكريمة ﴿مَن قَتَلَ نَفْسًۢا بِغَيْرِ نَفْسٍ...﴾ هي سورة:", opts:["المائدة","البقرة","النساء","الحجرات"], ans:0},
+
+{lesson:"l4", sec:"l4-aam", diff:"easy", stem:"لا تقتصر الكرامة الإنسانية على الإنسان في حياته، بل:", opts:["تمتدّ إلى ما بعد وفاته","تنتهي بوفاته مباشرة","تسقط عنه بمجرد موته","لا علاقة للإسلام بها بعد الموت"], ans:0},
+{lesson:"l4", sec:"l4-aam", diff:"med", stem:"من الأحكام الشرعية التي تكفل كرامة الإنسان بعد موته:", opts:["تغسيله وتكفينه والصلاة عليه ودفنه وتعزية أهله","إهمال جثمانه دون رعاية","حرمانه من الصلاة عليه","تركه دون دفن"], ans:0},
+{lesson:"l4", sec:"l4-aam", diff:"hard", stem:"الترتيب الصحيح للأحكام التي تكفل كرامة الإنسان بعد موته، كما وردت في الدرس، هو:", opts:["تغسيله، تطييبه، تكفينه، الصلاة عليه، دفنه، تعزية أهله","دفنه، تغسيله، تكفينه، الصلاة عليه، تطييبه، تعزية أهله","تكفينه، تغسيله، الصلاة عليه، دفنه، تطييبه، تعزية أهله","تعزية أهله، دفنه، الصلاة عليه، تكفينه، تطييبه، تغسيله"], ans:0},
+{lesson:"l4", sec:"l4-aam", diff:"med", stem:"القيمة المستفادة من درس (كرامة الإنسان في الشريعة الإسلامية) هي:", opts:["التمثّل بمبادئ الإسلام بعدم المساس بكرامة الآخرين، بصرف النظر عن دياناتهم وألوانهم وأعراقهم","تفضيل فئة من الناس على أخرى بحسب العرق","حصر الكرامة الإنسانية بالمسلمين فقط","إهمال حقوق غير المسلمين"], ans:0},
+{lesson:"l4", sec:"l4-aam", diff:"easy", stem:"مبادئ الإسلام الثلاثة لتحقيق الكرامة الإنسانية كما وردت في الدرس هي:", opts:["الحرية، والمساواة، والأمن","العدل، والحرية، والمساواة","الأمن، والرحمة، والعدل","المساواة، والأخوّة، والتعاون"], ans:0},
+{lesson:"l4", sec:"l4-aam", diff:"hard", stem:"العلاقة بين (تحريم الاعتداء على الإنسان بالإهانة والضرب والقتل) و(حفظ كرامته الإنسانية) هي:", opts:["الأول وسيلة شرعية لتحقيق الثاني، وتحقيق السعادة له ولمجتمعه","لا علاقة بينهما إطلاقًا","الثاني يُغني عن الأول بالكلية","الأول أعمّ من الثاني ولا علاقة مباشرة بينهما"], ans:0},
+{lesson:"l4", sec:"l4-aam", diff:"med", stem:"من أوجه الشبه بين مبدأ (الحرية) ومبدأ (المساواة) في الإسلام أنّ كلًّا منهما:", opts:["من مبادئ الإسلام لتحقيق الكرامة الإنسانية","يتعلق بالأمن الاجتماعي فقط دون سواه","لا علاقة له بكرامة الإنسان","خاص بالمسلمين دون غيرهم"], ans:0},
+
+{lesson:"l4", sec:"l4-mafhoom", diff:"easy", stem:"يُعرَّف (تكريم الإنسان) في الشريعة الإسلامية بأنه:", opts:["تفضيل الله تعالى للإنسان على كثير من مخلوقاته وصون حقوقه وحفظ آدميته","تفضيل جنس على جنس آخر من البشر","قصر التكريم على فئة معينة من الناس","تفضيل الإنسان على الملائكة في كل شيء"], ans:0},
+{lesson:"l4", sec:"l4-mafhoom", diff:"med", stem:"دلّت النصوص الشرعية على أنّ تكريم الله تعالى للإنسان يشمل:", opts:["جميع بني آدم دون تفريق بسبب الدين أو اللون أو الجنس","المسلمين دون غيرهم من بني آدم","الرجال دون النساء","الأحياء دون الأموات"], ans:0},
+{lesson:"l4", sec:"l4-mazaher", diff:"med", stem:"من مظاهر تكريم الله تعالى للإنسان في خلقته:", opts:["تسويته في أحسن صورة وتزويده بالعقل المميّز","خلقه من غير تكليف ولا مسؤولية","حرمانه من نعمة العقل","جعله كسائر الحيوانات دون تفضيل"], ans:0},
+{lesson:"l4", sec:"l4-mazaher", diff:"hard", stem:"العلاقة بين (تسخير الكون للإنسان) و(تكريمه) في الشريعة الإسلامية هي:", opts:["تسخير الكون مظهر من مظاهر تكريم الله له وتفضيله على كثير من خلقه","لا علاقة بينهما","تسخير الكون يتعارض مع مبدأ التكريم","التسخير خاص بالملائكة دون الإنسان"], ans:0},
+{lesson:"l4", sec:"l4-hurriya", diff:"easy", stem:"يُعرَّف مبدأ (الحرية) في الإسلام بأنه:", opts:["تمكين الإنسان من التصرف في شؤونه ضمن ضوابط الشرع دون إكراه","إطلاق الإنسان يفعل ما يشاء دون أي ضابط","حرمان الإنسان من حق الاختيار","قصر الحرية على جانب واحد من جوانب الحياة"], ans:0},
+{lesson:"l4", sec:"l4-hurriya", diff:"med", stem:"من صور الحرية التي كفلها الإسلام للإنسان:", opts:["حرية الاعتقاد وحرية التعبير وحرية التملك في إطار الشرع","الحرية المطلقة دون قيود شرعية أو أخلاقية","حرية الاعتداء على حقوق الآخرين","حرمان الإنسان من حرية الاختيار في الدين"], ans:0},
+{lesson:"l4", sec:"l4-hurriya", diff:"med", stem:"دلّ قوله تعالى ﴿لَا إِكْرَاهَ فِي ٱلدِّينِ﴾ على مبدأ:", opts:["حرية الاعتقاد وعدم إكراه أحد على اعتناق الإسلام","وجوب إكراه الناس على الدخول في الإسلام","إباحة الردة عن الدين دون قيد","نفي وجود دين حق واحد"], ans:0},
+{lesson:"l4", sec:"l4-musawah", diff:"easy", stem:"يُعرَّف مبدأ (المساواة) في الإسلام بأنه:", opts:["تساوي الناس جميعًا في أصل الخلق والكرامة الإنسانية والحقوق العامة","تساوي جميع الناس في الرزق والمال","إلغاء الفروق الفردية بين الناس كليًا","قصر المساواة على أبناء الدين الواحد"], ans:0},
+{lesson:"l4", sec:"l4-musawah", diff:"med", stem:"دلّ قوله ﷺ (الناس سواسية كأسنان المشط) على:", opts:["مساواة الناس جميعًا في الكرامة الإنسانية والحقوق دون تمييز بينهم","تفاضل الناس بحسب أنسابهم","تفاضل الناس بحسب أموالهم","اختصاص المساواة بالعرب دون غيرهم"], ans:0},
+{lesson:"l4", sec:"l4-musawah", diff:"hard", stem:"الميزان الحقيقي للتفاضل بين الناس في الإسلام، كما دلّت عليه النصوص الشرعية، هو:", opts:["التقوى والعمل الصالح لا النسب ولا اللون ولا الجنس","اللون والعرق","الجنس (الذكورة أو الأنوثة)","الغنى وكثرة المال"], ans:0},
+{lesson:"l4", sec:"l4-amn", diff:"easy", stem:"يُعرَّف مبدأ (الأمن) في الإسلام بأنه:", opts:["حفظ النفس والعرض والمال من كل اعتداء وتوفير الطمأنينة للإنسان","اقتصار الحماية على أموال الدولة فقط","إهمال حق الفرد في الأمن الشخصي","حصر الأمن بزمن الحرب دون السلم"], ans:0},
+{lesson:"l4", sec:"l4-amn", diff:"med", stem:"من مظاهر عناية الإسلام بأمن الإنسان:", opts:["تحريم الاعتداء على النفس والعرض والمال وتشريع العقوبات الرادعة لذلك","إباحة الاعتداء على من يخالف في الدين","ترك الأمن لتقدير الأفراد دون تشريع","قصر الأمن على المسلمين المقيمين في دار الإسلام"], ans:0},
+{lesson:"l4", sec:"l4-amn", diff:"hard", stem:"العلاقة بين (الأمن) و(الحرية) في تحقيق كرامة الإنسان هي:", opts:["يكمل كل منهما الآخر؛ إذ لا معنى لحرية دون أمن يحميها","لا علاقة بينهما في شيء","الأمن يلغي الحرية تمامًا","الحرية تلغي الحاجة إلى الأمن"], ans:0},
+{lesson:"l4", sec:"l4-mafhoom", diff:"med", stem:"جميع ما يأتي من مظاهر تكريم الإسلام للإنسان، ما عدا:", opts:["التمييز بين الناس بسبب اللون أو العرق","تسخير الكون لمنفعته","منحه العقل والإرادة","تكليفه بالخلافة في الأرض"], ans:0},
+{lesson:"l4", sec:"l4-mazaher", diff:"med", stem:"من مظاهر تكريم الإسلام للإنسان بعد وفاته أيضًا:", opts:["النهي عن التمثيل بجثته أو التعرض لها بسوء","إهمال دفنه إذا كان من غير المسلمين","إحراق جثته إن كان عدوًا","ترك جثمانه دون غسل ولا كفن"], ans:0},
+{lesson:"l4", sec:"l4-aam", diff:"med", stem:"من نتاجات التعلّم المقررة لهذا الدرس أن يكون الطالب قادرًا على:", opts:["استنتاج مظاهر تكريم الإسلام للإنسان وبيان مبادئه في تحقيق كرامته","حفظ أحكام صلاة الجماعة","تعلّم أحكام الزكاة وأنصبتها","التمييز بين أنواع الطلاق"], ans:0},
+{lesson:"l4", sec:"l4-aam", diff:"hard", stem:"بالمقارنة بين مفهوم (كرامة الإنسان) في الشريعة الإسلامية والمفاهيم الوضعية لحقوق الإنسان، فإنّ الفارق الجوهري هو:", opts:["أنّ كرامة الإنسان في الإسلام مصدرها الوحي الإلهي الثابت لا الاجتهاد البشري المتغير","لا فارق بينهما إطلاقًا","المفاهيم الوضعية أشمل من التصور الإسلامي","الإسلام لم يتطرق لموضوع كرامة الإنسان"], ans:0},
+{lesson:"l4", sec:"l4-hurriya", diff:"hard", stem:"ضوابط الحرية في الإسلام تقتضي أنّ حرية الفرد:", opts:["مقيدة بعدم الإضرار بالآخرين وبأحكام الشريعة","مطلقة دون أي قيد شرعي أو اجتماعي","معدومة تمامًا في ظل التكليف الشرعي","مقصورة على أصحاب المكانة الاجتماعية"], ans:0},
+{lesson:"l4", sec:"l4-musawah", diff:"med", stem:"دلّ قوله تعالى ﴿يَٰٓأَيُّهَا ٱلنَّاسُ إِنَّا خَلَقْنَٰكُم مِّن ذَكَرٍ وَأُنثَىٰ وَجَعَلْنَٰكُمْ شُعُوبًا وَقَبَآئِلَ لِتَعَارَفُوٓا۟﴾ على أنّ الاختلاف بين الناس في الأصول والألوان:", opts:["للتعارف لا للتفاضل والتمييز","سبب للتفاخر والتباهي بينهم","دليل تفاضل بعض الأجناس على بعض","لا حكمة منه في الشريعة"], ans:0},
+
+// ============ LESSON 5: الزواج: مشروعيته ومقدّماته ============
+{lesson:"l5", sec:"l5-mafhoom", diff:"easy", stem:"تعريف الزواج بحسب قانون الأحوال الشخصية الأردني: «عقدٌ بين رجل وامرأة تحلّ له شرعًا؛ لتكوين ______»", opts:["أُسرة","صداقة","شراكة مالية","علاقة اجتماعية"], ans:0},
+{lesson:"l5", sec:"l5-mafhoom", diff:"easy", stem:"قال رسول الله ﷺ: «يَا مَعْشَرَ ٱلشَّبَابِ، مَنِ ٱسْتَطَاعَ مِنكُمُ ٱلْبَاءَةَ فَلْيَتَزَوَّجْ» [رواه البخاري ومسلم]. المقصود بـ(الباءة) في الحديث الشريف هو:", opts:["الاستطاعة","المال","السكن","الرغبة فقط"], ans:0},
+{lesson:"l5", sec:"l5-mafhoom", diff:"med", stem:"حكم الزواج للقادر عليه هو:", opts:["مندوب","واجب","مباح","مكروه"], ans:0},
+{lesson:"l5", sec:"l5-mafhoom", diff:"med", stem:"من الأدلة الشرعية التي حثّ بها الإسلام على الزواج، قول رسول الله ﷺ:", opts:["«يَا مَعْشَرَ ٱلشَّبَابِ، مَنِ ٱسْتَطَاعَ مِنكُمُ ٱلْبَاءَةَ فَلْيَتَزَوَّجْ»","«لَا إِكْرَاهَ فِى ٱلدِّينِ»","«إِنَّمَا ٱلْأَعْمَالُ بِٱلنِّيَّاتِ»","«ٱلدِّينُ ٱلنَّصِيحَةُ»"], ans:0},
+{lesson:"l5", sec:"l5-mafhoom", diff:"hard", stem:"الجهة التي عرّفت الزواج بأنه «عقد بين رجل وامرأة تحلّ له شرعًا؛ لتكوين أسرة» هي:", opts:["قانون الأحوال الشخصية الأردني","نصّ قرآني صريح","نصّ حديثي صريح","الإجماع وحده"], ans:0},
+{lesson:"l5", sec:"l5-mafhoom", diff:"easy", stem:"العلاقة بين الرجل والمرأة التي تُبنى على عقد شرعي لتكوين أسرة تُسمّى:", opts:["الزواج","الخِطبة","الرفقة","الشراكة"], ans:0},
+
+{lesson:"l5", sec:"l5-hikma", diff:"easy", ayah:"﴿وَٱللَّهُ جَعَلَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَٰجًا وَجَعَلَ لَكُم مِّنْ أَزْوَٰجِكُم بَنِينَ وَحَفَدَةً وَرَزَقَكُم مِّنَ ٱلطَّيِّبَٰتِ﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على حكمة من حِكَم مشروعية الزواج، هي:", opts:["إعمار الأرض وبقاء النوع الإنساني","منح النفس السكينة والمودة","عصمة النفس وعفّتها","توثيق الصلة بين الناس"], ans:0},
+{lesson:"l5", sec:"l5-hikma", diff:"easy", ayah:"﴿وَمِنْ ءَايَٰتِهِۦٓ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَٰجًا لِّتَسْكُنُوٓا۟ إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على حكمة من حِكَم مشروعية الزواج، هي:", opts:["منح النفس السكينة والمودة","إعمار الأرض وبقاء النوع الإنساني","توثيق الصلة بين الناس","عصمة النفس وعفّتها"], ans:0},
+{lesson:"l5", sec:"l5-hikma", diff:"med", stem:"من حِكَم مشروعية الزواج، عصمة النفس وعفّتها وتحصينها، وذلك بـ:", opts:["صونها من العلاقات المحرّمة التي تُفسد المجتمع وتهدم الأخلاق","إباحة العلاقات خارج إطار الزواج","تقييد حرية الإنسان بلا مبرر","تحصيل المال فقط"], ans:0},
+{lesson:"l5", sec:"l5-hikma", diff:"med", stem:"الحكمة من مشروعية الزواج التي تتمثّل في كونه سبيلًا للتقارب والتعارف والتواصل بين أفراد المجتمع هي:", opts:["توثيق الصلة بين الناس","إعمار الأرض وبقاء النوع الإنساني","منح النفس السكينة والمودة","عصمة النفس وعفّتها"], ans:0},
+{lesson:"l5", sec:"l5-hikma", diff:"hard", stem:"من حِكَم مشروعية الزواج جميع ما يأتي، ما عدا:", opts:["إعمار الأرض وبقاء النوع الإنساني","منح النفس السكينة والمودة","عصمة النفس وعفّتها","تحصيل المهر والمال"], ans:3},
+{lesson:"l5", sec:"l5-hikma", diff:"med", stem:"السورة التي وردت فيها الآية الكريمة الدالّة على أنّ الله جعل بين الزوجين مودّة ورحمة هي سورة:", opts:["الروم","النحل","البقرة","النساء"], ans:0},
+{lesson:"l5", sec:"l5-hikma", diff:"hard", stem:"العلاقة بين (حكمة عصمة النفس وعفّتها) و(حكمة توثيق الصلة بين الناس) من حِكَم مشروعية الزواج هي:", opts:["كلتاهما من حِكَم مشروعية الزواج التي بيّنها الدرس","لا علاقة بينهما إطلاقًا","الأولى فقط وردت في الدرس","الثانية تُغني عن الأولى بالكلية"], ans:0},
+
+{lesson:"l5", sec:"l5-asus", diff:"easy", stem:"قال رسول الله ﷺ: «تُنكَحُ ٱلْمَرْأَةُ لِأَرْبَعٍ: لِمَالِهَا، وَلِحَسَبِهَا، وَجَمَالِهَا، وَلِدِينِهَا، فَٱظْفَرْ بِذَاتِ ٱلدِّينِ تَرِبَتْ يَدَاكَ» [رواه البخاري ومسلم]. يدلّ الحديث الشريف السابق على:", opts:["أسس اختيار الزوجة، وترجيح صاحبة الدين على سواها","وجوب اختيار الزوجة لمالها فقط","تحريم الزواج من غير ذات الحسب","إباحة الزواج بلا أي معيار"], ans:0},
+{lesson:"l5", sec:"l5-asus", diff:"med", stem:"قال رسول الله ﷺ: «إِذَا خَطَبَ إِلَيْكُمْ مَن تَرْضَوْنَ دِينَهُ وَخُلُقَهُ فَزَوِّجُوهُ، إِلَّا تَفْعَلُوا تَكُن فِتْنَةٌ فِى ٱلْأَرْضِ وَفَسَادٌ عَرِيضٌ» [رواه الترمذي]. يدلّ الحديث الشريف السابق على:", opts:["أهمية اعتبار الدين والخُلق أساسًا في تزويج من تقدّم للخِطبة","وجوب رفض كل من يتقدّم للخِطبة","اشتراط الغنى فيمن يتقدّم للخِطبة","إباحة تأخير الزواج بلا سبب"], ans:0},
+{lesson:"l5", sec:"l5-asus", diff:"easy", stem:"الأساس الذي رجّحه النبي ﷺ في اختيار الزوجة بقوله «فاظفر بذات الدين تربت يداك» هو:", opts:["الدين","المال","الحسب","الجمال"], ans:0},
+{lesson:"l5", sec:"l5-asus", diff:"med", stem:"من الأسس التي ينبغي مراعاتها عند اختيار الزوج أو الزوجة كما وردت في الحديث الشريف:", opts:["المال، والحسب، والجمال، والدين","الجمال فقط","المال فقط","الحسب فقط"], ans:0},
+{lesson:"l5", sec:"l5-asus", diff:"hard", stem:"الحكمة من مراعاة الأسس الشرعية عند اختيار الزوجين هي:", opts:["تحقيق الوئام والانسجام بين الزوجين، وتجنّب نشوب الخلافات الزوجية","تعقيد إجراءات الزواج بلا فائدة","تقييد حرية الاختيار بلا فائدة","إطالة مدة الخِطبة فقط"], ans:0},
+{lesson:"l5", sec:"l5-asus", diff:"med", stem:"القصة التي وردت في الدرس مثالًا مشرقًا على حسن اختيار الزوجة هي قصة زواج النبي ﷺ من:", opts:["السيدة خديجة رضي الله عنها","السيدة عائشة رضي الله عنها","السيدة فاطمة رضي الله عنها","السيدة زينب رضي الله عنها"], ans:0},
+
+{lesson:"l5", sec:"l5-khitba", diff:"easy", stem:"المقصود بـ(الخِطبة) هو:", opts:["طلب الرجل المرأة للزواج، وهي وعد بالزواج ومرحلة تسبق إجراء العقد","عقد الزواج نفسه","خطاب يُلقى في مناسبة معينة","مهر الزوجة"], ans:0},
+{lesson:"l5", sec:"l5-khitba", diff:"med", stem:"الفرق بين (الخِطبة) بكسر الخاء و(الخُطبة) بضم الخاء هو:", opts:["الأولى طلب الزواج ووعد به، والثانية خطاب يُلقيه الخطيب في مناسبة معينة كخطبة الجمعة","لا فرق بينهما","كلتاهما بمعنى واحد هو عقد الزواج","الأولى خطاب والثانية طلب الزواج"], ans:0},
+{lesson:"l5", sec:"l5-khitba", diff:"med", ayah:"﴿وَلَا جُنَاحَ عَلَيْكُمْ فِيمَا عَرَّضْتُم بِهِۦ مِنْ خِطْبَةِ ٱلنِّسَآءِ﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على حكم الخِطبة، وهو:", opts:["الندب","التحريم","الوجوب","الكراهة"], ans:0},
+{lesson:"l5", sec:"l5-khitba", diff:"easy", stem:"حكم الخِطبة لمن أراد الزواج هو:", opts:["مندوبة","واجبة","محرّمة","مكروهة"], ans:0},
+{lesson:"l5", sec:"l5-khitba", diff:"med", stem:"من حِكَم مشروعية الخِطبة كما وردت في الدرس:", opts:["تعرُّف الخاطبين أحدهما إلى الآخر، وحصول الألفة بينهما","إلزام الطرفين بالزواج حتمًا","إسقاط حق أحد الطرفين في العدول","تحديد المهر نهائيًا"], ans:0},
+{lesson:"l5", sec:"l5-khitba", diff:"hard", stem:"تمام الآية الكريمة: ﴿وَلَا جُنَاحَ عَلَيْكُمْ فِيمَا عَرَّضْتُم بِهِۦ مِنْ ______﴾ [البقرة: 235]", opts:["خِطْبَةِ ٱلنِّسَآءِ","نِكَاحِ ٱلنِّسَآءِ","طَلَاقِ ٱلنِّسَآءِ","مَهْرِ ٱلنِّسَآءِ"], ans:0},
+
+{lesson:"l5", sec:"l5-ahkam", diff:"easy", stem:"هل ينعقد الزواج بالخِطبة وقراءة الفاتحة؟", opts:["لا؛ لأن الخِطبة مجرد مقدمة للزواج ووعد به وليست زواجًا","نعم؛ فالفاتحة تكفي لانعقاد الزواج","نعم إذا حضر الشهود فقط","لا يوجد حكم شرعي في المسألة"], ans:0},
+{lesson:"l5", sec:"l5-ahkam", diff:"med", stem:"الحكمة من عدم انعقاد الزواج بالخِطبة وقراءة الفاتحة هي:", opts:["أنّ الخِطبة لا يترتّب عليها أيّ أثر من آثار عقد الزواج","تسهيل إجراءات الزواج","تخفيف تكاليف الزواج","إلزام الطرفين بالزواج فورًا"], ans:0},
+{lesson:"l5", sec:"l5-ahkam", diff:"easy", stem:"حكم نظر الخاطبين أحدهما إلى الآخر هو:", opts:["سُنّة","واجب","محرّم","مكروه"], ans:0},
+{lesson:"l5", sec:"l5-ahkam", diff:"med", stem:"قال النبي ﷺ للمغيرة لمّا خطب امرأة: «ٱنظُرْ إِلَيْهَا؛ فَإِنَّهُ أَحْرَى أَن يُؤْدَمَ بَيْنَكُمَا» [رواه الترمذي]. يدلّ الحديث الشريف السابق على:", opts:["استحباب نظر الخاطبين أحدهما إلى الآخر؛ لأنه أدعى إلى الألفة والمودة","تحريم نظر الخاطبين أحدهما إلى الآخر","وجوب نظر الخاطب إلى مال المخطوبة فقط","كراهة نظر الخاطبين أحدهما إلى الآخر"], ans:0},
+{lesson:"l5", sec:"l5-ahkam", diff:"easy", stem:"حكم عدول أيٍّ من الخاطبين عن الخِطبة، اعتقادًا بعدم وجود مصلحة في هذا الزواج، هو:", opts:["مباح","حرام","مكروه","واجب"], ans:0},
+{lesson:"l5", sec:"l5-ahkam", diff:"med", stem:"عدول أحد الخاطبين عن الخِطبة لا يُعدّ طلاقًا؛ لأنّ:", opts:["عقد الزواج لم يتمّ بعد","الطلاق لا يقع إلا بحضور شهود","المرأة وحدها من يملك حق العدول","الرجل وحده من يملك حق العدول"], ans:0},
+{lesson:"l5", sec:"l5-ahkam", diff:"hard", stem:"بالمقارنة بين (العدول عن الخِطبة) و(الطلاق)، فإنّ الفارق الجوهري بينهما هو:", opts:["العدول يقع قبل تمام عقد الزواج، والطلاق يقع بعد عقد زواج تمّ فعلًا","لا فارق بينهما","العدول أشدّ أثرًا من الطلاق","الطلاق مباح دائمًا كالعدول"], ans:0},
+
+{lesson:"l5", sec:"l5-aam", diff:"easy", stem:"من فوائد الفحص الطبي قبل الزواج:", opts:["ضمان استقرار الزواج وسعادة الزوجين ومنع انتشار بعض الأمراض بين أفراد الأسرة","إطالة إجراءات الزواج بلا فائدة","زيادة تكاليف الزواج فقط دون فائدة","لا فائدة منه شرعًا"], ans:0},
+{lesson:"l5", sec:"l5-aam", diff:"med", stem:"الأمراض التي يُعنى الفحص الطبي قبل الزواج بالكشف عنها هي أمراض:", opts:["تضرّ بالنسل","تتعلق بالمال","تتعلق بالعمل","لا علاقة لها بالأسرة"], ans:0},
+{lesson:"l5", sec:"l5-aam", diff:"med", stem:"القيمة المستفادة من درس (الزواج: مشروعيته ومقدماته) هي:", opts:["تقدير مشروعية الزواج وغاياته المثلى","تفضيل العزوف عن الزواج","الاستهانة بأسس اختيار الزوجين","إهمال الفحص الطبي قبل الزواج"], ans:0},
+{lesson:"l5", sec:"l5-aam", diff:"hard", stem:"العلاقة بين (حكمة عصمة النفس من حِكَم مشروعية الزواج) و(مشروعية الفحص الطبي قبل الزواج) هي:", opts:["كلاهما يهدف إلى استقرار الأسرة وسلامتها","لا علاقة بينهما","الفحص الطبي يُغني عن الزواج","عصمة النفس تتعارض مع الفحص الطبي"], ans:0},
+{lesson:"l5", sec:"l5-aam", diff:"easy", stem:"من نتاجات التعلّم المتوقّعة من درس (الزواج: مشروعيته ومقدّماته) جميع ما يأتي، ما عدا:", opts:["بيان مفهوم كل من الخِطبة والزواج","توضيح حكم كل من الخِطبة والزواج","تعداد أحكام الخِطبة","تعداد أركان الإيمان الستة"], ans:3},
+{lesson:"l5", sec:"l5-aam", diff:"med", stem:"الترتيب المنطقي الصحيح لمراحل تكوين الأسرة كما وردت في الدرس هو:", opts:["أسس اختيار الزوجين، ثم الخِطبة، ثم عقد الزواج","عقد الزواج، ثم الخِطبة، ثم أسس اختيار الزوجين","الخِطبة، ثم عقد الزواج، ثم أسس اختيار الزوجين","لا ترتيب محدد بينها"], ans:0},
+
+{lesson:"l5", sec:"l5-mafhoom", diff:"easy", stem:"يُعرَّف (الزواج) في الشريعة الإسلامية بأنه:", opts:["عقد شرعي بين رجل وامرأة يحلّ لكل منهما الاستمتاع بالآخر وتكوين أسرة","اتفاق اجتماعي غير ملزم بين طرفين","علاقة مؤقتة بين رجل وامرأة","مجرد عرف اجتماعي لا حكم شرعيًا له"], ans:0},
+{lesson:"l5", sec:"l5-mafhoom", diff:"med", stem:"من خصائص عقد الزواج في الإسلام أنه:", opts:["ميثاق غليظ له أركان وشروط شرعية معتبرة","عقد يمكن فسخه دون سبب أو إجراء","مجرد اتفاق شفهي لا يحتاج إشهارًا","عقد تجاري كسائر العقود المالية"], ans:0},
+{lesson:"l5", sec:"l5-hikma", diff:"easy", stem:"من حِكَم مشروعية الزواج في الإسلام:", opts:["إعفاف النفس وتحصينها وإنجاب النسل الصالح","إشغال الوقت دون هدف","إرضاء العادات الاجتماعية فقط","تحقيق مكاسب مادية بين الأسرتين"], ans:0},
+{lesson:"l5", sec:"l5-hikma", diff:"med", stem:"دلّ قوله تعالى ﴿وَمِنْ ءَايَٰتِهِۦٓ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَٰجًا لِّتَسْكُنُوٓا۟ إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً﴾ على أنّ من مقاصد الزواج:", opts:["تحقيق السكن والمودة والرحمة بين الزوجين","التنافس المادي بين الزوجين","الانفصال عند أول خلاف","إشغال الزوجة بالبيت دون شراكة"], ans:0},
+{lesson:"l5", sec:"l5-hikma", diff:"hard", stem:"العلاقة بين (حكمة حفظ النسل) و(حكمة إعفاف النفس) من حِكَم مشروعية الزواج هي:", opts:["يتكاملان معًا في تحقيق استقرار الفرد والمجتمع","لا علاقة بينهما","إحداهما تلغي الأخرى","خاصتان بالرجل دون المرأة"], ans:0},
+{lesson:"l5", sec:"l5-asus", diff:"easy", stem:"من أسس اختيار الزوجة الصالحة التي وجّه إليها الإسلام:", opts:["صاحبة الدين والخُلُق","الجمال فقط دون النظر إلى الدين","المال والجاه فقط","الحسب والنسب دون سواه"], ans:0},
+{lesson:"l5", sec:"l5-asus", diff:"med", stem:"دلّ قوله ﷺ (فاظفر بذات الدين تربت يداك) على:", opts:["تقديم معيار الدين والخُلق عند اختيار الزوجة على سائر المعايير","اقتصار الاختيار على الجمال","إهمال أثر الدين في اختيار الزوجة","تفضيل المال على الدين عند الاختيار"], ans:0},
+{lesson:"l5", sec:"l5-asus", diff:"med", stem:"من أسس اختيار الزوج الصالح التي دعا إليها الإسلام:", opts:["أن يكون صاحب دين وخُلُق ترضى الأسرة دينه وخُلُقه","أن يكون صاحب أعلى منصب اجتماعي فقط","أن يكون من أقارب الزوجة حصرًا","أن يكون الأغنى بين الخُطّاب"], ans:0},
+{lesson:"l5", sec:"l5-asus", diff:"hard", stem:"العلاقة بين (حسن اختيار الزوجين) و(استقرار الأسرة) كما تُفهم من الدرس هي:", opts:["حسن الاختيار أساس متين لاستقرار الحياة الزوجية ونجاحها","لا علاقة بينهما","حسن الاختيار يضمن الثراء المادي فقط","استقرار الأسرة لا يتأثر بمعايير الاختيار"], ans:0},
+{lesson:"l5", sec:"l5-khitba", diff:"easy", stem:"يُعرَّف (الخِطبة) شرعًا بأنها:", opts:["طلب الرجل الزواج من المرأة تمهيدًا لعقد الزواج","عقد الزواج نفسه","إعلان الزواج للناس بعد إتمامه","حفل الزفاف"], ans:0},
+{lesson:"l5", sec:"l5-khitba", diff:"med", stem:"حكم الخِطبة في الشريعة الإسلامية هو:", opts:["مشروعة وليست عقدًا لازمًا، بل وسيلة للتعارف قبل الزواج","واجبة وجوبًا لا يجوز التخلف عنه","محرّمة لأنها من صور الاختلاط","عقد لازم لا يجوز الرجوع عنه"], ans:0},
+{lesson:"l5", sec:"l5-khitba", diff:"med", stem:"من أحكام الخِطبة في الإسلام:", opts:["عدم جواز خِطبة المرأة المخطوبة لغيره ما لم يترك الخاطب الأول أو يأذن","إلزام الطرفين بإتمام الزواج بعد الخِطبة حتمًا","جواز الخلوة الكاملة بين الخاطب والمخطوبة دون محرم","سقوط حق المرأة في الرفض بعد القبول بالخِطبة"], ans:0},
+{lesson:"l5", sec:"l5-khitba", diff:"hard", stem:"العلاقة بين (الخِطبة) و(عقد الزواج) هي:", opts:["الخِطبة تمهيد وتعارف، وليست عقد الزواج ذاته الذي يترتب عليه الحل","الخِطبة والعقد شيء واحد لا فرق بينهما","الخِطبة أقوى أثرًا من عقد الزواج","لا علاقة بين الخِطبة وعقد الزواج"], ans:0},
+{lesson:"l5", sec:"l5-ahkam", diff:"easy", stem:"حكم النظر إلى المخطوبة في حدود الشرع:", opts:["جائز بقدر ما يُعين على حسن الاختيار","محرّم مطلقًا","واجب في كل الأحوال","خاص بمحارم المرأة دون الخاطب"], ans:0},
+{lesson:"l5", sec:"l5-ahkam", diff:"med", stem:"من ضوابط الشرع عند خِطبة الرجل للمرأة:", opts:["عدم الخلوة بها إلا بوجود محرم","جواز السفر معها بمفردها بلا محرم","جواز الخلوة الكاملة بلا رقيب","سقوط أحكام الحجاب أثناء فترة الخِطبة"], ans:0},
+{lesson:"l5", sec:"l5-ahkam", diff:"hard", stem:"العلاقة بين (ضوابط النظر إلى المخطوبة) و(تحقيق مقصد حسن الاختيار) هي:", opts:["الضوابط الشرعية تحفظ الحياء وتحقق مقصد التعارف المشروع في آن واحد","الضوابط تُلغي إمكانية حسن الاختيار","لا علاقة بين الأمرين","النظر إلى المخطوبة لا أثر له في الاختيار"], ans:0},
+{lesson:"l5", sec:"l5-mafhoom", diff:"med", stem:"جميع ما يأتي من أركان عقد الزواج، ما عدا:", opts:["الفحص الطبي قبل الزواج","الزوج والزوجة","الولي","الشهود"], ans:0},
+{lesson:"l5", sec:"l5-hikma", diff:"med", stem:"من الآثار الاجتماعية المترتبة على مشروعية الزواج في الإسلام:", opts:["تحقيق الاستقرار الاجتماعي وبناء الأسرة المسلمة المتماسكة","زيادة التفكك الأسري","إضعاف الروابط بين أفراد المجتمع","انتشار العزوبة الدائمة"], ans:0},
+{lesson:"l5", sec:"l5-aam", diff:"hard", stem:"بالمقارنة بين أسس اختيار الزوجين في الإسلام وموازين الاختيار العرفية القائمة على المال والجاه فقط، فإنّ منهج الإسلام:", opts:["يقدّم الدين والخُلق باعتبارهما الأساس الأمتن لاستقرار الأسرة، دون إهمال الكفاءة المناسبة","يوافق العرف تمامًا في كل موازينه","يرفض أي اعتبار للكفاءة الاجتماعية بين الزوجين","لا يضع أي معيار للاختيار"], ans:0},
+
+// ============ LESSON 6: الجهاد في الإسلام ============
+{lesson:"l6", sec:"l6-mafhoom", diff:"easy", stem:"المقصود بـ(الجهاد بالمعنى العام) هو:", opts:["بذل الوسع والطاقة في فعل ما أمر الله تعالى به وأحبّه، واجتناب ما نهى عنه وكرهه","بذل الوسع والطاقة في محاربة المعتدين فقط","مباشرة القتال في المعركة","تقديم المال اللازم للحرب"], ans:0},
+{lesson:"l6", sec:"l6-mafhoom", diff:"easy", stem:"المقصود بـ(الجهاد بالمعنى الخاص) هو:", opts:["بذل الوسع والطاقة في محاربة المعتدين؛ إعلاءً لكلمة الله تعالى، ودفاعًا عن الوطن وأمن المجتمع","أداء الفرائض والنوافل فقط","دعوة الناس إلى الخير فقط","اجتناب المنهيات فقط"], ans:0},
+{lesson:"l6", sec:"l6-mafhoom", diff:"easy", ayah:"﴿وَجَٰهِدُوا۟ فِى ٱللَّهِ حَقَّ جِهَادِهِۦ﴾", stem:"أحد نوعي الجهاد الذي يشير إليه قوله تعالى في الآية الكريمة السابقة هو:", opts:["الجهاد بالمعنى العام","الجهاد بالنفس فقط","الجهاد بالمال فقط","الجهاد بالكلمة فقط"], ans:0},
+{lesson:"l6", sec:"l6-mafhoom", diff:"med", stem:"من أمثلة الجهاد بالمعنى العام كما وردت في الدرس:", opts:["إقامة الصلاة، ومساعدة المحتاجين، ودعوة الناس إلى الخير، وتحمّل المسؤولية المجتمعية","مباشرة القتال في المعركة فقط","تقديم المال للجيش فقط","تقديم الرأي والمشورة فقط"], ans:0},
+{lesson:"l6", sec:"l6-mafhoom", diff:"easy", stem:"مراتب الجهاد بالمعنى الخاصّ هي:", opts:["الجهاد بالنفس، والجهاد بالمال، والجهاد بالكلمة","الجهاد بالنفس فقط","الجهاد بالمال والكلمة فقط","لا مراتب له"], ans:0},
+{lesson:"l6", sec:"l6-mafhoom", diff:"easy", ayah:"﴿إِنَّ ٱللَّهَ ٱشْتَرَىٰ مِنَ ٱلْمُؤْمِنِينَ أَنفُسَهُمْ وَأَمْوَٰلَهُم بِأَنَّ لَهُمُ ٱلْجَنَّةَ يُقَٰتِلُونَ فِى سَبِيلِ ٱللَّهِ فَيَقْتُلُونَ وَيُقْتَلُونَ﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على مرتبة من مراتب الجهاد بالمعنى الخاص، هي:", opts:["الجهاد بالنفس","الجهاد بالمال","الجهاد بالكلمة","لا يدل على أي مرتبة"], ans:0},
+{lesson:"l6", sec:"l6-mafhoom", diff:"hard", stem:"الجهة التي تملك وحدها مسؤولية خوض مرتبة (الجهاد بالنفس) هي:", opts:["الدولة؛ إذ لا يحقّ للأفراد خوض غِماره من دون إذن ولي الأمر","الأفراد فرادى دون إذن أحد","أي جماعة تقرّر ذلك بنفسها","لا جهة محددة"], ans:0},
+{lesson:"l6", sec:"l6-mafhoom", diff:"med", stem:"من مظاهر الجهاد بالمال كما وردت في الدرس:", opts:["تقديم المال اللازم لتجهيز الجيش وتزويده بالأسلحة والمؤونة","تقديم الرأي والمشورة","مباشرة القتال في المعركة","الدعوة إلى الإسلام بالكلمة"], ans:0},
+{lesson:"l6", sec:"l6-mafhoom", diff:"med", stem:"قال رسول الله ﷺ: «مَنْ جَهَّزَ غَازِيًا فَقَدْ غَزَا، وَمَنْ خَلَفَ غَازِيًا فِى أَهْلِهِ فَقَدْ غَزَا» [رواه البخاري ومسلم]. يدلّ الحديث الشريف السابق على مرتبة من مراتب الجهاد، هي:", opts:["الجهاد بالمال","الجهاد بالنفس","الجهاد بالكلمة","لا يدل على شيء"], ans:0},
+{lesson:"l6", sec:"l6-mafhoom", diff:"med", stem:"قال رسول الله ﷺ لحسّان بن ثابت حين طلب منه أن يهجو المشركين: «ٱهْجُهُمْ وَجِبْرِيلُ مَعَكَ» [رواه البخاري]. يدلّ الحديث الشريف السابق على مرتبة من مراتب الجهاد، هي:", opts:["الجهاد بالكلمة","الجهاد بالنفس","الجهاد بالمال","لا يدل على شيء"], ans:0},
+{lesson:"l6", sec:"l6-mafhoom", diff:"hard", stem:"إحدى الآتية لا تُمثّل مراتب الجهاد بمعناه الخاصّ:", opts:["تحمّل المسؤولية المجتمعية","مباشرة القتال في المعركة","تقديم المال اللازم للحرب","تقديم الرأي والمشورة"], ans:0},
+
+{lesson:"l6", sec:"l6-hukm", diff:"easy", stem:"عُلّة فرض الإسلام الجهاد هي:", opts:["دوره الفاعل في المحافظة على الدين، وإعلاء كلمة الله، وردّ العدوان عن المسلمين وأوطانهم","رغبة المسلمين في التوسع بلا سبب","ضعف علاقات المسلمين بغيرهم","كثرة الغنائم"], ans:0},
+{lesson:"l6", sec:"l6-hukm", diff:"easy", stem:"الأصل في حكم الجهاد أنه:", opts:["فرض كفاية","فرض عين دائمًا","مندوب","مباح"], ans:0},
+{lesson:"l6", sec:"l6-hukm", diff:"med", stem:"يصبح الجهاد فرض عين في حالات معيّنة، منها:", opts:["إعلان الدولة النفير العام رسميًّا، أو تكليفها أشخاصًا بذلك","رغبة فرد واحد في الجهاد","غياب إذن ولي الأمر","عدم وجود عدوان أصلًا"], ans:0},
+{lesson:"l6", sec:"l6-hukm", diff:"med", ayah:"﴿يَٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ مَا لَكُمْ إِذَا قِيلَ لَكُمُ ٱنفِرُوا۟ فِى سَبِيلِ ٱللَّهِ ٱثَّاقَلْتُمْ إِلَى ٱلْأَرْضِ﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على الحالة التي يكون فيها الجهاد فرض عين، هي:", opts:["إذا أعلنت الدولة النفير العام رسميًّا","إذا رغب فرد بذلك دون سواه","إذا غاب ولي الأمر","لا علاقة للآية بحكم الجهاد"], ans:0},
+{lesson:"l6", sec:"l6-hukm", diff:"easy", ayah:"﴿وَمَن يُقَٰتِلْ فِى سَبِيلِ ٱللَّهِ فَيُقْتَلْ أَوْ يَغْلِبْ فَسَوْفَ نُؤْتِيهِ أَجْرًا عَظِيمًا﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على:", opts:["وعد الله المجاهدين بالأجر العظيم","تحريم الجهاد","وجوب النفير في كل وقت","كراهة القتال"], ans:0},
+{lesson:"l6", sec:"l6-hukm", diff:"med", stem:"سُئل النبي ﷺ: أيُّ العمل أفضل؟ فقال: «إِيمَانٌۢ بِٱللَّهِ»، قيل: ثمّ ماذا؟ قال: «ٱلْجِهَادُ فِى سَبِيلِ ٱللَّهِ»، قيل: ثمّ ماذا؟ قال: «حَجٌّ مَبْرُورٌ» [رواه البخاري ومسلم]. يدلّ الحديث الشريف السابق على:", opts:["أنّ الجهاد أفضل الأعمال بعد الإيمان بالله","أنّ الجهاد أفضل من الإيمان بالله","أنّ الحج أفضل من الجهاد","أنّ الجهاد لا فضل له"], ans:0},
+{lesson:"l6", sec:"l6-hukm", diff:"med", stem:"حذّر القرآن الكريم المؤمنين من ترك الجهاد والتقاعس عنه؛ لما في ذلك من:", opts:["مدعاة لعذاب الله عليهم في الدنيا بتسليط الأعداء، وفي الآخرة بالنار","زيادة في قوتهم","تحقيق النصر التلقائي","لا أثر لذلك"], ans:0},
+{lesson:"l6", sec:"l6-hukm", diff:"hard", ayah:"﴿إِلَّا تَنفِرُوا۟ يُعَذِّبْكُمْ عَذَابًا أَلِيمًا وَيَسْتَبْدِلْ قَوْمًا غَيْرَكُمْ وَلَا تَضُرُّوهُ شَيْـًٔا﴾", stem:"تدلّ الآية الكريمة السابقة على:", opts:["التحذير من ترك الجهاد والتقاعس عنه","وجوب ترك الجهاد","إباحة التقاعس عن النفير","تحريم القتال مطلقًا"], ans:0},
+{lesson:"l6", sec:"l6-hukm", diff:"easy", stem:"ذروة سنام الإسلام كما ذكرها النبي ﷺ في حديثه هي:", opts:["الجهاد","الصلاة","الزكاة","العدل"], ans:0},
+{lesson:"l6", sec:"l6-hukm", diff:"hard", stem:"بالمقارنة بين (فرض الكفاية) و(فرض العين) في حكم الجهاد، فإنّ الفارق بينهما هو:", opts:["الأول يسقط الإثم فيه عن الباقين إذا قام به البعض، والثاني يجب على كل فرد بعينه","لا فارق بينهما","الأول أشدّ من الثاني","الثاني لا يجب على أحد"], ans:0},
+
+{lesson:"l6", sec:"l6-akhlaq", diff:"easy", stem:"من أخلاقيات الجهاد في الإسلام، عدم الاعتداء على الآخرين بغير وجه حقّ؛ فالجهاد لا يكون إلا لمن:", opts:["اعتدى على دين المسلمين وأوطانهم","يخالفهم في الرأي","يخالفهم في اللون أو العرق","يخالفهم في المذهب فقط"], ans:0},
+{lesson:"l6", sec:"l6-akhlaq", diff:"easy", ayah:"﴿وَقَٰتِلُوا۟ فِى سَبِيلِ ٱللَّهِ ٱلَّذِينَ يُقَٰتِلُونَكُمْ وَلَا تَعْتَدُوٓا۟ إِنَّ ٱللَّهَ لَا يُحِبُّ ٱلْمُعْتَدِينَ﴾", stem:"يدلّ قول الله تعالى في الآية الكريمة السابقة على خُلق من أخلاقيات الجهاد، هو:", opts:["عدم الاعتداء على الآخرين بغير وجه حق","التمييز بين المحاربين وغيرهم","عدم الاعتداء على البيئة","الحرص على الوفاء بالعهود"], ans:0},
+{lesson:"l6", sec:"l6-akhlaq", diff:"med", stem:"أمر الإسلام بالتمييز بين المحاربين وغير المحاربين، ويشمل ذلك عدم قتل:", opts:["الأطفال والنساء","الجنود المقاتلين","قادة الجيش المعادي","من يحمل السلاح فعليًّا"], ans:0},
+{lesson:"l6", sec:"l6-akhlaq", diff:"med", stem:"لمّا وجد رسول الله ﷺ امرأة مقتولة في إحدى الغزوات قال: «مَا كَانَتْ هَٰذِهِ لِتُقَٰتِلَ»، ثم قال لأصحابه: «لَا تَقْتُلُوا۟ ذُرِّيَّةً وَلَا عَسِيفًا» [رواه أحمد]. يدلّ الحديث الشريف السابق على خُلق من أخلاقيات الجهاد، هو:", opts:["التمييز بين المحاربين وغير المحاربين من الأطفال والنساء","عدم الاعتداء على البيئة","الحرص على الوفاء بالعهود","عدم الاعتداء بغير وجه حق"], ans:0},
+{lesson:"l6", sec:"l6-akhlaq", diff:"easy", stem:"من أخلاقيات الجهاد في الإسلام، عدم الاعتداء على البيئة والحياة فيها، ومن أمثلة ذلك:", opts:["قتل الحيوانات، وحرق الأشجار أو قطعها، وهدم المنازل","بناء المصانع الحربية","تجهيز المستشفيات","رعاية عائلات المجاهدين"], ans:0},
+{lesson:"l6", sec:"l6-akhlaq", diff:"med", stem:"قال رسول الله ﷺ للمجاهدين: «وَلَا تَغْدِرُوا۟، وَلَا تَغُلُّوا۟، وَلَا تُمَثِّلُوا۟، وَلَا تَقْتُلُوا۟ وَلِيدًا» [رواه مسلم]. يدلّ الحديث الشريف السابق على:", opts:["أخلاقيات الجهاد في الإسلام من عدم الغدر والغلول والتمثيل وقتل الأطفال","إباحة الغدر في الحرب","وجوب قتل كل من يُلقى في المعركة","إباحة أخذ الغنائم دون إذن ولي الأمر"], ans:0},
+{lesson:"l6", sec:"l6-akhlaq", diff:"med", stem:"من أخلاقيات الجهاد في الإسلام، الحرص على التزام العهود والمواثيق وعدم نقضها، ودليل ذلك قوله تعالى:", opts:["﴿إِلَّا ٱلَّذِينَ عَٰهَدتُّم مِّنَ ٱلْمُشْرِكِينَ ثُمَّ لَمْ يَنقُصُوكُمْ شَيْـًٔا... فَأَتِمُّوٓا۟ إِلَيْهِمْ عَهْدَهُمْ﴾","﴿وَجَٰهِدُوا۟ فِى ٱللَّهِ حَقَّ جِهَادِهِۦ﴾","﴿إِنَّ ٱللَّهَ ٱشْتَرَىٰ مِنَ ٱلْمُؤْمِنِينَ أَنفُسَهُمْ﴾","﴿فَمَنِ ٱعْتَدَىٰ عَلَيْكُمْ فَٱعْتَدُوا۟ عَلَيْهِ﴾"], ans:0},
+{lesson:"l6", sec:"l6-akhlaq", diff:"hard", stem:"قال رسول الله ﷺ حين الصلح يوم الحديبية: «وَٱلَّذِى نَفْسِى بِيَدِهِ، لَا يَسْأَلُونَنِى خُطَّةً يُعَظِّمُونَ فِيهَا حُرُمَٰتِ ٱللَّهِ إِلَّا أَعْطَيْتُهُمْ إِيَّاهَا» [رواه البخاري]. يدلّ الحديث الشريف السابق على:", opts:["حرص الإسلام على إشاعة السِّلم بين الناس، وعدم اللجوء إلى الحرب إلا عند الحاجة","وجوب رفض كل صلح مع الأعداء","تفضيل الحرب على السلم دائمًا","عدم جواز الصلح في الإسلام"], ans:0},
+{lesson:"l6", sec:"l6-akhlaq", diff:"easy", stem:"من أخلاقيات الجهاد في الإسلام جميع ما يأتي، ما عدا:", opts:["الاعتداء على من لم يعتدِ؛ تحقيقًا للنصر بأي وسيلة","عدم الاعتداء على الآخرين بغير وجه حق","التمييز بين المحاربين وغير المحاربين","الحرص على الوفاء بالعهود والمواثيق"], ans:0},
+{lesson:"l6", sec:"l6-akhlaq", diff:"hard", stem:"العلاقة بين (حرص الإسلام على إشاعة السِّلم) و(أخلاقيات الجهاد في الإسلام) هي:", opts:["كلاهما يعكس أنّ الجهاد في الإسلام ليس غاية بذاته، بل وسيلة مشروطة بضوابط","لا علاقة بينهما","السِّلم يُلغي مشروعية الجهاد كليًّا","أخلاقيات الجهاد تتعارض مع السِّلم"], ans:0},
+
+{lesson:"l6", sec:"l6-marahil", diff:"easy", stem:"مراحل تشريع الجهاد يمكن إجمالها في:", opts:["مرحلتين","ثلاث مراحل","أربع مراحل","خمس مراحل"], ans:0},
+{lesson:"l6", sec:"l6-marahil", diff:"easy", stem:"المرحلة الأولى من مراحل تشريع الجهاد هي:", opts:["الجهاد بالدعوة والكلمة، وعدم اللجوء إلى القوة واستخدام السلاح","الإذن بالقتال واستخدام القوة","تحريم الجهاد كليًّا","إيجاب الجهاد على كل فرد فورًا"], ans:0},
+{lesson:"l6", sec:"l6-marahil", diff:"med", stem:"مكث النبي ﷺ في مكة المكرمة يدعو الناس إلى الإسلام، ويأمرهم بالصبر على أذى المشركين والكفّ عن قتالهم، مدة:", opts:["ثلاثة عشر عامًا","عشرة أعوام","عشرين عامًا","خمسة أعوام"], ans:0},
+{lesson:"l6", sec:"l6-marahil", diff:"med", stem:"المرحلة الثانية من مراحل تشريع الجهاد (الإذن بالقتال واستخدام القوة) بدأت:", opts:["بعد هجرة النبي ﷺ والمسلمين إلى المدينة المنورة","قبل الهجرة إلى المدينة المنورة","بعد الهجرة إلى الحبشة","منذ بداية الدعوة في مكة"], ans:0},
+{lesson:"l6", sec:"l6-marahil", diff:"easy", ayah:"﴿أُذِنَ لِلَّذِينَ يُقَٰتَلُونَ بِأَنَّهُمْ ظُلِمُوا۟ وَإِنَّ ٱللَّهَ عَلَىٰ نَصْرِهِمْ لَقَدِيرٌ﴾", stem:"تدلّ الآية الكريمة السابقة على:", opts:["إذن الله تعالى للمسلمين بالقتال بعد أن ظُلموا","تحريم القتال مطلقًا","وجوب مسالمة المعتدين دومًا","عدم قدرة الله على نصر المسلمين"], ans:0},
+{lesson:"l6", sec:"l6-marahil", diff:"hard", stem:"بتتبّع سيرة النبي ﷺ، فإنّ الفريق الذي بدأ الاعتداء على المسلمين، وحاول ردّهم عن دينهم وإخراجهم من ديارهم هو:", opts:["المشركون","المسلمون","أهل الكتاب جميعًا","لا أحد بدأ الاعتداء"], ans:0},
+{lesson:"l6", sec:"l6-marahil", diff:"med", stem:"في معركة الكرامة عام 1968م، تصدّت القوات المسلّحة الأردنية لمحاولة قوّات الاحتلال الإسرائيلية احتلال أجزاء من الأراضي الأردنية، وقد:", opts:["ألحقت بها هزيمة نكراء مُذِلّة","انسحبت دون قتال","حقّقت قوات الاحتلال نصرًا كاملًا","لم يحدث أي اشتباك"], ans:0},
+{lesson:"l6", sec:"l6-marahil", diff:"easy", stem:"القيمة المستفادة من درس (الجهاد في الإسلام) هي:", opts:["التمثّل بمفهوم الجهاد وفقًا لأخلاقياته","تفضيل القوة على الحوار دائمًا","رفض مفهوم الجهاد كليًّا","الاعتداء على من خالفنا الرأي"], ans:0},
+
+{lesson:"l6", sec:"l6-mafhoom", diff:"easy", stem:"يُعرَّف (الجهاد) في اللغة بأنه:", opts:["بذل الجهد والطاقة في دفع المكروه أو تحصيل المطلوب","القتال بالسيف فقط","الصبر على المصائب دون عمل","الدعاء لنصرة المسلمين"], ans:0},
+{lesson:"l6", sec:"l6-mafhoom", diff:"med", stem:"يُعرَّف (الجهاد) شرعًا بأنه:", opts:["بذل الجهد في قتال الكفار ومن في حكمهم، إعلاءً لكلمة الله تعالى","كل عمل شاق يبذله الإنسان في حياته","الجهاد الرياضي والبدني فقط","محاربة كل من يخالفنا الرأي"], ans:0},
+{lesson:"l6", sec:"l6-mafhoom", diff:"med", stem:"من صور الجهاد التي أرشد إليها الإسلام غير جهاد القتال:", opts:["جهاد النفس بحملها على الطاعة وكفّها عن المعصية","جهاد الأقارب بالخصومة","جهاد المال بإتلافه","جهاد الجار بالإيذاء"], ans:0},
+{lesson:"l6", sec:"l6-mafhoom", diff:"hard", stem:"العلاقة بين (الجهاد بالنفس) و(الجهاد بالمال) و(الجهاد باللسان) هي أنّ جميعها:", opts:["صور مشروعة للجهاد في سبيل الله تتكامل لخدمة الدين والدعوة إليه","صورة واحدة متكررة بألفاظ مختلفة","لا علاقة بينها بالجهاد المشروع","خاصة بزمن الرسول ﷺ فقط"], ans:0},
+{lesson:"l6", sec:"l6-hukm", diff:"easy", stem:"حكم الجهاد في سبيل الله في الأصل هو:", opts:["فرض كفاية","فرض عين على كل مسلم دومًا","محرّم إلا للضرورة","مستحب فقط دون وجوب"], ans:0},
+{lesson:"l6", sec:"l6-hukm", diff:"med", stem:"يتحوّل حكم الجهاد من (فرض كفاية) إلى (فرض عين) في حال:", opts:["استنفار الإمام للناس، أو حضور الصف، أو دخول العدو بلاد المسلمين","عدم وجود أي تهديد للمسلمين","وجود عدد كافٍ من المجاهدين لصدّ العدو","السفر خارج بلاد المسلمين"], ans:0},
+{lesson:"l6", sec:"l6-hukm", diff:"med", stem:"معنى كون الجهاد (فرض كفاية) هو:", opts:["إذا قام به من يكفي لتحقيق الغرض منه سقط الإثم عن الباقين","وجوبه على كل فرد بعينه دون استثناء","سقوطه عن الجميع مطلقًا","اقتصاره على فئة معينة من الناس"], ans:0},
+{lesson:"l6", sec:"l6-hukm", diff:"hard", stem:"بالمقارنة بين (فرض العين) و(فرض الكفاية) فيما يتعلق بحكم الجهاد، فإنّ:", opts:["فرض العين يجب على كل مسلم بعينه، وفرض الكفاية يسقط بقيام البعض به","لا فرق بينهما في الحكم أو الأثر","فرض الكفاية أشد من فرض العين","فرض العين يسقط بقيام البعض به"], ans:0},
+{lesson:"l6", sec:"l6-akhlaq", diff:"easy", stem:"من أخلاقيات الجهاد وآدابه في الإسلام:", opts:["عدم قتل من لم يقاتل من النساء والأطفال والشيوخ","قتل كل من يُصادَف في أرض العدو","تخريب دور العبادة عمدًا","الغدر بالعهود عند الحاجة"], ans:0},
+{lesson:"l6", sec:"l6-akhlaq", diff:"med", stem:"من أخلاقيات الجهاد التي أوصى بها الخلفاء الراشدون القادة والجنود:", opts:["عدم قطع الأشجار المثمرة ولا عقر الحيوان إلا لحاجة الأكل","إتلاف كل ما في أرض العدو من زرع وشجر","الاعتداء على الرهبان في صوامعهم","الغلول من الغنائم دون إذن"], ans:0},
+{lesson:"l6", sec:"l6-akhlaq", diff:"med", stem:"يدل التزام المسلمين بأخلاقيات الجهاد وعدم الاعتداء على غير المقاتلين على أنّ الجهاد في الإسلام:", opts:["مشروع لدفع الظلم والعدوان لا لسفك الدماء والانتقام","وسيلة للانتقام من الأعداء بأي شكل","غاية في ذاته دون ضوابط أخلاقية","لا يفرّق بين المقاتل وغير المقاتل"], ans:0},
+{lesson:"l6", sec:"l6-akhlaq", diff:"hard", stem:"العلاقة بين (الوفاء بالعهود في الجهاد) و(تحقيق مقاصد الشريعة) هي:", opts:["الوفاء بالعهد من مقاصد الشريعة العليا ولو مع الأعداء في الحرب","لا علاقة بين الوفاء بالعهد ومقاصد الشريعة","الغدر بالعهد مباح في حال الحرب دومًا","مقاصد الشريعة لا تشمل زمن الحرب"], ans:0},
+{lesson:"l6", sec:"l6-marahil", diff:"med", stem:"جميع ما يأتي من مراحل تشريع الجهاد التي مرّ بها التشريع الإسلامي، ما عدا:", opts:["مرحلة تحريم الجهاد نهائيًا","مرحلة الدعوة بالكلمة والصبر على الأذى","مرحلة الإذن بالقتال دفاعًا","مرحلة إيجاب القتال على المشركين كافة"], ans:0},
+{lesson:"l6", sec:"l6-marahil", diff:"med", stem:"الحكمة من تدرّج التشريع الإسلامي في فرض الجهاد على مراحل:", opts:["مراعاة ضعف المسلمين وقلة عددهم في بداية الدعوة وتهيئتهم تدريجيًّا","عدم اهتمام الشريعة بأمر الجهاد أصلًا","رغبة النبي ﷺ الشخصية في التأجيل","عدم وجود مبرر شرعي للقتال أصلًا"], ans:0},
+{lesson:"l6", sec:"l6-hukm", diff:"med", stem:"من الأسباب التي يُشرع الجهاد من أجلها في الإسلام:", opts:["دفع العدوان عن المسلمين وحماية بيضة الدين والوطن","فرض الدين على الناس كافة بالقوة","الاستيلاء على أموال الآخرين","إثبات التفوق العسكري فقط"], ans:0},
+{lesson:"l6", sec:"l6-mafhoom", diff:"med", stem:"جهاد النفس بحملها على الطاعة وكفّها عن المعصية يُعدّ من أعظم صور الجهاد لأنه:", opts:["أساس كل جهاد آخر، إذ لا يستقيم جهاد المرء لغيره وهو مقصّر مع نفسه","لا علاقة له بجهاد القتال","أسهل صور الجهاد على الإطلاق","خاص بالعلماء دون عموم المسلمين"], ans:0},
+{lesson:"l6", sec:"l6-akhlaq", diff:"easy", stem:"موقف الإسلام من قتل الرسل والسفراء وقت الحرب:", opts:["تحريم قتلهم وصون حرمتهم لأداء مهمتهم","إباحة قتلهم كسائر المقاتلين","إيجاب قتلهم لإضعاف العدو","إجبارهم على القتال مع المسلمين"], ans:0},
+{lesson:"l6", sec:"l6-hukm", diff:"hard", stem:"بالترتيب الصحيح لحالات تحوّل الجهاد إلى فرض عين، من الأخص إلى الأعم:", opts:["حضور الصف عند التقاء الجيشين، ثم استنفار الإمام، ثم دخول العدو بلاد المسلمين","دخول العدو بلاد المسلمين، ثم حضور الصف، ثم استنفار الإمام","استنفار الإمام فقط دون سواه من الحالات","لا ترتيب بين هذه الحالات"], ans:0},
+{lesson:"l6", sec:"l6-marahil", diff:"easy", stem:"من نتاجات التعلّم المقررة لدرس (الجهاد في الإسلام) أن يكون الطالب قادرًا على:", opts:["بيان مراحل تشريع الجهاد وأخلاقياته في الإسلام","حفظ أحكام الزكاة وأنصبتها","التمييز بين أنواع الطلاق","تعداد أركان الحج"], ans:0},
+];
+
+const DIFF_LABEL = {easy:"سهل", med:"متوسط", hard:"صعب"};
+const EASTERN = ["٠","١","٢","٣","٤","٥","٦","٧","٨","٩"];
+function toEastern(n){ return String(n).split("").map(c => /[0-9]/.test(c) ? EASTERN[+c] : c).join(""); }
+function wrapQuran(text){
+  return text.replace(/﴿[^﴾]*﴾|«[^»]*»/g, m => `<span style="font-family:'Amiri',serif; font-size:1.05em;">${m}</span>`);
+}
+
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; }
+  return arr;
+}
+
+let state = { answers:{}, submitted:false, filter:"all", startTime:null, timerInt:null };
+let RUNTIME = [];
+let LAST_SETTINGS = { lessons:[], count:5 };
+
+/* ---------------- SETUP VIEW ---------------- */
+const lessonListEl = document.getElementById("lessonList");
+LESSONS.forEach(l => {
+  const count = QUESTIONS.filter(q => q.lesson === l.id).length;
+  const row = document.createElement("label");
+  row.className = "lesson-option";
+  row.innerHTML = `
+    <input type="checkbox" data-lesson="${l.id}">
+    <div class="meta"><b>${l.title}</b><span>${l.subtitle}</span></div>
+    <div class="count">${toEastern(count)} سؤال</div>
+  `;
+  lessonListEl.appendChild(row);
+});
+
+function selectedLessons(){
+  return [...lessonListEl.querySelectorAll('input[type="checkbox"]:checked')].map(i => i.dataset.lesson);
+}
+
+function poolForLessons(ids){
+  return QUESTIONS.filter(q => ids.includes(q.lesson));
+}
+
+function selectedDiffs(){
+  return [...document.querySelectorAll('#diffRow input[type="checkbox"]:checked')].map(i => i.dataset.diff);
+}
+
+let EXAM_MODE = "electronic";
+
+function updateModeUI(){
+  document.querySelectorAll(".mode-tab").forEach(t => t.classList.toggle("active", t.dataset.mode === EXAM_MODE));
+  document.getElementById("diffCard").hidden = EXAM_MODE !== "word";
+  document.getElementById("countStepNum").textContent = EXAM_MODE === "word" ? "٣" : "٢";
+  document.getElementById("startBtn").textContent = EXAM_MODE === "word" ? "تنزيل امتحان Word" : "ابدأ الاختبار";
+  document.getElementById("countRange").dataset.touched = "0";
+  const statusEl = document.getElementById("wordStatus");
+  statusEl.hidden = true;
+  statusEl.textContent = "";
+  updateSetupState();
+}
+
+document.getElementById("modeTabs").addEventListener("click", (e) => {
+  const tab = e.target.closest(".mode-tab");
+  if(!tab) return;
+  EXAM_MODE = tab.dataset.mode;
+  updateModeUI();
+});
+
+document.getElementById("diffRow").addEventListener("change", () => {
+  document.querySelectorAll("#diffRow .diff-pill").forEach(p => {
+    p.classList.toggle("checked", p.querySelector("input").checked);
+  });
+  document.getElementById("countRange").dataset.touched = "0";
+  updateSetupState();
+});
+
+function updateSetupState(){
+  const ids = selectedLessons();
+  lessonListEl.querySelectorAll(".lesson-option").forEach(row => {
+    const cb = row.querySelector("input");
+    row.classList.toggle("checked", cb.checked);
+  });
+  let pool = poolForLessons(ids);
+  if(EXAM_MODE === "word"){
+    const diffs = selectedDiffs();
+    pool = pool.filter(q => diffs.includes(q.diff));
+  }
+  const range = document.getElementById("countRange");
+  const startBtn = document.getElementById("startBtn");
+  const startNote = document.getElementById("startNote");
+
+  if(pool.length === 0){
+    range.min = 0; range.max = 0; range.value = 0;
+    document.getElementById("countNum").textContent = "٠";
+    startBtn.disabled = true;
+    startNote.textContent = ids.length === 0 ? "اختاري درسًا واحدًا على الأقل" : "لا توجد أسئلة مطابقة لمستوى الصعوبة المختار";
+    renderPresets(0);
+    return;
+  }
+  const min = Math.min(5, pool.length);
+  range.min = min; range.max = pool.length;
+  if(+range.value < min || +range.value > pool.length || range.dataset.touched !== "1"){
+    range.value = pool.length;
+  }
+  document.getElementById("countNum").textContent = toEastern(range.value);
+  startBtn.disabled = false;
+  startNote.textContent = EXAM_MODE === "word"
+    ? `من أصل ${toEastern(pool.length)} سؤالًا متاحًا بمستوى الصعوبة المحدد`
+    : `من أصل ${toEastern(pool.length)} سؤالًا متاحًا في الدرس/الدروس المختارة`;
+  renderPresets(pool.length);
+}
+
+function renderPresets(total){
+  const wrap = document.getElementById("presets");
+  wrap.innerHTML = "";
+  if(total === 0) return;
+  const options = [...new Set([10,20,30,total])].filter(n => n>0 && n<=total).sort((a,b)=>a-b);
+  options.forEach(n => {
+    const b = document.createElement("button");
+    b.className = "preset";
+    b.type = "button";
+    b.textContent = n===total ? `الكل (${toEastern(total)})` : toEastern(n);
+    b.addEventListener("click", () => {
+      const range = document.getElementById("countRange");
+      range.dataset.touched = "1";
+      range.value = n;
+      document.getElementById("countNum").textContent = toEastern(n);
+    });
+    wrap.appendChild(b);
+  });
+}
+
+lessonListEl.addEventListener("change", () => {
+  document.getElementById("countRange").dataset.touched = "0";
+  updateSetupState();
+});
+document.getElementById("countRange").addEventListener("input", e => {
+  e.target.dataset.touched = "1";
+  document.getElementById("countNum").textContent = toEastern(e.target.value);
+});
+updateModeUI();
+
+document.getElementById("startBtn").addEventListener("click", () => {
+  const ids = selectedLessons();
+  const count = +document.getElementById("countRange").value;
+  if(EXAM_MODE === "word"){
+    const diffs = selectedDiffs();
+    generateWordExam(ids, count, diffs);
+  } else {
+    LAST_SETTINGS = { lessons: ids, count };
+    generateAndStart();
+  }
+});
+
+document.getElementById("backBtn").addEventListener("click", () => {
+  document.getElementById("setupView").hidden = false;
+  document.getElementById("quizView").hidden = true;
+  document.getElementById("quizStats").hidden = true;
+  document.getElementById("progressTrack").hidden = true;
+  document.getElementById("brandSub").textContent = "اختر الدروس وابدأ الاختبار";
+  stopTimer();
+});
+
+/* ---------------- GENERATE QUIZ ---------------- */
+function sampleQuestions(pool, n){
+  const indexed = pool.map((q,i)=>({q, i}));
+  return shuffle([...indexed]).slice(0, n).sort((a,b)=>a.i-b.i).map(x=>x.q);
+}
+
+// Puts a sampled question set into the exact order they'll be DISPLAYED in
+// (grouped by lesson, then by section, following LESSONS/SECTIONS canonical order).
+// Numbering must be assigned AFTER this ordering, not before, or question numbers
+// jump around whenever a lesson's questions aren't stored in one contiguous block.
+function orderForDisplay(questions){
+  const activeIds = new Set(questions.map(q => q.lesson));
+  const ordered = [];
+  LESSONS.forEach(l => {
+    if(!activeIds.has(l.id)) return;
+    SECTIONS.filter(s => s.lesson === l.id).forEach(sec => {
+      questions.filter(q => q.sec === sec.id).forEach(q => ordered.push(q));
+    });
+  });
+  return ordered;
+}
+
+function generateAndStart(){
+  const pool = poolForLessons(LAST_SETTINGS.lessons);
+  const n = Math.min(LAST_SETTINGS.count, pool.length);
+  const sampled = orderForDisplay(sampleQuestions(pool, n));
+
+  RUNTIME = sampled.map((q,i) => {
+    const order = shuffle([0,1,2,3]);
+    return { ...q, id:i, order, correctPos: order.indexOf(q.ans) };
+  });
+
+  state = { answers:{}, submitted:false, filter:"all", startTime:null, timerInt:null };
+  document.getElementById("banner").classList.remove("show");
+  document.getElementById("timer").textContent = "٠٠:٠٠";
+  document.getElementById("mainBtn").textContent = "تصحيح الإجابات";
+  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
+  document.querySelector('.chip[data-f="all"]').classList.add("active");
+
+  const lessonNames = LAST_SETTINGS.lessons.map(id => LESSONS.find(l=>l.id===id).title).join(" + ");
+  document.getElementById("brandSub").textContent = `${lessonNames} — ${toEastern(RUNTIME.length)} سؤالًا`;
+
+  document.getElementById("setupView").hidden = true;
+  document.getElementById("quizView").hidden = false;
+  document.getElementById("quizStats").hidden = false;
+  document.getElementById("progressTrack").hidden = false;
+
+  render();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* ---------------- WORD EXAM EXPORT (real .docx via docx.js) ---------------- */
+// docx.js (loaded from jsdelivr, see <script> tag near top of page) exposes a
+// global `docx` namespace with Document/Paragraph/TextRun/Table/etc. It builds
+// a genuine OOXML .docx file client-side — the only reliable way to offer a
+// real Word document, since .doc/HTML-disguised-as-Word isn't a safe option
+// here (not on the downloads allowlist, and a .docx extension on non-OOXML
+// content would show as corrupted in real Word).
+function waitForDocxLib(timeoutMs){
+  timeoutMs = timeoutMs || 15000;
+  return new Promise((resolve, reject) => {
+    if(window.docx) return resolve(window.docx);
+    const start = Date.now();
+    const iv = setInterval(() => {
+      if(window.docx){ clearInterval(iv); resolve(window.docx); }
+      else if(Date.now() - start > timeoutMs){ clearInterval(iv); reject(new Error("docx-lib-timeout")); }
+    }, 100);
+  });
+}
+
+function rtlRun(text, opts){
+  opts = opts || {};
+  return new docx.TextRun({
+    text: String(text),
+    rightToLeft: true,
+    font: opts.font || "Arial",
+    size: opts.size || 24,
+    bold: !!opts.bold,
+    color: opts.color
+  });
+}
+function rtlPara(runs, opts){
+  opts = opts || {};
+  return new docx.Paragraph({
+    bidirectional: true,
+    alignment: opts.align || docx.AlignmentType.RIGHT,
+    spacing: opts.spacing || { after: 120 },
+    shading: opts.shading,
+    children: runs
+  });
+}
+function cell(paragraphs, opts){
+  opts = opts || {};
+  return new docx.TableCell({
+    width: { size: opts.width || 50, type: docx.WidthType.PERCENTAGE },
+    verticalAlign: docx.VerticalAlign.CENTER,
+    children: paragraphs
+  });
+}
+function fullTable(rows){
+  return new docx.Table({ width: { size: 100, type: docx.WidthType.PERCENTAGE }, rows });
+}
+
+function buildExamDocx(questions, lessonNames, dateStr){
+  const letters = ["أ","ب","ج","د"];
+  const children = [];
+
+  children.push(rtlPara([rtlRun("بنك اختبارات التربية الإسلامية", { bold:true, size:36 })], { align: docx.AlignmentType.CENTER, spacing:{after:80} }));
+  children.push(rtlPara([rtlRun(`${lessonNames} — ${toEastern(questions.length)} سؤالًا`, { size:24, color:"4B554E" })], { align: docx.AlignmentType.CENTER, spacing:{after:220} }));
+
+  children.push(fullTable([
+    new docx.TableRow({ children:[
+      cell([rtlPara([rtlRun("الاسم: ..................................................", {size:24})])]),
+      cell([rtlPara([rtlRun("الشعبة: ......................", {size:24})])]),
+    ]}),
+    new docx.TableRow({ children:[
+      cell([rtlPara([rtlRun(`التاريخ: ${dateStr}`, {size:24})])]),
+      cell([rtlPara([rtlRun(`العلامة: .......... / ${toEastern(questions.length)}`, {size:24})])]),
+    ]}),
+  ]));
+
+  children.push(rtlPara([], { spacing:{after:80} }));
+  children.push(rtlPara([rtlRun("ضعي دائرة حول رمز الإجابة الصحيحة فيما يأتي، لكل سؤال إجابة واحدة صحيحة فقط.", {size:22})], { shading:{fill:"F7F1DE"}, spacing:{after:240} }));
+
+  const activeLessons = [...new Set(questions.map(q=>q.lesson))];
+  activeLessons.forEach(lid => {
+    const l = LESSONS.find(x=>x.id===lid);
+    if(activeLessons.length > 1){
+      children.push(rtlPara([rtlRun(`${l.title} — ${l.subtitle}`, { bold:true, size:28, color:"145C50" })], { spacing:{before:200, after:100} }));
+    }
+    SECTIONS.filter(s => s.lesson === lid).forEach(sec => {
+      const qs = questions.filter(q => q.sec === sec.id);
+      if(!qs.length) return;
+      children.push(rtlPara([rtlRun(sec.title, { bold:true, size:26, color:"145C50" })], { shading:{fill:"EBEFE6"}, spacing:{before:160, after:100} }));
+      qs.forEach(q => {
+        if(q.ayah){
+          children.push(rtlPara([rtlRun(q.ayah, { bold:true, font:"Traditional Arabic", size:26 })], { align: docx.AlignmentType.CENTER, spacing:{after:80} }));
+        }
+        children.push(rtlPara([rtlRun(`${toEastern(q.num)}. ${q.stem}`, {size:24})], { spacing:{after:90} }));
+        const opts = q.order.map(oi => q.opts[oi]);
+        children.push(fullTable([
+          new docx.TableRow({ children:[
+            cell([rtlPara([rtlRun(`${letters[0]}. ${opts[0]}`, {size:22})])]),
+            cell([rtlPara([rtlRun(`${letters[1]}. ${opts[1]}`, {size:22})])]),
+          ]}),
+          new docx.TableRow({ children:[
+            cell([rtlPara([rtlRun(`${letters[2]}. ${opts[2]}`, {size:22})])]),
+            cell([rtlPara([rtlRun(`${letters[3]}. ${opts[3]}`, {size:22})])]),
+          ]}),
+        ]));
+        children.push(rtlPara([], { spacing:{after:160} }));
+      });
+    });
+  });
+
+  return new docx.Document({
+    sections:[{ properties:{ page:{ margin:{ top:1000, bottom:1000, left:1000, right:1000 } } }, children }]
+  });
+}
+
+function buildAnswerKeyDocx(questions, lessonNames, dateStr){
+  const letters = ["أ","ب","ج","د"];
+  const children = [];
+  children.push(rtlPara([rtlRun("بنك اختبارات التربية الإسلامية", { bold:true, size:36 })], { align: docx.AlignmentType.CENTER, spacing:{after:80} }));
+  children.push(rtlPara([rtlRun("نموذج إجابة", { bold:true, size:30, color:"145C50" })], { align: docx.AlignmentType.CENTER, spacing:{after:80} }));
+  children.push(rtlPara([rtlRun(`${lessonNames} — ${toEastern(questions.length)} سؤالًا — نسخة خاصة بالمعلم/ة`, { size:22, color:"4B554E" })], { align: docx.AlignmentType.CENTER, spacing:{after:220} }));
+
+  const headerRow = new docx.TableRow({ tableHeader:true, children:[
+    cell([rtlPara([rtlRun("رقم السؤال", {bold:true, size:22})], {align:docx.AlignmentType.CENTER})], {width:20}),
+    cell([rtlPara([rtlRun("الإجابة", {bold:true, size:22})], {align:docx.AlignmentType.CENTER})], {width:20}),
+    cell([rtlPara([rtlRun("نص الإجابة الصحيحة", {bold:true, size:22})])], {width:60}),
+  ]});
+  const rows = [headerRow];
+  questions.forEach(q => {
+    rows.push(new docx.TableRow({ children:[
+      cell([rtlPara([rtlRun(toEastern(q.num), {size:22})], {align:docx.AlignmentType.CENTER})], {width:20}),
+      cell([rtlPara([rtlRun(letters[q.correctPos], {bold:true, size:22})], {align:docx.AlignmentType.CENTER})], {width:20}),
+      cell([rtlPara([rtlRun(q.opts[q.ans], {size:22})])], {width:60}),
+    ]}));
+  });
+  children.push(fullTable(rows));
+
+  return new docx.Document({
+    sections:[{ properties:{ page:{ margin:{ top:1000, bottom:1000, left:1000, right:1000 } } }, children }]
+  });
+}
+
+// Inside the published claude.ai artifact viewer, pages cannot trigger direct
+// browser downloads (blob/anchor tricks are inert there) — the `downloads`
+// capability is the only supported way to hand the viewer a generated file.
+// Outside that sandbox (a plain website, e.g. GitHub Pages), `window.claude`
+// simply doesn't exist, and a normal blob+anchor download works fine — so we
+// detect which environment we're in and use whichever path applies.
+let _downloadsPromise = null;
+function getDownloads(){
+  if(!_downloadsPromise){
+    _downloadsPromise = (typeof claude !== "undefined" && claude.use)
+      ? claude.use("downloads").catch(() => null)
+      : Promise.resolve(null);
+  }
+  return _downloadsPromise;
+}
+
+// Plain browser download via a temporary blob URL + anchor click. Used when
+// this page is hosted standalone (outside the claude.ai artifact sandbox),
+// where window.claude is undefined and no capability API exists.
+function browserDownloadBlob(filename, blob){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
+
+// Saves a file using whichever mechanism this environment supports:
+// the `downloads` capability inside the claude.ai artifact viewer, or a
+// plain blob+anchor download on a standalone site (GitHub Pages, etc).
+// Returns "saved" | "delivered" | "browser-download", or throws a
+// DownloadsError-shaped object ({code, message}) on failure.
+async function saveFile(filename, blob){
+  const isEmbeddedInClaude = typeof claude !== "undefined" && !!claude.use;
+  if(!isEmbeddedInClaude){
+    browserDownloadBlob(filename, blob);
+    return { status: "browser-download" };
+  }
+  const downloads = await getDownloads();
+  if(!downloads){
+    const err = new Error("downloads-unavailable");
+    err.code = "unavailable";
+    throw err;
+  }
+  return downloads.save({ filename, data: blob });
+}
+
+const DOWNLOAD_ERROR_MESSAGES = {
+  declined: "تم إلغاء الحفظ.",
+  rate_limited: "الرجاء الانتظار قليلًا ثم إعادة المحاولة.",
+  too_large: "حجم الملف أكبر من الحد المسموح به.",
+  rejected_extension: "صيغة الملف غير مدعومة هنا.",
+  unavailable: "التنزيل غير متاح في هذا العارض حاليًا. جرّبي فتح الاصطناعة في نافذة متصفح كاملة ثم أعيدي المحاولة.",
+};
+
+async function generateWordExam(ids, count, diffs){
+  const pool = poolForLessons(ids).filter(q => diffs.includes(q.diff));
+  const n = Math.min(count, pool.length);
+  const sampled = orderForDisplay(sampleQuestions(pool, n));
+  const withKeys = sampled.map((q,i) => {
+    const order = shuffle([0,1,2,3]);
+    return { ...q, num:i+1, order, correctPos: order.indexOf(q.ans) };
+  });
+  const lessonNames = ids.map(id => LESSONS.find(l=>l.id===id).title).join(" + ");
+  const dateStr = new Date().toLocaleDateString("ar-JO", {year:"numeric", month:"long", day:"numeric"});
+  // ASCII-only filenames for cross-browser reliability; Arabic titles live inside the documents.
+  const lessonTag = ids.map(id => id.replace("l","")).join("-");
+  const todayTag = new Date().toISOString().slice(0,10);
+  const examFilename = `islamic-edu-exam-lessons${lessonTag}-${todayTag}.docx`;
+  const keyFilename = `islamic-edu-answer-key-lessons${lessonTag}-${todayTag}.docx`;
+
+  const startBtn = document.getElementById("startBtn");
+  const statusEl = document.getElementById("wordStatus");
+  statusEl.hidden = false;
+
+  startBtn.disabled = true;
+  try{
+    statusEl.textContent = "جاري تجهيز مكتبة Word...";
+    await waitForDocxLib();
+
+    statusEl.textContent = "جاري إنشاء ملف الامتحان...";
+    const examBlob = await docx.Packer.toBlob(buildExamDocx(withKeys, lessonNames, dateStr));
+    await saveFile(examFilename, examBlob);
+    statusEl.textContent = "تم حفظ الامتحان ✓ — جاري إنشاء نموذج الإجابة...";
+
+    const keyBlob = await docx.Packer.toBlob(buildAnswerKeyDocx(withKeys, lessonNames, dateStr));
+    await saveFile(keyFilename, keyBlob);
+    statusEl.textContent = "تم حفظ ملف الامتحان ونموذج الإجابة بصيغة Word بنجاح ✓";
+  } catch(err){
+    if(err && err.message === "docx-lib-timeout"){
+      statusEl.textContent = "تعذّر تحميل مكوّن Word. تحقّقي من الاتصال بالإنترنت وحاولي مرة أخرى.";
+    } else {
+      const code = err && err.code;
+      statusEl.textContent = DOWNLOAD_ERROR_MESSAGES[code] || "تعذّر حفظ الملف، حاولي مرة أخرى.";
+    }
+  } finally {
+    startBtn.disabled = false;
+  }
+}
+
+/* ---------------- RENDER QUIZ ---------------- */
+function render(){
+  const container = document.getElementById("sections");
+  container.innerHTML = "";
+  const activeLessons = [...new Set(RUNTIME.map(q=>q.lesson))];
+  const showLessonHeads = activeLessons.length > 1;
+  let sectionCounter = 0;
+
+  activeLessons.forEach(lid => {
+    if(showLessonHeads){
+      const l = LESSONS.find(x=>x.id===lid);
+      const head = document.createElement("div");
+      head.className = "lesson-head";
+      head.innerHTML = `${l.title} <span>— ${l.subtitle}</span>`;
+      container.appendChild(head);
+    }
+    SECTIONS.filter(s => s.lesson === lid).forEach(sec => {
+      const qs = RUNTIME.filter(q => q.sec === sec.id);
+      if(!qs.length) return;
+      sectionCounter++;
+      const head = document.createElement("div");
+      head.className = "section-head";
+      head.innerHTML = `<div class="section-num">${toEastern(sectionCounter)}</div><h3>${sec.title}</h3><div class="section-rule"></div>`;
+      container.appendChild(head);
+
+      qs.forEach(q => {
+        const card = document.createElement("div");
+        card.className = "q";
+        card.dataset.diff = q.diff;
+        card.dataset.id = q.id;
+
+        const ayahHtml = q.ayah ? `<div class="ayah">${wrapQuran(q.ayah)}</div>` : "";
+        card.innerHTML = `
+          <div class="q-top">
+            <div class="q-left">
+              <div class="q-num">${q.id+1}</div>
+              <div>
+                ${ayahHtml}
+                <div class="q-stem">${wrapQuran(q.stem)}</div>
+              </div>
+            </div>
+            <div>
+              <span class="flag" data-flag="${q.id}">لم تُجب</span>
+              <span class="badge ${q.diff}">${DIFF_LABEL[q.diff]}</span>
+            </div>
+          </div>
+          <div class="opts" data-qid="${q.id}"></div>
+        `;
+        const optsWrap = card.querySelector(".opts");
+        const letters = ["أ","ب","ج","د"];
+        q.order.forEach((origIdx, pos) => {
+          const btn = document.createElement("div");
+          btn.className = "opt";
+          btn.dataset.pos = pos;
+          btn.innerHTML = `<span class="letter">${letters[pos]}</span><span>${wrapQuran(q.opts[origIdx])}</span>`;
+          btn.addEventListener("click", () => selectAnswer(q.id, pos));
+          optsWrap.appendChild(btn);
+        });
+        container.appendChild(card);
+      });
+    });
+  });
+  applyFilter();
+  refreshStats();
+}
+
+function selectAnswer(qid, pos){
+  if(state.submitted) return;
+  if(!state.startTime) startTimer();
+  state.answers[qid] = pos;
+  const wrap = document.querySelector(`.opts[data-qid="${qid}"]`);
+  [...wrap.children].forEach((el,i) => el.classList.toggle("selected", i===pos));
+  refreshStats();
+}
+
+function refreshStats(){
+  const answered = Object.keys(state.answers).length;
+  document.getElementById("answeredCount").textContent = `${toEastern(answered)}/${toEastern(RUNTIME.length)}`;
+  document.getElementById("progressFill").style.width = (RUNTIME.length ? answered/RUNTIME.length*100 : 0) + "%";
+}
+
+function startTimer(){
+  state.startTime = Date.now();
+  state.timerInt = setInterval(() => {
+    const s = Math.floor((Date.now()-state.startTime)/1000);
+    const mm = String(Math.floor(s/60)).padStart(2,"0");
+    const ss = String(s%60).padStart(2,"0");
+    document.getElementById("timer").textContent = toEastern(mm+":"+ss);
+  }, 1000);
+}
+function stopTimer(){ if(state.timerInt) clearInterval(state.timerInt); }
+
+function applyFilter(){
+  document.querySelectorAll(".q").forEach(card => {
+    const show = state.filter==="all" || card.dataset.diff===state.filter;
+    card.hidden = !show;
+  });
+}
+
+document.getElementById("filters").addEventListener("click", e => {
+  const chip = e.target.closest(".chip");
+  if(!chip) return;
+  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
+  chip.classList.add("active");
+  state.filter = chip.dataset.f;
+  applyFilter();
+});
+
+function grade(){
+  state.submitted = true;
+  stopTimer();
+  let correct=0;
+  const byDiff = {easy:[0,0], med:[0,0], hard:[0,0]};
+  RUNTIME.forEach(q => {
+    byDiff[q.diff][1]++;
+    const wrap = document.querySelector(`.opts[data-qid="${q.id}"]`);
+    const flag = document.querySelector(`.flag[data-flag="${q.id}"]`);
+    const chosen = state.answers[q.id];
+    if(chosen === undefined && flag) flag.classList.add("show");
+    [...wrap.children].forEach((el,pos) => {
+      el.classList.add("locked");
+      if(pos === q.correctPos) el.classList.add("correct");
+      else if(pos === chosen) el.classList.add("wrong");
+    });
+    if(chosen === q.correctPos){ correct++; byDiff[q.diff][0]++; }
+  });
+
+  document.getElementById("scoreNum").textContent = toEastern(correct);
+  document.getElementById("scoreTotal").textContent = toEastern(RUNTIME.length);
+  document.getElementById("tEasy").textContent = toEastern(byDiff.easy[0])+"/"+toEastern(byDiff.easy[1]);
+  document.getElementById("tMed").textContent = toEastern(byDiff.med[0])+"/"+toEastern(byDiff.med[1]);
+  document.getElementById("tHard").textContent = toEastern(byDiff.hard[0])+"/"+toEastern(byDiff.hard[1]);
+
+  const pct = RUNTIME.length ? correct/RUNTIME.length*100 : 0;
+  const gradeTag = document.getElementById("gradeTag");
+  let label, bg, fg;
+  if(pct>=90){label="ممتاز"; bg="var(--success-bg)"; fg="var(--success)";}
+  else if(pct>=80){label="جيد جدًا"; bg="var(--success-bg)"; fg="var(--success)";}
+  else if(pct>=70){label="جيد"; bg="var(--amber-bg)"; fg="var(--amber)";}
+  else if(pct>=60){label="مقبول"; bg="var(--amber-bg)"; fg="var(--amber)";}
+  else {label="يحتاج مراجعة"; bg="var(--danger-bg)"; fg="var(--danger)";}
+  gradeTag.textContent = label;
+  gradeTag.style.background = bg;
+  gradeTag.style.color = fg;
+
+  document.getElementById("banner").classList.add("show");
+  document.getElementById("banner").scrollIntoView({behavior:"smooth", block:"start"});
+  document.getElementById("mainBtn").textContent = "إعادة المحاولة";
+}
+
+document.getElementById("mainBtn").addEventListener("click", () => {
+  if(state.submitted) generateAndStart(); else grade();
+});
+</script>
+</body>
+</html>
